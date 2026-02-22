@@ -1,0 +1,369 @@
+body {
+    font-family: 'Trebuchet MS', sans-serif;
+    background-color: #080808;
+    color: #e0f7fa;
+    -ms-overflow-style: none;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+.top {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: #080808;
+}
+
+.nav {
+    display: flex;
+    justify-content: right;
+    list-style-type: none;
+    padding: 10px;
+}
+
+.nav li {
+    margin: 0 15px;
+}
+
+.nav a {
+    color: #e0f7fa;
+    text-decoration: none;
+    font-size: 18px;
+    transition: all 0.3s ease;
+}
+
+.nav a:hover {
+    text-shadow:
+        0px 13px 2px #0062ff,
+        0px -13px 2px #ff003c;
+    transition: all 0.3s ease;
+}
+
+.nav a:active {
+    color: #c1ff00;
+    text-shadow: none;
+    transition: all 0.3s ease;
+}
+
+.logo {
+    color: #e0f7fa;
+    text-shadow:
+        0px 13px 2px #0062ff,
+        0px -13px 2px #ff003c;
+    transition: all 0.5s ease;
+    cursor: pointer;
+    width: 100px;
+    text-align: center;
+    text-decoration: none;
+    margin-left: 20px;
+}
+
+.logo:hover {
+    color: #c1ff00;
+    text-shadow: 0px 0px 5px #c1ff00;
+    transition: all 0.8s ease;
+}
+
+.logo:active {
+    color: #c1ff00;
+    text-shadow: 0px -13px 4px #0062ff,
+        0px 13px 4px #ff003c;
+    transition: all 0.3s ease;
+}
+
+.line {
+    border: 1px solid #c1ff00;
+    box-shadow: 1px 1px 3px #c1ff00;
+}
+
+@property --angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+
+.box {
+    width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 30px;
+    background-image: linear-gradient(var(--angle), #0062ff, #ff003c);
+    animation: rotate-gradient 5s linear infinite, rotate-shadow 5s linear infinite;
+    transition: all 0.3s ease;
+}
+
+.box:hover {
+    animation: rotate-gradient 3s linear infinite, rotate-shadow 3s linear infinite;
+    transition: all 0.3s ease;
+}
+
+.box:active {
+    animation: rotate-gradient 1s linear infinite, rotate-shadow 1s linear infinite;
+}
+
+.contact-box {
+    width: 300px;
+    margin: 0 auto;
+    margin-top: 15px;
+    padding: 20px;
+    border-radius: 30px;
+    background-color: #202020;
+    color: #c1ff00;
+    animation: rotate-contact-shadow 5s linear infinite;
+    transition: all 0.3s ease;
+}
+
+.contact-box:hover {
+    animation: rotate-contact-shadow 3s linear infinite;
+    transition: all 0.3s ease;
+}
+
+@keyframes rotate-shadow {
+    0% {
+        box-shadow: 2px 0px 3px #c1ff00;
+    }
+
+    25% {
+        box-shadow: 0px -2px 3px #c1ff00;
+    }
+
+    50% {
+        box-shadow: -2px 0px 3px #c1ff00;
+    }
+
+    75% {
+        box-shadow: 0px 2px 3px #c1ff00;
+    }
+
+    100% {
+        box-shadow: 2px 0px 3px #c1ff00;
+    }
+}
+
+@keyframes rotate-contact-shadow {
+    0% {
+        box-shadow: 2px 0px 3px #0062ff, -2px 0px 3px #ff003c;
+    }
+
+    25% {
+        box-shadow: 0px -2px 3px #0062ff, 0px -2px 3px #ff003c;
+    }
+
+    50% {
+        box-shadow: -2px 0px 3px #0062ff, 2px 0px 3px #ff003c;
+    }
+
+    75% {
+        box-shadow: 0px 2px 3px #0062ff, 0px -2px 3px #ff003c;
+    }
+
+    100% {
+        box-shadow: 2px 0px 3px #0062ff, -2px 0px 3px #ff003c;
+    }
+}
+
+@keyframes rotate-gradient {
+    0% {
+        --angle: 0deg;
+    }
+
+    100% {
+        --angle: 360deg;
+    }
+}
+
+.typing {
+    margin-top: 50px;
+    width: 37ch;
+    animation: typing 15s steps(37) infinite, blink .8s step-end infinite alternate;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 3px solid;
+    font-family: monospace;
+    font-size: 24px;
+    margin-top: 200px;
+}
+
+@keyframes typing {
+    from {
+        width: 0
+    }
+    25%{
+        width: 37ch;
+    }
+}
+
+@keyframes blink {
+    50% {
+        border-color: transparent
+    }
+}
+
+table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.btntext {
+    display: inline-block;
+    color: #e0f7fa;
+    text-decoration: none;
+    font-size: 20px;
+    font-family: monospace;
+    border-radius: 5px;
+}
+
+.btntext:hover {
+    color: #c1ff00;
+    text-shadow: 0px 0px 5px #c1ff00;
+    transition: all 0.5s ease;
+}
+
+@property --fill {
+    syntax: '<length>';
+    initial-value: 0px;
+    inherits: false;
+}
+
+.mouse {
+    border: 2px solid #e0f7fa;
+    border-radius: 50px;
+    width: 30px;
+    height: 60px;
+    margin-top: 300px;
+    
+}
+
+.in-mouse {
+    border: 2px solid #c1ff00;
+    border-radius: 50px;
+    background-color: #080808;
+    width: 20px;
+    height: 25px;
+    margin: 5px auto;
+    animation: scroll 2s linear infinite;
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateY(0);
+        box-shadow: none;
+    }
+
+    50% {
+        transform: translateY(20px);
+        box-shadow: 0px -10px 5px #c1ff00;
+    }
+
+    100% {
+        transform: translateY(0);
+        box-shadow: none;
+    }
+}
+
+.about-box {
+    border: 2px solid #c1ff00;
+    border-radius: 95px;
+    width: 100%;
+    height: 190px;
+    background-image: linear-gradient(var(--angle), #0062ff, #ff003c);
+    animation: rotate-gradient 5s linear infinite, rotate-shadow 5s linear infinite;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    max-width: 800px;
+}
+
+.about-box:hover {
+    animation: rotate-gradient 3s linear infinite, rotate-shadow 3s linear infinite;
+    transition: all 0.3s ease;
+}
+
+.about-box:hover .profile {
+    transition: all 0.3s ease;
+    left: calc(100% - 170px);
+    transition: all 0.5s ease;
+
+}
+
+
+.profile {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    width: 150px;
+    height: 150px;
+    border-radius: 75px;
+    background-image: url('poby01.jpg');
+    background-size: cover;
+    background-position: center;
+    z-index: 500;
+    transition: all 0.5s ease;
+}
+
+.info{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    font-size: 18px;
+}
+
+.first-info {
+    position: absolute;
+    left: 190px;
+    right: 40px;
+    opacity: 1;
+    transition: all 0.5s ease;
+}
+
+.about-box:hover .first-info {
+    opacity: 0;
+    transition: all 0.5s ease;
+}
+
+.second-info {
+    position: absolute;
+    left: 40px;
+    right: 190px;
+    opacity: 0;
+    transition: all 0.5s ease;
+}
+
+.about-box:hover .second-info {
+    opacity: 1;
+    transition: all 0.5s ease;
+}
+
+.info-box {
+    border: 2px solid #c1ff00;
+    border-radius: 30px;
+    padding: 20px;
+    background-color: #202020;
+    color: #c1ff00;
+    width: 90%;
+    height: auto;
+    margin-top: 50px;
+    max-width: 800px;
+    animation: rotate-contact-shadow 5s linear infinite;
+    transition: all 0.3s ease;
+}
+
+.info-title-box {
+    width: 200px;
+    height: 60px;
+    border: 1px solid #c1ff00;
+    border-radius: 30px;
+    margin-top: -50px;
+    background-color: #080808;
+    color:#e0f7fa;
+    text-shadow: 1px 0px 2px #c1ff00, -1px 0px 2px #c1ff00, 0px 1px 2px #c1ff00, 0px -1px 2px #c1ff00;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
