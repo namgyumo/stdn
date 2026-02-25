@@ -1,9 +1,10 @@
 body {
     font-family: 'Trebuchet MS', sans-serif;
-    background-color: #080808; /* 바탕은 고정된 다크 컬러 */
+    background-color: #080808;
+    /* 바탕은 고정된 다크 컬러 */
     color: #e0f7fa;
     -ms-overflow-style: none;
-    
+
     position: relative;
     overflow-x: hidden;
 }
@@ -12,60 +13,80 @@ body {
 body::before {
     content: "";
     position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
     /* 기존 body에 있던 움직이는 그라데이션을 이쪽으로 이동 */
-    background: linear-gradient(
-        125deg, 
-        #101010 0%, 
-        #5B6E96 20%,   /* 깊은 미드나잇 블루 */
-        #101010 30%,
-        #101010 70%, 
-        #5A4B8A 80%,   /* 다크 가넷/보랏빛 */
-        #101010 100% 
-    );
+    background: linear-gradient(125deg,
+            #101010 0%,
+            #5B6E96 20%,
+            /* 깊은 미드나잇 블루 */
+            #101010 30%,
+            #101010 70%,
+            #5A4B8A 80%,
+            /* 다크 가넷/보랏빛 */
+            #101010 100%);
     background-size: 400% 400%;
     animation: fluid-motion 20s ease infinite;
 
     /* 핵심: 마스크를 사용해 배경을 50px 간격의 1px 선 모양으로만 뚫어줍니다. */
-    -webkit-mask-image: 
+    -webkit-mask-image:
         linear-gradient(#404040 1px, transparent 1px),
         linear-gradient(90deg, #404040 1px, transparent 1px);
-    mask-image: 
+    mask-image:
         linear-gradient(#404040 1px, transparent 1px),
         linear-gradient(90deg, #404040 1px, transparent 1px);
-    
+
     -webkit-mask-size: 40px 40px;
     mask-size: 40px 40px;
 
     pointer-events: none;
-    z-index: -2; /* 컨텐츠 맨 뒤로 배치 */
-    
+    z-index: -2;
+    /* 컨텐츠 맨 뒤로 배치 */
+
     /* 격자가 너무 밝다면 여기서 투명도를 조절하세요 (예: 0.5) */
-    opacity: 0.8; 
+    opacity: 0.8;
 }
 
 /* 2. 가장자리 방사형 페이드 아웃 (비네팅 효과) 레이어 */
 body::after {
     content: "";
     position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
     /* 중앙은 투명(격자가 보임), 가장자리는  배경색(#080808)으로 덮어서 격자가 자연스럽게사라지게 함 */
     background: radial-gradient(circle at center, transparent 30%, #080808 80%);
-    
+
     pointer-events: none;
-    z-index: -1; /* 격자(::before)보다는 앞, 실제 텍스트 컨텐츠보다는 뒤에 배치 */
+    z-index: -1;
+    /* 격자(::before)보다는 앞, 실제 텍스트 컨텐츠보다는 뒤에 배치 */
 }
 
 @keyframes fluid-motion {
-    0%   { background-position: 30% 70%; }
-    25%  { background-position: 100% 30%; }
-    50%  { background-position: 70% 30%; }
-    75%  { background-position: 0% 70%; }
-    100% { background-position: 30% 70%; }
+    0% {
+        background-position: 30% 70%;
+    }
+
+    25% {
+        background-position: 100% 30%;
+    }
+
+    50% {
+        background-position: 70% 30%;
+    }
+
+    75% {
+        background-position: 0% 70%;
+    }
+
+    100% {
+        background-position: 30% 70%;
+    }
 }
 
 body::-webkit-scrollbar {
@@ -182,7 +203,7 @@ body::-webkit-scrollbar {
     transition: all 0.3s ease;
     backdrop-filter: blur(3px);
     -webkit-backdrop-filter: blur(3px);
-    
+
 }
 
 .contact-box:hover {
@@ -262,7 +283,8 @@ body::-webkit-scrollbar {
     from {
         width: 0
     }
-    25%{
+
+    25% {
         width: 37ch;
     }
 }
@@ -305,7 +327,7 @@ table {
     width: 30px;
     height: 60px;
     margin-top: 200px;
-    
+
 }
 
 .in-mouse {
@@ -375,7 +397,7 @@ table {
     transition: all 0.5s ease;
 }
 
-.info{
+.info {
     position: relative;
     width: 100%;
     height: 100%;
@@ -410,29 +432,36 @@ table {
 
 /* 정보 상자 전체 래퍼 */
 .info-box {
-    position: relative; /* 타이틀 박스를 겹치게 띄우기 위해 필수 */
-    background-color: rgba(8, 8, 8, 0.7); /* 살짝 투명하게 하여 배경 격자가 은은하게 보이도록 함 */
-    backdrop-filter: blur(5px); /* 배경 블러 효과 */
-    border: 1px solid rgba(193, 255, 0, 0.3); /* 애시드 라임색의 얇고 고급스러운 테두리 */
+    position: relative;
+    /* 타이틀 박스를 겹치게 띄우기 위해 필수 */
+    background-color: rgba(8, 8, 8, 0.7);
+    /* 살짝 투명하게 하여 배경 격자가 은은하게 보이도록 함 */
+    backdrop-filter: blur(5px);
+    /* 배경 블러 효과 */
+    border: 1px solid rgba(193, 255, 0, 0.3);
+    /* 애시드 라임색의 얇고 고급스러운 테두리 */
     color: #c1ff00;
-    
+
     width: 90%;
     max-width: 800px;
     height: auto;
-    padding: 30px 40px; /* 텍스트가 숨 쉴 수 있도록 내부 여백 확장 */
-    margin: 50px auto 0 auto; /* 상단 여백 50px, 가로 중앙 정렬 */
-    
+    padding: 30px 40px;
+    /* 텍스트가 숨 쉴 수 있도록 내부 여백 확장 */
+    margin: 50px auto 0 auto;
+    /* 상단 여백 50px, 가로 중앙 정렬 */
+
     font-family: monospace;
-    
+
     /* 기존의 멋진 대각선 깎임 효과 유지 */
     border-radius: 30px;
     border-bottom-left-radius: 0%;
     border-top-right-radius: 0%;
-    
+
     /* 부드러운 네온 글로우 애니메이션 연결 */
     animation: pulse-border-glow 3s ease-in-out infinite;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    word-break: break-word; /* 텍스트 자동 줄바꿈 */
+    word-break: break-word;
+    /* 텍스트 자동 줄바꿈 */
     box-sizing: border-box;
 }
 
@@ -446,24 +475,26 @@ table {
 /* 상단 타이틀 박스 (VALUES, GOALS, INTERESTS) */
 .info-title-box {
     position: absolute;
-    top: -25px; /* 박스 선 위로 반쯤 걸치도록 절대 위치 설정 */
-    left: 40px; /* 왼쪽으로 살짝 치우치게 배치해 UI적인 느낌 강조 */
-    
+    top: -25px;
+    /* 박스 선 위로 반쯤 걸치도록 절대 위치 설정 */
+    left: 40px;
+    /* 왼쪽으로 살짝 치우치게 배치해 UI적인 느낌 강조 */
+
     width: 160px;
     height: 50px;
-    
+
     background-color: #080808;
     border: 1px solid rgba(193, 255, 0, 0.8);
     border-radius: 25px;
-    
+
     display: flex;
     align-items: center;
     justify-content: center;
-    
+
     /* 딱딱했던 그림자 대신 부드러운 발광(Glow) 효과 적용 */
-    box-shadow: 0 0 15px rgba(224, 247, 250, 0.1), 
-                inset 0 0 10px rgba(193, 255, 0, 0.15);
-    
+    box-shadow: 0 0 15px rgba(224, 247, 250, 0.1),
+        inset 0 0 10px rgba(193, 255, 0, 0.15);
+
     color: #e0f7fa;
     z-index: 10;
     font-family: 'Trebuchet MS', monospace;
@@ -472,21 +503,25 @@ table {
 /* 타이틀 텍스트 디자인 */
 .info-title-box h1 {
     font-size: 22px;
-    letter-spacing: 4px; /* 자간을 넓혀서 미래지향적이고 진중한 느낌 주기 */
+    letter-spacing: 4px;
+    /* 자간을 넓혀서 미래지향적이고 진중한 느낌 주기 */
     margin: 0;
     /* 텍스트에도 은은한 형광펜 효과 */
-    text-shadow: 0 0 10px rgba(193, 255, 0, 0.6); 
+    text-shadow: 0 0 10px rgba(193, 255, 0, 0.6);
 }
 
 /* 내부 본문 텍스트 (HTML의 인라인 스타일을 존중하면서 가독성 개선) */
 .info-box p {
     margin: 0;
 }
+
 .info-box h2 {
     font-size: 15px;
-    line-height: 1.8; /* 줄간격을 넓혀 긴 글도 읽기 편하게 */
+    line-height: 1.8;
+    /* 줄간격을 넓혀 긴 글도 읽기 편하게 */
     font-weight: 400;
-    word-break: keep-all; /* 단어 중간에 줄바꿈 되지 않도록 설정 */
+    word-break: keep-all;
+    /* 단어 중간에 줄바꿈 되지 않도록 설정 */
     opacity: 0.9;
     margin-top: 10px;
 }
@@ -496,54 +531,63 @@ table {
     0% {
         box-shadow: 0 0 10px rgba(193, 255, 0, 0.05);
     }
+
     50% {
         box-shadow: 0 0 20px rgba(193, 255, 0, 0.2);
     }
+
     100% {
         box-shadow: 0 0 10px rgba(193, 255, 0, 0.05);
     }
 }
 
-.about-title{
+.about-title {
     font-size: 50px;
     margin-bottom: 10px;
 }
-.about-value{
+
+.about-value {
     font-size: 20px;
 }
 
 /* 날짜 표시 원형 노드 (Date) */
 .port-date {
     /* 수직/수평 중앙 정렬을 위해 inline-flex 사용 */
-    display: inline-flex; 
+    display: inline-flex;
     justify-content: center;
     align-items: center;
-    
+
     width: 4.5rem;
     height: 4.5rem;
-    margin-right: 1.5rem; /* 내용(port-inner)과의 간격 */
-    margin-bottom: 20px;  /* 줄바꿈(<br/>) 시 위아래 간격 */
-    vertical-align: middle; /* 옆에 오는 내용과 높낮이 중앙 정렬 */
-    
-    border: 2px solid rgba(224, 247, 250, 0.4); /* 은은한 시안(Cyan) 테두리 */
+    margin-right: 1.5rem;
+    /* 내용(port-inner)과의 간격 */
+    margin-bottom: 20px;
+    /* 줄바꿈(<br/>) 시 위아래 간격 */
+    vertical-align: middle;
+    /* 옆에 오는 내용과 높낮이 중앙 정렬 */
+
+    border: 2px solid rgba(224, 247, 250, 0.4);
+    /* 은은한 시안(Cyan) 테두리 */
     border-radius: 50%;
-    background-color: rgba(224, 247, 250, 0.05); /* 살짝 채워진 배경 */
-    
+    background-color: rgba(224, 247, 250, 0.05);
+    /* 살짝 채워진 배경 */
+
     font-size: 1rem;
-    font-family: monospace; /* 날짜는 터미널 폰트로 */
+    font-family: monospace;
+    /* 날짜는 터미널 폰트로 */
     color: #e0f7fa;
     text-shadow: 0 0 8px rgba(224, 247, 250, 0.6);
-    box-shadow: 0 0 15px rgba(224, 247, 250, 0.1), 
-                inset 0 0 10px rgba(224, 247, 250, 0.1);
-                
+    box-shadow: 0 0 15px rgba(224, 247, 250, 0.1),
+        inset 0 0 10px rgba(224, 247, 250, 0.1);
+
     transition: all 0.3s ease;
 }
 
 /* 날짜에 마우스를 올렸을 때의 발광 효과 */
 .port-date:hover {
     border-color: #e0f7fa;
-    box-shadow: 0 0 20px rgba(224, 247, 250, 0.4), 
-                inset 0 0 15px rgba(224, 247, 250, 0.3);
+    box-shadow: 0 0 20px rgba(224, 247, 250, 0.4),
+        inset 0 0 15px rgba(224, 247, 250, 0.3);
     transform: scale(1.05);
 }
 
@@ -551,27 +595,31 @@ table {
 .port-inner {
     display: inline-flex;
     align-items: center;
-    
+
     /* 너비를 유동적으로 하되, 최소/최대 너비 지정 */
     width: auto;
     min-width: 15rem;
     max-width: 40rem;
-    height: 4.5rem; /* 날짜 노드와 높이를 똑같이 맞춰서 일체감 부여 */
+    height: 4.5rem;
+    /* 날짜 노드와 높이를 똑같이 맞춰서 일체감 부여 */
     padding: 0 2rem;
-    margin-bottom: 20px; /* 날짜와 동일한 하단 여백 */
-    vertical-align: middle; /* 날짜와 수평선 맞추기 */
-    
+    margin-bottom: 20px;
+    /* 날짜와 동일한 하단 여백 */
+    vertical-align: middle;
+    /* 날짜와 수평선 맞추기 */
+
     /* 촌스러운 붉은 테두리 대신, 사이버틱한 좌측 포인트 라인과 그라데이션 배경 사용 */
     border: none;
-    border-left: 3px solid #c1ff00; 
+    border-left: 3px solid #c1ff00;
     background: linear-gradient(90deg, rgba(193, 255, 0, 0.1) 0%, transparent 100%);
-    border-radius: 0 15px 15px 0; /* 오른쪽만 둥글게 깎기 */
-    
+    border-radius: 0 15px 15px 0;
+    /* 오른쪽만 둥글게 깎기 */
+
     font-size: 1rem;
     letter-spacing: 1px;
     color: #c1ff00;
     text-shadow: 0 0 5px rgba(193, 255, 0, 0.3);
-    
+
     transition: all 0.3s ease;
 }
 
@@ -595,7 +643,7 @@ table {
     margin-bottom: 30px;
 }
 
-.sub-pro{
+.sub-pro {
     color: #e0f7fa;
     border-radius: 5px;
     text-align: center;
@@ -609,109 +657,116 @@ table {
     transition: all 0.5s ease;
 }
 
-.sub-pro:hover{
+.sub-pro:hover {
     transform: translateY(-20px);
     border: 1px solid #c1ff00;
     transition: all 0.5s ease;
 }
 
-.hh1{
+.hh1 {
     color: #e0f7fa;
     transition: all 0.8s ease;
 }
 
-.sub-inner{
+.sub-inner {
     color: #e0f7fa;
     transition: all 0.5s ease;
     margin-bottom: 20px;
 }
 
-.sub-pro:hover .hh1{
+.sub-pro:hover .hh1 {
     color: #c1ff00;
     transform: scale(1.05) translateY(-5px);
     transition: all 0.5s ease;
 }
 
-.sub-pro:hover .sub-inner{
+.sub-pro:hover .sub-inner {
     transform: translateY(10px) scale(1.05);
     margin-bottom: 30px;
     transition: all 0.5s ease;
 }
 
 .container {
-  display: flex;
-  flex-direction: column; /* 요소들을 세로(위아래)로 배치 */
-  gap: 20px; /* 요소 사이의 간격 */
+    display: flex;
+    flex-direction: column;
+    /* 요소들을 세로(위아래)로 배치 */
+    gap: 20px;
+    /* 요소 사이의 간격 */
 }
 
 .main-content {
-  color: #e0f7fa;
-  padding: 20px;
+    color: #e0f7fa;
+    padding: 20px;
 }
 
 .side-content {
-  color: #e0f7fa;
-  padding: 20px;
+    color: #e0f7fa;
+    padding: 20px;
 }
 
 
 .skills-section {
-  background-color: #080808;
-  color: #e0f7fa;
-  padding: 50px 20px;
-  font-family: 'Courier New', Courier, monospace; /* 코딩 느낌의 폰트 */
+    background-color: #080808;
+    color: #e0f7fa;
+    padding: 50px 20px;
+    font-family: 'Courier New', Courier, monospace;
+    /* 코딩 느낌의 폰트 */
 }
 
 /* 터미널 느낌의 제목 */
 .section-title {
-  color: #c1ff00; /* 네온 민트색 */
-  text-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
-  margin-bottom: 30px;
-  border-bottom: 1px solid #c1ff00;
-  display: inline-block;
-  padding-bottom: 5px;
+    color: #c1ff00;
+    /* 네온 민트색 */
+    text-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+    margin-bottom: 30px;
+    border-bottom: 1px solid #c1ff00;
+    display: inline-block;
+    padding-bottom: 5px;
 }
 
 .skill-card {
-  box-shadow: 0.5px 0px #c1ff00, 0px 0.5px #c1ff00, -0.5px 0px #c1ff00, 0px -0.5px #c1ff00;
-  border-radius: 10px;
-  margin-top: 50px;
-  backdrop-filter: blur(5px);
-  width: auto;
-  max-width: 1000px;
-  padding: 20px;
-  position: relative;
-  transition: all 0.3s ease; /* 부드러운 애니메이션 효과 */
+    box-shadow: 0.5px 0px #c1ff00, 0px 0.5px #c1ff00, -0.5px 0px #c1ff00, 0px -0.5px #c1ff00;
+    border-radius: 10px;
+    margin-top: 50px;
+    backdrop-filter: blur(5px);
+    width: auto;
+    max-width: 1000px;
+    padding: 20px;
+    position: relative;
+    transition: all 0.3s ease;
+    /* 부드러운 애니메이션 효과 */
 }
 
 /* 마우스를 올렸을 때 사이버틱하게 빛나는 효과 */
 .skill-card:hover {
-  border-color: #c1ff00;
-  box-shadow: 0 0 15px #c1ff00;
-  transform: translateY(-5px); /* 살짝 위로 떠오름 */
+    border-color: #c1ff00;
+    box-shadow: 0 0 15px #c1ff00;
+    transform: translateY(-5px);
+    /* 살짝 위로 떠오름 */
 }
 
 .skill-icon {
-  color: #ff003c; /* 네온 핑크색 포인터 */
-  font-weight: bold;
-  margin-bottom: 15px;
+    color: #ff003c;
+    /* 네온 핑크색 포인터 */
+    font-weight: bold;
+    margin-bottom: 15px;
 }
 
 .skill-name {
-  color: #e0f7fa;
-  font-size: 1.2rem;
-  margin-bottom: 10px;
+    color: #e0f7fa;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
 }
 
 .skill-desc {
-  font-size: 0.9rem;
-  line-height: 1.5;
-  color: #e0f7fa;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #e0f7fa;
 }
 
-.skill-line{
+.skill-line {
     opacity: 0;
-    margin:0;
+    margin: 0;
 }
 
 /* Contact 섹션 전체 컨테이너 */
@@ -726,32 +781,38 @@ table {
     animation: contact-borders 5s linear infinite;
 }
 
-@keyframes contact-borders{
-    0%{
+@keyframes contact-borders {
+    0% {
         box-shadow: -2px 0px #c1ff00, 0.5px 0px #c1ff00, 0px 0.5px #c1ff00, 0px -0.5px #c1ff00;
     }
-    25%{
+
+    25% {
         box-shadow: 0px 2px #c1ff00, 0.5px 0px #c1ff00, -0.5px 0px #c1ff00, 0px -0.5px #c1ff00;
     }
-    50%{
+
+    50% {
         box-shadow: 2px 0px #c1ff00, -0.5px 0px #c1ff00, 0px 0.5px #c1ff00, 0px -0.5px #c1ff00;
     }
-    75%{
+
+    75% {
         box-shadow: 0px -2px #c1ff00, 0.5px 0px #c1ff00, 0px 0.5px #c1ff00, -0.5px 0px #c1ff00;
     }
-    100%{
+
+    100% {
         box-shadow: -2px 0px #c1ff00, 0.5px 0px #c1ff00, 0px 0.5px #c1ff00, 0px -0.5px #c1ff00;
     }
 }
 
 .section-header {
     margin-bottom: 40px;
-    text-align: center; /* 제목을 가운데 정렬하려면 유지, 좌측 정렬하려면 left로 변경 */
+    text-align: center;
+    /* 제목을 가운데 정렬하려면 유지, 좌측 정렬하려면 left로 변경 */
 }
 
 /* 터미널 느낌의 안내 문구 */
 .terminal-text {
-    color: #ff003c; /* 네온 핑크 포인트 */
+    color: #ff003c;
+    /* 네온 핑크 포인트 */
     font-size: 1.2rem;
     margin-top: 10px;
     opacity: 0.8;
@@ -760,19 +821,23 @@ table {
 /* Flexbox를 이용한 그리드 배치 */
 .contact-grid {
     display: flex;
-    flex-direction: column; /* 기본적으로 세로 배치 (모바일) */
+    flex-direction: column;
+    /* 기본적으로 세로 배치 (모바일) */
     gap: 20px;
 }
 
 /* 개별 Contact 카드 스타일 */
 .contact-card {
-    flex: 1; /* 가로 배치 시 3등분으로 넓이 차지 */
-    background: rgba(193, 255, 0, 0.03); /* 아주 옅은 네온 민트 배경 */
+    flex: 1;
+    /* 가로 배치 시 3등분으로 넓이 차지 */
+    background: rgba(193, 255, 0, 0.03);
+    /* 아주 옅은 네온 민트 배경 */
     border: 1px solid rgba(193, 255, 0, 0.3);
     border-radius: 8px;
     padding: 30px 20px;
     text-align: center;
-    text-decoration: none; /* 링크 밑줄 제거 */
+    text-decoration: none;
+    /* 링크 밑줄 제거 */
     transition: all 0.3s ease;
     display: block;
     position: relative;
@@ -808,30 +873,65 @@ table {
 .contact-detail {
     color: #e0f7fa;
     font-size: 1rem;
-    word-break: break-all; /* 긴 이메일 주소가 박스를 뚫고 나가지 않도록 방지 */
+    word-break: break-all;
+    /* 긴 이메일 주소가 박스를 뚫고 나가지 않도록 방지 */
+}
+
+.pro-card {
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+    padding: 40px;
+    margin: 40px;
+    box-shadow: 0.5px 0px #c1ff00, 0px 0.5px #c1ff00, -0.5px 0px #c1ff00, 0px -0.5px #c1ff00;
+    width: 80%;
+    max-width: 1000px;
+    margin-top: 200px;
+    animation: contact-borders 5s ease infinite;
+}
+
+.boj-api {
+    border-radius: 10px;
+    display: inline-block;
+    backdrop-filter: blur(5px);
+    padding: 10px;
+    margin: 40px;
+    box-shadow: 0.5px 0px #c1ff00, 0px 0.5px #c1ff00, -0.5px 0px #c1ff00, 0px -0.5px #c1ff00;
+    width: 350px;
+    transition: all 0.5s ease;
+
+}
+
+.boj-api:hover {
+    box-shadow: 1px 0px #ff003c, 0px 1px #ff003c, -1px 0px #ff003c, 0px -1px #ff003c;
+    transform: translateY(-10px);
+    transition: all 0.5s ease;
 }
 
 /* 화면 너비가 900px 이상일 때 (PC, 태블릿 등 넓은 화면) */
 @media (min-width: 900px) {
-  .container {
-    flex-direction: row; /* 요소들을 가로(좌우) 배치로 변경! */
-  }
-  
-  .main-content {
-    flex: 1; /* 왼쪽 메인 콘텐츠가 남은 공간을 꽉 채우도록 설정 */
-    margin-right: 0;
-    padding-right: 0;
-  }
-  
-  .side-content {
-    width: 500px; /* 오른쪽으로 온 요소의 너비를 고정 */
-    flex-shrink: 0; /* 화면이 줄어들어도 이 요소의 크기는 안 줄어들게 방지 */
-    border-left: 2px dashed #c1ff00;
-    margin-left: 50px;
-    padding-left: 50px;
-  }
+    .container {
+        flex-direction: row;
+        /* 요소들을 가로(좌우) 배치로 변경! */
+    }
 
-  .contact-grid {
+    .main-content {
+        flex: 1;
+        /* 왼쪽 메인 콘텐츠가 남은 공간을 꽉 채우도록 설정 */
+        margin-right: 0;
+        padding-right: 0;
+    }
+
+    .side-content {
+        width: 500px;
+        /* 오른쪽으로 온 요소의 너비를 고정 */
+        flex-shrink: 0;
+        /* 화면이 줄어들어도 이 요소의 크기는 안 줄어들게 방지 */
+        border-left: 2px dashed #c1ff00;
+        margin-left: 50px;
+        padding-left: 50px;
+    }
+
+    .contact-grid {
         flex-direction: row;
         justify-content: space-between;
     }
@@ -840,51 +940,79 @@ table {
 
 @media (max-width: 768px) {
     .about-box {
-        height: 100px; /* 폰에 맞게 박스 높이 축소 */
+        height: 100px;
+        /* 폰에 맞게 박스 높이 축소 */
         border-radius: 50px;
     }
-    
+
     .profile {
-        width: 80px; /* 프로필 크기 축소 */
+        width: 80px;
+        /* 프로필 크기 축소 */
         height: 80px;
-        top: 10px; /* 여백 축소 */
+        top: 10px;
+        /* 여백 축소 */
         left: 10px;
     }
 
     /* 모바일에서 마우스 호버(또는 터치) 시 프로필 이동 위치 */
     .about-box:hover .profile {
-        left: calc(100% - 90px); /* 프로필(80) + 여백(10) */
+        left: calc(100% - 90px);
+        /* 프로필(80) + 여백(10) */
     }
 
     .info {
-        font-size: 14px; /* 모바일에서는 글자 크기도 살짝 줄임 */
+        font-size: 14px;
+        /* 모바일에서는 글자 크기도 살짝 줄임 */
     }
 
     .first-info {
-        left: 110px; /* 프로필(80) + 여백(10) + 글자간격(20) */
+        left: 110px;
+        /* 프로필(80) + 여백(10) + 글자간격(20) */
         right: 10px;
     }
 
     .second-info {
         left: 20px;
-        right: 110px; /* 우측 프로필 공간 확보 */
+        right: 110px;
+        /* 우측 프로필 공간 확보 */
     }
 
-    .about-title{
+    .about-title {
         font-size: 20px;
         margin-bottom: 10px
     }
-    .about-value{
+
+    .about-value {
         font-size: 10px
     }
 
-    .info-title-box h1{
+    .info-title-box h1 {
         font-size: 17px;
     }
-    .info-box h2{
+
+    .info-box h2 {
         font-size: 13px
     }
-    .h1{
+
+    .h1 {
         font-size: 25px;
+    }
+
+    .boj-api {
+        width: 280px;
+        padding: 10px;
+        margin: 20px;
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    .boj-api img {
+        width: 260px;
+    }
+
+    .pro-card {
+        margin: 0px;
+        padding: 20px;
+        margin-top: 200px;
     }
 }
