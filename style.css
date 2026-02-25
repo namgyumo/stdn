@@ -471,7 +471,7 @@ table {
 
 /* 타이틀 텍스트 디자인 */
 .info-title-box h1 {
-    font-size: 1.2rem;
+    font-size: 22px;
     letter-spacing: 4px; /* 자간을 넓혀서 미래지향적이고 진중한 느낌 주기 */
     margin: 0;
     /* 텍스트에도 은은한 형광펜 효과 */
@@ -483,7 +483,7 @@ table {
     margin: 0;
 }
 .info-box h2 {
-    font-size: 1.05rem;
+    font-size: 15px;
     line-height: 1.8; /* 줄간격을 넓혀 긴 글도 읽기 편하게 */
     font-weight: 400;
     word-break: keep-all; /* 단어 중간에 줄바꿈 되지 않도록 설정 */
@@ -505,11 +505,11 @@ table {
 }
 
 .about-title{
-    font-size: 2rem;
-    margin-bottom: 1rem;
+    font-size: 50px;
+    margin-bottom: 10px;
 }
 .about-value{
-    font-size: 1rem;
+    font-size: 20px;
 }
 
 /* 날짜 표시 원형 노드 (Date) */
@@ -584,6 +584,7 @@ table {
 
 /* 타이틀 텍스트 디자인 (선택 사항: h1을 좀 더 예쁘게 만듭니다) */
 .h1 {
+    font-size: 40px;
     color: #e0f7fa;
     text-shadow: 0 0 10px rgba(224, 247, 250, 0.5);
     letter-spacing: 3px;
@@ -653,21 +654,6 @@ table {
   padding: 20px;
 }
 
-/* 화면 너비가 900px 이상일 때 (PC, 태블릿 등 넓은 화면) */
-@media (min-width: 900px) {
-  .container {
-    flex-direction: row; /* 요소들을 가로(좌우) 배치로 변경! */
-  }
-  
-  .main-content {
-    flex: 1; /* 왼쪽 메인 콘텐츠가 남은 공간을 꽉 채우도록 설정 */
-  }
-  
-  .side-content {
-    width: 500px; /* 오른쪽으로 온 요소의 너비를 고정 */
-    flex-shrink: 0; /* 화면이 줄어들어도 이 요소의 크기는 안 줄어들게 방지 */
-  }
-}
 
 .skills-section {
   background-color: #080808;
@@ -721,4 +707,184 @@ table {
   font-size: 0.9rem;
   line-height: 1.5;
   color: #e0f7fa;
+}
+
+.skill-line{
+    opacity: 0;
+    margin:0;
+}
+
+/* Contact 섹션 전체 컨테이너 */
+.contact-section {
+    backdrop-filter: blur(5px);
+    color: #e0f7fa;
+    padding: 60px 20px;
+    font-family: 'Courier New', Courier, monospace;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-radius: 5px;
+    animation: contact-borders 5s linear infinite;
+}
+
+@keyframes contact-borders{
+    0%{
+        box-shadow: -2px 0px #c1ff00, 0.5px 0px #c1ff00, 0px 0.5px #c1ff00, 0px -0.5px #c1ff00;
+    }
+    25%{
+        box-shadow: 0px 2px #c1ff00, 0.5px 0px #c1ff00, -0.5px 0px #c1ff00, 0px -0.5px #c1ff00;
+    }
+    50%{
+        box-shadow: 2px 0px #c1ff00, -0.5px 0px #c1ff00, 0px 0.5px #c1ff00, 0px -0.5px #c1ff00;
+    }
+    75%{
+        box-shadow: 0px -2px #c1ff00, 0.5px 0px #c1ff00, 0px 0.5px #c1ff00, -0.5px 0px #c1ff00;
+    }
+    100%{
+        box-shadow: -2px 0px #c1ff00, 0.5px 0px #c1ff00, 0px 0.5px #c1ff00, 0px -0.5px #c1ff00;
+    }
+}
+
+.section-header {
+    margin-bottom: 40px;
+    text-align: center; /* 제목을 가운데 정렬하려면 유지, 좌측 정렬하려면 left로 변경 */
+}
+
+/* 터미널 느낌의 안내 문구 */
+.terminal-text {
+    color: #ff003c; /* 네온 핑크 포인트 */
+    font-size: 1.2rem;
+    margin-top: 10px;
+    opacity: 0.8;
+}
+
+/* Flexbox를 이용한 그리드 배치 */
+.contact-grid {
+    display: flex;
+    flex-direction: column; /* 기본적으로 세로 배치 (모바일) */
+    gap: 20px;
+}
+
+/* 개별 Contact 카드 스타일 */
+.contact-card {
+    flex: 1; /* 가로 배치 시 3등분으로 넓이 차지 */
+    background: rgba(193, 255, 0, 0.03); /* 아주 옅은 네온 민트 배경 */
+    border: 1px solid rgba(193, 255, 0, 0.3);
+    border-radius: 8px;
+    padding: 30px 20px;
+    text-align: center;
+    text-decoration: none; /* 링크 밑줄 제거 */
+    transition: all 0.3s ease;
+    display: block;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 마우스 호버(올렸을 때) 사이버틱한 네온 효과 */
+.contact-card:hover {
+    background: rgba(193, 255, 0, 0.08);
+    border-color: #c1ff00;
+    box-shadow: 0 0 15px rgba(193, 255, 0, 0.6), inset 0 0 10px rgba(193, 255, 0, 0.2);
+    transform: translateY(-5px);
+}
+
+/* 아이콘 텍스트 (예: [ GITHUB ]) */
+.contact-icon {
+    color: #c1ff00;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    letter-spacing: 2px;
+}
+
+/* 부연 설명 (예: Direct Message) */
+.contact-label {
+    color: #ff003c;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+/* 실제 아이디/주소 텍스트 */
+.contact-detail {
+    color: #e0f7fa;
+    font-size: 1rem;
+    word-break: break-all; /* 긴 이메일 주소가 박스를 뚫고 나가지 않도록 방지 */
+}
+
+/* 화면 너비가 900px 이상일 때 (PC, 태블릿 등 넓은 화면) */
+@media (min-width: 900px) {
+  .container {
+    flex-direction: row; /* 요소들을 가로(좌우) 배치로 변경! */
+  }
+  
+  .main-content {
+    flex: 1; /* 왼쪽 메인 콘텐츠가 남은 공간을 꽉 채우도록 설정 */
+    margin-right: 0;
+    padding-right: 0;
+  }
+  
+  .side-content {
+    width: 500px; /* 오른쪽으로 온 요소의 너비를 고정 */
+    flex-shrink: 0; /* 화면이 줄어들어도 이 요소의 크기는 안 줄어들게 방지 */
+    border-left: 2px dashed #c1ff00;
+    margin-left: 50px;
+    padding-left: 50px;
+  }
+
+  .contact-grid {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+}
+
+@media (max-width: 768px) {
+    .about-box {
+        height: 100px; /* 폰에 맞게 박스 높이 축소 */
+        border-radius: 50px;
+    }
+    
+    .profile {
+        width: 80px; /* 프로필 크기 축소 */
+        height: 80px;
+        top: 10px; /* 여백 축소 */
+        left: 10px;
+    }
+
+    /* 모바일에서 마우스 호버(또는 터치) 시 프로필 이동 위치 */
+    .about-box:hover .profile {
+        left: calc(100% - 90px); /* 프로필(80) + 여백(10) */
+    }
+
+    .info {
+        font-size: 14px; /* 모바일에서는 글자 크기도 살짝 줄임 */
+    }
+
+    .first-info {
+        left: 110px; /* 프로필(80) + 여백(10) + 글자간격(20) */
+        right: 10px;
+    }
+
+    .second-info {
+        left: 20px;
+        right: 110px; /* 우측 프로필 공간 확보 */
+    }
+
+    .about-title{
+        font-size: 20px;
+        margin-bottom: 10px
+    }
+    .about-value{
+        font-size: 10px
+    }
+
+    .info-title-box h1{
+        font-size: 17px;
+    }
+    .info-box h2{
+        font-size: 13px
+    }
+    .h1{
+        font-size: 25px;
+    }
 }
