@@ -669,6 +669,7 @@ table {
 }
 
 .sub-inner {
+    font-size: 20px;
     color: #e0f7fa;
     transition: all 0.5s ease;
     margin-bottom: 20px;
@@ -1014,5 +1015,9 @@ table {
         margin: 0px;
         padding: 20px;
         margin-top: 200px;
+    }
+
+    .sub-inner{
+        font-size: 15px;
     }
 }
