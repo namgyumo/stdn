@@ -127,6 +127,8 @@ body::-webkit-scrollbar {
 }
 
 /* ─ animated background grid ───────────────────────────────────── */
+/* 정적 배경 + 격자 마스크. 400% bg + 20s 무한 애니메이션은 GPU 가 계속 갈려서 제거.
+   원하는 무드는 유지하되 paint 는 1회만 발생. */
 body::before {
   content: '';
   position: fixed;
@@ -134,14 +136,11 @@ body::before {
   background: linear-gradient(
     125deg,
     var(--color-bg-elev) 0%,
-    var(--color-midnight) 20%,
-    var(--color-bg-elev) 30%,
-    var(--color-bg-elev) 70%,
+    var(--color-midnight) 25%,
+    var(--color-bg-elev) 50%,
     var(--color-garnet) 80%,
     var(--color-bg-elev) 100%
   );
-  background-size: 400% 400%;
-  animation: fluid-motion 20s ease infinite;
   -webkit-mask-image:
     linear-gradient(#404040 1px, transparent 1px),
     linear-gradient(90deg, #404040 1px, transparent 1px);
@@ -153,6 +152,7 @@ body::before {
   pointer-events: none;
   z-index: -2;
   opacity: 0.8;
+  will-change: auto;
 }
 
 body::after {
@@ -162,14 +162,6 @@ body::after {
   background: radial-gradient(circle at center, transparent 30%, var(--color-bg) 80%);
   pointer-events: none;
   z-index: -1;
-}
-
-@keyframes fluid-motion {
-  0%   { background-position: 30% 70%; }
-  25%  { background-position: 100% 30%; }
-  50%  { background-position: 70% 30%; }
-  75%  { background-position: 0% 70%; }
-  100% { background-position: 30% 70%; }
 }
 
 /* ─ layout helpers ─────────────────────────────────────────────── */
@@ -213,9 +205,9 @@ body::after {
   left: 0;
   width: 100%;
   z-index: 800;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  background: rgba(8, 8, 8, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  background: rgba(8, 8, 8, 0.7);
 }
 
 .top-inner {
@@ -1613,4 +1605,36 @@ kbd {
   .port-inner { height: 3.5rem; padding: 0 1rem; }
 
   .cursor-glow { display: none; }
+}
+
+/* ─ 성능: 접근성 / 저전력 환경 최적화 ─────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .cursor-glow { display: none; }
+  .typing {
+    animation: none;
+    width: 37ch;
+    border-right: 3px solid transparent;
+  }
+}
+
+/* 모바일에서 무거운 효과 완화 — 배터리/저사양 GPU 보호 */
+@media (max-width: 768px) {
+  .top { backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+  .box, .contact-box {
+    animation: none;
+    box-shadow: 0 0 4px var(--color-accent);
+  }
+}
+
+/* 너무 넓은 뷰포트 / 고해상도에서 기본 blur 도 좀 줄임 */
+@media (pointer: coarse) {
+  body::before { opacity: 0.55; }
 }

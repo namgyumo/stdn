@@ -33,14 +33,18 @@
     let curX = targetX;
     let curY = targetY;
     let active = false;
+    let dirty = false;
+    let rafId = 0;
 
     window.addEventListener('mousemove', (e) => {
       targetX = e.clientX;
       targetY = e.clientY;
+      dirty = true;
       if (!active) {
         active = true;
         el.classList.add('active');
       }
+      if (!rafId) rafId = requestAnimationFrame(tick);
     }, { passive: true });
 
     window.addEventListener('mouseleave', () => {
@@ -49,12 +53,16 @@
     });
 
     function tick() {
-      curX += (targetX - curX) * 0.12;
-      curY += (targetY - curY) * 0.12;
-      el.style.transform = `translate(calc(${curX}px - 50%), calc(${curY}px - 50%))`;
-      requestAnimationFrame(tick);
+      rafId = 0;
+      curX += (targetX - curX) * 0.15;
+      curY += (targetY - curY) * 0.15;
+      el.style.transform = `translate3d(${curX}px, ${curY}px, 0) translate(-50%, -50%)`;
+      if (Math.abs(targetX - curX) > 0.5 || Math.abs(targetY - curY) > 0.5) {
+        rafId = requestAnimationFrame(tick);
+      } else {
+        dirty = false;
+      }
     }
-    tick();
   }
 
   init();
