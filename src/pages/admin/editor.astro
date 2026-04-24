@@ -3,7 +3,8 @@ import AdminLayout from '@layouts/AdminLayout.astro';
 ---
 
 <AdminLayout title="editor">
-  <div class="editor-wrap">
+  <div class="editor-wrap" id="wrap">
+    <!-- 메타 row 1 -->
     <div class="editor-meta">
       <input type="text" name="title" id="m-title" placeholder="제목" />
       <input type="text" name="slug" id="m-slug" placeholder="url-slug (자동생성)" />
@@ -17,6 +18,7 @@ import AdminLayout from '@layouts/AdminLayout.astro';
       </div>
     </div>
 
+    <!-- 메타 row 2 -->
     <div class="editor-meta" style="grid-template-columns: 1fr 340px;">
       <input type="text" name="description" id="m-desc" placeholder="한 줄 요약 (OG / 목록 미리보기)" />
       <div class="tag-input-wrap" id="tag-wrap">
@@ -24,28 +26,52 @@ import AdminLayout from '@layouts/AdminLayout.astro';
       </div>
     </div>
 
+    <!-- 툴바 -->
     <div class="editor-toolbar" id="toolbar">
+      <select id="heading-sel" class="tb-select" title="Heading">
+        <option value="">¶ 단락</option>
+        <option value="h1"># H1</option>
+        <option value="h2">## H2</option>
+        <option value="h3">### H3</option>
+        <option value="h4">#### H4</option>
+      </select>
       <button type="button" data-md="bold" title="Bold (Ctrl+B)"><b>B</b></button>
       <button type="button" data-md="italic" title="Italic (Ctrl+I)"><i>I</i></button>
-      <button type="button" data-md="h2" title="Heading 2">H2</button>
-      <button type="button" data-md="h3" title="Heading 3">H3</button>
-      <button type="button" data-md="link" title="Link">🔗</button>
+      <button type="button" data-md="strike" title="Strikethrough"><s>S</s></button>
       <button type="button" data-md="code" title="Inline code">` `</button>
-      <button type="button" data-md="pre" title="Code block">{ }</button>
+      <button type="button" data-md="pre" title="Code block + 언어 선택">{ }</button>
+      <button type="button" data-md="link" title="Link">🔗</button>
+      <button type="button" data-md="image" title="Image (파일 / 드래그 / 붙여넣기)">🖼</button>
+      <button type="button" data-md="list" title="Bullet list">•</button>
+      <button type="button" data-md="olist" title="Numbered list">1.</button>
+      <button type="button" data-md="check" title="Task list">☑</button>
       <button type="button" data-md="quote" title="Blockquote">❝</button>
-      <button type="button" data-md="list" title="List">•</button>
+      <button type="button" data-md="table" title="Table">⊞</button>
+      <button type="button" data-md="hr" title="Horizontal rule">—</button>
       <span class="sep"></span>
       <button type="button" class="ai-btn" data-ai="complete" title="AI 이어쓰기 (Ctrl+K)">AI 이어쓰기</button>
       <button type="button" class="ai-btn" data-ai="rewrite" title="AI 다듬기 (Ctrl+Shift+R)">AI 다듬기</button>
       <button type="button" class="ai-btn" data-ai="fix" title="AI 수정 (Ctrl+Shift+F)">AI 수정</button>
       <span class="sep"></span>
-      <span class="editor-status" id="status" style="margin-left:auto;">—</span>
+      <button type="button" class="tb-toggle" id="btn-outline" title="아웃라인 (Ctrl+Shift+O)">⋮≡</button>
+      <button type="button" class="tb-toggle" id="btn-preview" title="미리보기 (Ctrl+\)">👁</button>
+      <button type="button" class="tb-toggle" id="btn-focus" title="집중 모드 (Ctrl+Shift+D)">⛶</button>
+      <span class="editor-stats" id="stats">0 단어 · 0자 · ~0분</span>
+      <span class="editor-status" id="status">—</span>
     </div>
 
-    <div class="editor-panes">
+    <!-- 바디: outline | editor | preview -->
+    <div class="editor-body" id="body">
+      <aside class="editor-outline" id="outline" aria-label="문서 아웃라인">
+        <div class="outline-title">Outline</div>
+        <ol class="outline-list" id="outline-list"></ol>
+      </aside>
       <textarea class="editor-textarea" id="editor" spellcheck="false" placeholder="# 여기부터 마크다운으로…"></textarea>
       <div class="editor-preview prose" id="preview"></div>
     </div>
+
+    <!-- 숨겨진 파일 인풋 (이미지 삽입용) -->
+    <input type="file" id="img-input" accept="image/*" hidden />
   </div>
 
   <div class="ai-suggestion" id="ai-box" role="dialog" aria-label="AI 제안">
@@ -63,29 +89,36 @@ import AdminLayout from '@layouts/AdminLayout.astro';
 
   marked.use({ gfm: true, breaks: false, async: false });
 
-  const $ = (id: string) => document.getElementById(id)!;
-  const titleEl = $('m-title') as HTMLInputElement;
-  const slugEl = $('m-slug') as HTMLInputElement;
-  const descEl = $('m-desc') as HTMLInputElement;
-  const draftEl = $('m-draft') as HTMLSelectElement;
-  const editorEl = $('editor') as HTMLTextAreaElement;
-  const previewEl = $('preview') as HTMLDivElement;
+  const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
+  const titleEl = $<HTMLInputElement>('m-title');
+  const slugEl = $<HTMLInputElement>('m-slug');
+  const descEl = $<HTMLInputElement>('m-desc');
+  const draftEl = $<HTMLSelectElement>('m-draft');
+  const editorEl = $<HTMLTextAreaElement>('editor');
+  const previewEl = $<HTMLDivElement>('preview');
+  const outlineEl = $<HTMLOListElement>('outline-list');
+  const statsEl = $('stats');
   const statusEl = $('status');
-  const saveBtn = $('btn-save') as HTMLButtonElement;
-  const deleteBtn = $('btn-delete') as HTMLButtonElement;
-  const tagWrap = $('tag-wrap') as HTMLDivElement;
-  const tagInput = $('m-tag-input') as HTMLInputElement;
-  const aiBox = $('ai-box') as HTMLDivElement;
+  const saveBtn = $<HTMLButtonElement>('btn-save');
+  const deleteBtn = $<HTMLButtonElement>('btn-delete');
+  const tagWrap = $<HTMLDivElement>('tag-wrap');
+  const tagInput = $<HTMLInputElement>('m-tag-input');
+  const headingSel = $<HTMLSelectElement>('heading-sel');
+  const wrap = $('wrap');
+  const body = $('body');
+  const aiBox = $<HTMLDivElement>('ai-box');
   const aiLabel = $('ai-label');
   const aiText = $('ai-text');
-  const aiAccept = $('ai-accept') as HTMLButtonElement;
-  const aiCancel = $('ai-cancel') as HTMLButtonElement;
+  const aiAccept = $<HTMLButtonElement>('ai-accept');
+  const aiCancel = $<HTMLButtonElement>('ai-cancel');
+  const imgInput = $<HTMLInputElement>('img-input');
 
   const postId = new URLSearchParams(location.search).get('id');
+  const BACKUP_KEY = `stdN:editor:backup:${postId ?? 'new'}`;
   let tags: string[] = [];
   let dirty = false;
   let saving = false;
-  let pendingSuggestion: null | { kind: string; text: string; insertAt?: number; replaceRange?: [number, number] } = null;
+  let loadedBody = '';
 
   // ── 태그 chip UI ──────────────────────────────────
   function renderTags() {
@@ -128,24 +161,118 @@ import AdminLayout from '@layouts/AdminLayout.astro';
     return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
   }
 
-  // ── 프리뷰 렌더 (디바운스) ────────────────────────
+  // ── 통계 / 아웃라인 / 프리뷰 ───────────────────────
+  function computeStats(text: string) {
+    const chars = text.length;
+    const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+    const minutes = Math.max(1, Math.ceil(words / 250));
+    return { chars, words, minutes };
+  }
+
+  function buildOutline(md: string) {
+    const lines = md.split('\n');
+    const items: { level: number; text: string; line: number }[] = [];
+    let inFence = false;
+    lines.forEach((line, i) => {
+      if (/^\s*```/.test(line)) { inFence = !inFence; return; }
+      if (inFence) return;
+      const m = /^(#{1,4})\s+(.+?)\s*#*\s*$/.exec(line);
+      if (m) items.push({ level: m[1].length, text: m[2], line: i });
+    });
+    return items;
+  }
+
+  function renderOutline(md: string) {
+    const items = buildOutline(md);
+    outlineEl.innerHTML = items.map((it) =>
+      `<li class="outline-item lvl-${it.level}" data-line="${it.line}">${escapeHtml(it.text)}</li>`,
+    ).join('') || '<li class="outline-empty">헤딩(#, ##) 을 추가하면 여기에 목차가 나타나요.</li>';
+  }
+
+  outlineEl.addEventListener('click', (e) => {
+    const li = (e.target as HTMLElement).closest('.outline-item') as HTMLElement | null;
+    if (!li) return;
+    const line = Number(li.dataset.line);
+    const lines = editorEl.value.split('\n');
+    let pos = 0;
+    for (let i = 0; i < line && i < lines.length; i++) pos += lines[i].length + 1;
+    editorEl.focus();
+    editorEl.setSelectionRange(pos, pos);
+    // scroll: approximate by line height
+    const lh = parseFloat(getComputedStyle(editorEl).lineHeight) || 22;
+    editorEl.scrollTop = Math.max(0, lh * line - 60);
+  });
+
   let previewTimer: number | null = null;
   function schedulePreview() {
     if (previewTimer) clearTimeout(previewTimer);
     previewTimer = window.setTimeout(() => {
       previewEl.innerHTML = marked.parse(editorEl.value) as string;
-    }, 100);
+      const { chars, words, minutes } = computeStats(editorEl.value);
+      statsEl.textContent = `${words} 단어 · ${chars}자 · ~${minutes}분`;
+      renderOutline(editorEl.value);
+    }, 120);
   }
 
   function markDirty() {
     dirty = true;
     statusEl.textContent = 'unsaved';
     statusEl.className = 'editor-status dirty';
+    // localStorage 백업 (3초 디바운스)
+    scheduleBackup();
   }
   function markSaved() {
     dirty = false;
     statusEl.textContent = 'saved';
     statusEl.className = 'editor-status saved';
+    try { localStorage.removeItem(BACKUP_KEY); } catch {}
+  }
+
+  // ── localStorage 백업 ─────────────────────────────
+  let backupTimer: number | null = null;
+  function scheduleBackup() {
+    if (backupTimer) clearTimeout(backupTimer);
+    backupTimer = window.setTimeout(() => {
+      try {
+        localStorage.setItem(BACKUP_KEY, JSON.stringify({
+          at: Date.now(),
+          title: titleEl.value,
+          slug: slugEl.value,
+          description: descEl.value,
+          draft: draftEl.value,
+          tags,
+          body: editorEl.value,
+        }));
+      } catch {}
+    }, 2000);
+  }
+
+  function tryRestoreBackup() {
+    try {
+      const raw = localStorage.getItem(BACKUP_KEY);
+      if (!raw) return false;
+      const saved = JSON.parse(raw);
+      if (!saved || typeof saved.body !== 'string') return false;
+      // 로드된 본문과 다르면 복원 물어봄
+      if (saved.body === loadedBody) return false;
+      const when = new Date(saved.at).toLocaleString();
+      if (!confirm(`저장되지 않은 백업(${when})이 있습니다. 복원할까요?\n취소하면 백업은 지워집니다.`)) {
+        localStorage.removeItem(BACKUP_KEY);
+        return false;
+      }
+      titleEl.value = saved.title ?? titleEl.value;
+      slugEl.value = saved.slug ?? slugEl.value;
+      descEl.value = saved.description ?? descEl.value;
+      draftEl.value = saved.draft ?? draftEl.value;
+      tags = Array.isArray(saved.tags) ? saved.tags : tags;
+      renderTags();
+      editorEl.value = saved.body;
+      schedulePreview();
+      markDirty();
+      return true;
+    } catch {
+      return false;
+    }
   }
 
   editorEl.addEventListener('input', () => { schedulePreview(); markDirty(); });
@@ -158,7 +285,9 @@ import AdminLayout from '@layouts/AdminLayout.astro';
   async function loadPost() {
     if (!postId) {
       deleteBtn.hidden = true;
+      loadedBody = '';
       schedulePreview();
+      tryRestoreBackup();
       return;
     }
     deleteBtn.hidden = false;
@@ -175,8 +304,10 @@ import AdminLayout from '@layouts/AdminLayout.astro';
       tags = Array.isArray(p.tags) ? p.tags.slice() : [];
       renderTags();
       editorEl.value = p.body_md;
+      loadedBody = p.body_md;
       schedulePreview();
       markSaved();
+      tryRestoreBackup();
     } catch (e: any) {
       statusEl.textContent = `load failed: ${e.message || e}`;
       statusEl.className = 'editor-status dirty';
@@ -214,12 +345,12 @@ import AdminLayout from '@layouts/AdminLayout.astro';
       const d = await r.json();
       if (!d.ok) throw new Error(d.error);
       if (!postId && d.id) {
-        // 새 글 저장 후 id 붙여서 URL 갱신 (뒤로가기 안전)
         history.replaceState(null, '', `/admin/editor?id=${d.id}`);
         location.reload();
         return;
       }
       if (d.slug) slugEl.value = d.slug;
+      loadedBody = payload.body_md;
       markSaved();
     } catch (e: any) {
       statusEl.textContent = `save failed: ${e.message || e}`;
@@ -241,6 +372,7 @@ import AdminLayout from '@layouts/AdminLayout.astro';
       const r = await fetch(`/api/admin/posts/${postId}`, { method: 'DELETE', credentials: 'same-origin' });
       const d = await r.json();
       if (!d.ok) throw new Error(d.error);
+      localStorage.removeItem(BACKUP_KEY);
       location.href = '/admin';
     } catch (e: any) {
       alert(`삭제 실패: ${e.message || e}`);
@@ -252,9 +384,7 @@ import AdminLayout from '@layouts/AdminLayout.astro';
     const start = editorEl.selectionStart;
     const end = editorEl.selectionEnd;
     const sel = editorEl.value.slice(start, end) || placeholder;
-    const newText = editorEl.value.slice(0, start) + before + sel + after + editorEl.value.slice(end);
-    editorEl.value = newText;
-    const cursor = start + before.length + sel.length + after.length;
+    editorEl.value = editorEl.value.slice(0, start) + before + sel + after + editorEl.value.slice(end);
     editorEl.focus();
     editorEl.setSelectionRange(start + before.length, start + before.length + sel.length);
     schedulePreview();
@@ -263,14 +393,41 @@ import AdminLayout from '@layouts/AdminLayout.astro';
   function insertLinePrefix(prefix: string) {
     const start = editorEl.selectionStart;
     const text = editorEl.value;
-    // 현재 줄 시작 찾기
     const lineStart = text.lastIndexOf('\n', start - 1) + 1;
-    editorEl.value = text.slice(0, lineStart) + prefix + text.slice(lineStart);
+    // 이미 동일 prefix 면 토글 제거
+    const existing = text.slice(lineStart, lineStart + prefix.length);
+    if (existing === prefix) {
+      editorEl.value = text.slice(0, lineStart) + text.slice(lineStart + prefix.length);
+      editorEl.setSelectionRange(Math.max(lineStart, start - prefix.length), Math.max(lineStart, start - prefix.length));
+    } else {
+      editorEl.value = text.slice(0, lineStart) + prefix + text.slice(lineStart);
+      editorEl.setSelectionRange(start + prefix.length, start + prefix.length);
+    }
     editorEl.focus();
-    editorEl.setSelectionRange(start + prefix.length, start + prefix.length);
     schedulePreview();
     markDirty();
   }
+  function insertBlock(block: string, cursorOffsetFromStart = 0) {
+    const pos = editorEl.selectionStart;
+    const before = editorEl.value.slice(0, pos);
+    const after = editorEl.value.slice(pos);
+    const needsNewline = before && !before.endsWith('\n') ? '\n' : '';
+    const insert = needsNewline + block;
+    editorEl.value = before + insert + after;
+    const newPos = pos + needsNewline.length + cursorOffsetFromStart;
+    editorEl.focus();
+    editorEl.setSelectionRange(newPos, newPos);
+    schedulePreview();
+    markDirty();
+  }
+
+  headingSel.addEventListener('change', () => {
+    const v = headingSel.value;
+    if (!v) return;
+    const prefix = { h1: '# ', h2: '## ', h3: '### ', h4: '#### ' }[v];
+    if (prefix) insertLinePrefix(prefix);
+    headingSel.value = '';
+  });
 
   document.getElementById('toolbar')!.addEventListener('click', (e) => {
     const btn = (e.target as HTMLElement).closest('button');
@@ -281,17 +438,27 @@ import AdminLayout from '@layouts/AdminLayout.astro';
       switch (md) {
         case 'bold': wrapSelection('**', '**', 'text'); break;
         case 'italic': wrapSelection('*', '*', 'text'); break;
+        case 'strike': wrapSelection('~~', '~~', 'text'); break;
         case 'code': wrapSelection('`', '`', 'code'); break;
-        case 'pre': wrapSelection('\n```\n', '\n```\n', 'code'); break;
+        case 'pre': insertCodeBlockPrompt(); break;
         case 'quote': insertLinePrefix('> '); break;
         case 'list': insertLinePrefix('- '); break;
-        case 'h2': insertLinePrefix('## '); break;
-        case 'h3': insertLinePrefix('### '); break;
+        case 'olist': insertLinePrefix('1. '); break;
+        case 'check': insertLinePrefix('- [ ] '); break;
+        case 'hr': insertBlock('\n---\n\n', 5); break;
+        case 'table': insertBlock('\n| 항목 | 설명 |\n|---|---|\n| a | b |\n\n', 3); break;
+        case 'image': imgInput.click(); break;
         case 'link': {
           const start = editorEl.selectionStart;
           const end = editorEl.selectionEnd;
           const sel = editorEl.value.slice(start, end) || 'text';
-          wrapSelection(`[${sel}](`, `)`, 'url');
+          const url = prompt('링크 URL', 'https://');
+          if (!url) return;
+          editorEl.value = editorEl.value.slice(0, start) + `[${sel}](${url})` + editorEl.value.slice(end);
+          editorEl.focus();
+          editorEl.setSelectionRange(start + 1, start + 1 + sel.length);
+          schedulePreview();
+          markDirty();
           break;
         }
       }
@@ -300,6 +467,75 @@ import AdminLayout from '@layouts/AdminLayout.astro';
       if (ai === 'complete') aiComplete();
       if (ai === 'rewrite') aiRewrite();
       if (ai === 'fix') aiFix();
+    }
+  });
+
+  function insertCodeBlockPrompt() {
+    const lang = prompt('언어 (예: cpp, c, python, ts, bash — 빈칸 가능)', 'cpp') ?? '';
+    const fence = '```' + lang.trim();
+    const start = editorEl.selectionStart;
+    const end = editorEl.selectionEnd;
+    const sel = editorEl.value.slice(start, end) || '// here';
+    const before = editorEl.value.slice(0, start);
+    const after = editorEl.value.slice(end);
+    const pad = before && !before.endsWith('\n') ? '\n' : '';
+    const block = `${pad}${fence}\n${sel}\n\`\`\`\n`;
+    editorEl.value = before + block + after;
+    const cursor = start + pad.length + fence.length + 1;
+    editorEl.focus();
+    editorEl.setSelectionRange(cursor, cursor + sel.length);
+    schedulePreview();
+    markDirty();
+  }
+
+  // ── 이미지 삽입 (file input / 드롭 / 클립보드) ────
+  async function insertImageFromBlob(blob: Blob | File) {
+    const MAX = 500 * 1024; // 500KB — base64 로 posts 에 박힘, 넘치면 경고
+    if (blob.size > MAX) {
+      const go = confirm(
+        `이미지가 큽니다 (${(blob.size / 1024).toFixed(0)} KB).\n` +
+        `base64 로 글 본문에 그대로 박히기 때문에 DB/로딩이 무거워져요.\n` +
+        `그래도 삽입할까요? (추천: public/images/blog/ 에 직접 넣고 경로로 참조)`
+      );
+      if (!go) return;
+    }
+    const dataUrl = await new Promise<string>((resolve, reject) => {
+      const fr = new FileReader();
+      fr.onload = () => resolve(String(fr.result));
+      fr.onerror = reject;
+      fr.readAsDataURL(blob);
+    });
+    const name = (blob as File).name ? (blob as File).name.replace(/"/g, '') : 'image';
+    insertBlock(`![${name}](${dataUrl})\n\n`, 2 + name.length);
+  }
+
+  imgInput.addEventListener('change', () => {
+    const f = imgInput.files?.[0];
+    if (f) void insertImageFromBlob(f);
+    imgInput.value = '';
+  });
+
+  editorEl.addEventListener('paste', (e) => {
+    const items = e.clipboardData?.items;
+    if (!items) return;
+    for (const it of items) {
+      if (it.kind === 'file' && it.type.startsWith('image/')) {
+        e.preventDefault();
+        const f = it.getAsFile();
+        if (f) void insertImageFromBlob(f);
+        return;
+      }
+    }
+  });
+
+  editorEl.addEventListener('drop', (e) => {
+    const files = e.dataTransfer?.files;
+    if (files && files.length) {
+      const f = files[0];
+      if (f.type.startsWith('image/')) {
+        e.preventDefault();
+        void insertImageFromBlob(f);
+      }
     }
   });
 
@@ -323,14 +559,10 @@ import AdminLayout from '@layouts/AdminLayout.astro';
     aiLabel!.textContent = label;
     aiText!.textContent = text;
     aiBox.classList.add('open');
-    pendingSuggestion = { kind: label, text };
     aiAccept.onclick = () => { apply(); closeSuggestion(); };
     aiCancel.onclick = closeSuggestion;
   }
-  function closeSuggestion() {
-    aiBox.classList.remove('open');
-    pendingSuggestion = null;
-  }
+  function closeSuggestion() { aiBox.classList.remove('open'); }
 
   async function aiComplete() {
     const pos = editorEl.selectionStart;
@@ -346,7 +578,6 @@ import AdminLayout from '@layouts/AdminLayout.astro';
     if (!d.text) { closeSuggestion(); return; }
     showSuggestion('AI 이어쓰기 — Tab 으로 적용', d.text, () => {
       const t = editorEl.value;
-      // 필요시 커서 앞에 공백 1개 보장
       const needSpace = pos > 0 && !/\s$/.test(t.slice(0, pos)) && !/^\s/.test(d.text);
       const insert = (needSpace ? ' ' : '') + d.text;
       editorEl.value = t.slice(0, pos) + insert + t.slice(pos);
@@ -398,39 +629,95 @@ import AdminLayout from '@layouts/AdminLayout.astro';
     });
   }
 
+  // ── 뷰 토글 ────────────────────────────────────────
+  $('btn-outline').addEventListener('click', () => wrap.classList.toggle('no-outline'));
+  $('btn-preview').addEventListener('click', () => wrap.classList.toggle('no-preview'));
+  $('btn-focus').addEventListener('click', () => wrap.classList.toggle('focus-mode'));
+
   // ── 전역 키보드 ───────────────────────────────────
   document.addEventListener('keydown', (e) => {
     const meta = e.ctrlKey || e.metaKey;
     const target = e.target as HTMLElement;
     const inTextarea = target === editorEl;
 
-    // AI suggestion open: Tab 적용, Esc 취소
     if (aiBox.classList.contains('open')) {
       if (e.key === 'Tab') { e.preventDefault(); aiAccept.click(); return; }
       if (e.key === 'Escape') { e.preventDefault(); closeSuggestion(); return; }
     }
 
-    // 저장
-    if (meta && e.key.toLowerCase() === 's') { e.preventDefault(); save(); return; }
-    // Bold / Italic (에디터에 포커스돼있을 때만)
+    if (meta && !e.shiftKey && e.key.toLowerCase() === 's') { e.preventDefault(); save(); return; }
+    if (meta && !e.shiftKey && e.key === '\\') { e.preventDefault(); wrap.classList.toggle('no-preview'); return; }
+    if (meta && e.shiftKey && e.key.toLowerCase() === 'o') { e.preventDefault(); wrap.classList.toggle('no-outline'); return; }
+    if (meta && e.shiftKey && e.key.toLowerCase() === 'd') { e.preventDefault(); wrap.classList.toggle('focus-mode'); return; }
+
     if (inTextarea && meta && !e.shiftKey && e.key.toLowerCase() === 'b') { e.preventDefault(); wrapSelection('**', '**', 'text'); return; }
     if (inTextarea && meta && !e.shiftKey && e.key.toLowerCase() === 'i') { e.preventDefault(); wrapSelection('*', '*', 'text'); return; }
-    // AI
     if (inTextarea && meta && !e.shiftKey && e.key.toLowerCase() === 'k') { e.preventDefault(); aiComplete(); return; }
     if (inTextarea && meta && e.shiftKey && e.key.toLowerCase() === 'r') { e.preventDefault(); aiRewrite(); return; }
     if (inTextarea && meta && e.shiftKey && e.key.toLowerCase() === 'f') { e.preventDefault(); aiFix(); return; }
   });
 
-  // Tab in textarea = 2 spaces (기본 포커스 이동 대신)
+  // ── 에디터 내부 키보드: Tab, Enter (리스트 자동 연결) ──
   editorEl.addEventListener('keydown', (e) => {
-    if (e.key === 'Tab' && !aiBox.classList.contains('open')) {
+    if (aiBox.classList.contains('open')) return;
+
+    // Tab = 2 spaces (선택이 있으면 들여쓰기)
+    if (e.key === 'Tab') {
       e.preventDefault();
       const s = editorEl.selectionStart;
-      const v = editorEl.value;
-      editorEl.value = v.slice(0, s) + '  ' + v.slice(editorEl.selectionEnd);
-      editorEl.setSelectionRange(s + 2, s + 2);
+      const en = editorEl.selectionEnd;
+      if (s === en) {
+        editorEl.value = editorEl.value.slice(0, s) + '  ' + editorEl.value.slice(en);
+        editorEl.setSelectionRange(s + 2, s + 2);
+      } else {
+        // 선택 라인 들여쓰기
+        const before = editorEl.value.slice(0, s);
+        const sel = editorEl.value.slice(s, en);
+        const after = editorEl.value.slice(en);
+        const lineStart = before.lastIndexOf('\n') + 1;
+        const head = editorEl.value.slice(lineStart, s);
+        const indented = (head + sel).replace(/^/gm, e.shiftKey ? '' : '  ');
+        const rebuilt = (e.shiftKey ? (head + sel).replace(/^ {1,2}/gm, '') : indented);
+        editorEl.value = editorEl.value.slice(0, lineStart) + rebuilt + after;
+        editorEl.setSelectionRange(lineStart, lineStart + rebuilt.length);
+      }
       schedulePreview();
       markDirty();
+      return;
+    }
+
+    // Enter: 리스트/인용 자동 연속, 빈 항목이면 제거
+    if (e.key === 'Enter' && !e.shiftKey) {
+      const pos = editorEl.selectionStart;
+      const text = editorEl.value;
+      const lineStart = text.lastIndexOf('\n', pos - 1) + 1;
+      const line = text.slice(lineStart, pos);
+      const m = /^(\s*)([-*+]\s+\[[ x]\]\s+|[-*+]\s+|\d+\.\s+|>\s+)/.exec(line);
+      if (m) {
+        const prefix = m[0];
+        const rest = line.slice(prefix.length);
+        if (rest.trim() === '') {
+          // 빈 항목 → 프리픽스 제거 후 일반 개행
+          e.preventDefault();
+          editorEl.value = text.slice(0, lineStart) + '\n' + text.slice(pos);
+          editorEl.setSelectionRange(lineStart + 1, lineStart + 1);
+          schedulePreview();
+          markDirty();
+          return;
+        }
+        // 번호 리스트는 +1 로 이어줌
+        let next = prefix;
+        const num = /^(\s*)(\d+)\.\s+$/.exec(prefix);
+        if (num) next = `${num[1]}${Number(num[2]) + 1}. `;
+        // 체크박스는 빈 박스로
+        next = next.replace(/\[x\]/, '[ ]');
+        e.preventDefault();
+        editorEl.value = text.slice(0, pos) + '\n' + next + text.slice(pos);
+        const newPos = pos + 1 + next.length;
+        editorEl.setSelectionRange(newPos, newPos);
+        schedulePreview();
+        markDirty();
+      }
     }
   });
 
@@ -439,5 +726,6 @@ import AdminLayout from '@layouts/AdminLayout.astro';
     if (dirty) { e.preventDefault(); e.returnValue = ''; }
   });
 
-  loadPost();
+  void loadPost();
 </script>
+</AdminLayout>
