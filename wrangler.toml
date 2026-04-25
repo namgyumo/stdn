@@ -4,11 +4,10 @@ name = "std-n"
 compatibility_date = "2026-01-01"
 pages_build_output_dir = "dist"
 
-# 추후 D1 (조회수/방명록 등) 붙일 때 주석 해제:
-# [[d1_databases]]
-# binding = "DB"
-# database_name = "std-n"
-# database_id = "<your-d1-id>"
+[[d1_databases]]
+binding = "DB"
+database_name = "std-n"
+database_id = "36e71367-b0d0-441e-a130-307ad05a279f"
 
 # 추후 R2 (이미지/첨부) 붙일 때:
 # [[r2_buckets]]
