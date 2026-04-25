@@ -155,16 +155,35 @@ function renderPostHtml(post: PostRow, siteUrl: string): string {
 export const onRequest: PagesFunction<Env> = async ({ env, params, next, request }) => {
   if (!env.DB) return next();
 
-  const slug = String(params.slug ?? '');
-  if (!slug || slug === 'tags') return next();
+  // params.slug 가 못 잡히는 경우 대비해 URL 에서 직접 추출
+  const url = new URL(request.url);
+  const pathSlug = decodeURIComponent(
+    url.pathname.replace(/^\/blog\//, '').replace(/\/$/, ''),
+  );
+  const rawSlug = String(params.slug ?? '') || pathSlug;
+  if (!rawSlug || rawSlug === 'tags') return next();
 
-  const row = await env.DB.prepare(
-    `SELECT slug, title, description, body_html, tags,
-            published_at, updated_at, created_at
-     FROM posts
-     WHERE slug = ? AND draft = 0
-     LIMIT 1`,
-  ).bind(slug).first<PostRow>();
+  // 한글 등 유니코드 정규화 형태가 다를 수 있어 NFC/NFD 둘 다 시도
+  const candidates = Array.from(new Set([
+    rawSlug,
+    rawSlug.normalize('NFC'),
+    rawSlug.normalize('NFD'),
+    pathSlug,
+    pathSlug.normalize('NFC'),
+    pathSlug.normalize('NFD'),
+  ].filter(Boolean)));
+
+  let row: PostRow | null = null;
+  for (const c of candidates) {
+    row = await env.DB.prepare(
+      `SELECT slug, title, description, body_html, tags,
+              published_at, updated_at, created_at
+       FROM posts
+       WHERE slug = ? AND draft = 0
+       LIMIT 1`,
+    ).bind(c).first<PostRow>();
+    if (row) break;
+  }
 
   if (!row) return next();
 
