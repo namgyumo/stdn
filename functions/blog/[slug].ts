@@ -187,7 +187,6 @@ export const onRequest: PagesFunction<Env> = async ({ env, params, next, request
 
   if (!row) return next();
 
-  const url = new URL(request.url);
   const siteUrl = `${url.protocol}//${url.host}`;
 
   return new Response(renderPostHtml(row, siteUrl), {
