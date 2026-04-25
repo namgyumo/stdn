@@ -24,19 +24,20 @@ const cards = [
     href: site.author.instagram,
     external: true,
   },
-  {
-    icon: '[ BOJ ]',
-    label: 'Algorithm Profile',
-    detail: `solved.ac/${site.author.boj}`,
-    href: `https://solved.ac/${site.author.boj}`,
-    external: true,
-  },
+  // BOJ 서비스 종료로 비활성화
+  // {
+  //   icon: '[ BOJ ]',
+  //   label: 'Algorithm Profile',
+  //   detail: `solved.ac/${site.author.boj}`,
+  //   href: `https://solved.ac/${site.author.boj}`,
+  //   external: true,
+  // },
 ];
 ---
 
 <BaseLayout
   title="Contact"
-  description="std::N 과 연락하는 방법 — GitHub, Email, Instagram, BOJ."
+  description="std::N 과 연락하는 방법 — GitHub, Email, Instagram."
 >
   <section class="contact-hero">
     <h1 class="h1">CONTACT</h1>

@@ -80,7 +80,7 @@ const analyticsToken = import.meta.env.PUBLIC_CF_ANALYTICS_TOKEN;
         alternateName: site.shortName,
         url: site.url,
         email: `mailto:${site.author.email}`,
-        sameAs: [site.author.github, `https://solved.ac/${site.author.boj}`],
+        sameAs: [site.author.github], // BOJ 서비스 종료로 solved.ac 링크 제거
         description: site.description,
       })}
     />

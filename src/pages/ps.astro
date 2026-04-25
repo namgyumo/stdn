@@ -1,9 +1,10 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
-import BojWidget from '@components/BojWidget.astro';
+// BOJ 서비스 종료로 BojWidget 비활성화
+// import BojWidget from '@components/BojWidget.astro';
 import { getCollection } from 'astro:content';
 import { formatShortDate } from '@lib/format';
-import { site } from '@lib/site';
+// import { site } from '@lib/site'; // BOJ 링크 제거로 미사용
 
 const posts = (
   await getCollection('blog', ({ data }) => !data.draft && data.tags.includes('ps'))
@@ -12,18 +13,18 @@ const posts = (
 
 <BaseLayout
   title="PS"
-  description="std::N 의 알고리즘 풀이 모음. 백준·코드포스 문제 중심."
+  description="std::N 의 알고리즘 풀이 모음. 코드포스·ICPC 문제 중심."
 >
   <section class="container container-narrow" style="padding-top: 60px;">
     <header class="center" style="margin-bottom: 40px;">
       <p class="eyebrow">// problem solving</p>
       <h1 class="h1">Problem Solving</h1>
       <p style="color: var(--color-fg-dim); font-family: var(--font-mono); margin-top: 10px;">
-        백준 · 코드포스 · solved.ac · ICPC
+        코드포스 · ICPC
       </p>
     </header>
 
-    <BojWidget />
+    {/* <BojWidget /> — BOJ 서비스 종료로 비활성화 */}
 
     <div style="margin-top: 80px;">
       <h2 class="section-h1">Writeups</h2>
@@ -48,10 +49,12 @@ const posts = (
       )}
     </div>
 
+    {/* BOJ 서비스 종료로 solved.ac 프로필 링크 비활성화
     <p style="text-align: center; margin-top: 40px;">
       <a class="btntext" href={`https://solved.ac/${site.author.boj}`} target="_blank" rel="noopener noreferrer">
         → 전체 solved.ac 프로필
       </a>
     </p>
+    */}
   </section>
 </BaseLayout>

@@ -9,7 +9,7 @@ export const site = {
     name: '남규모',
     handle: 'namgyumo',
     email: 'n.gyumo13@gmail.com',
-    boj: 'mjc5433',
+    // boj: 'mjc5433', // BOJ 서비스 종료로 비활성화
     github: 'https://github.com/namgyumo',
     instagram: 'https://instagram.com/east_scale',
   },

@@ -5,7 +5,8 @@ const commands = [
   ...site.nav.map((n) => ({ type: 'nav', label: n.label, href: n.href, kbd: '' })),
   { type: 'action', label: 'Copy email', href: `mailto:${site.author.email}`, kbd: 'e' },
   { type: 'action', label: 'Open GitHub', href: site.author.github, kbd: 'g' },
-  { type: 'action', label: 'Open BOJ profile', href: `https://solved.ac/${site.author.boj}`, kbd: 'b' },
+  // BOJ 서비스 종료로 비활성화
+  // { type: 'action', label: 'Open BOJ profile', href: `https://solved.ac/${site.author.boj}`, kbd: 'b' },
   { type: 'action', label: 'RSS feed', href: '/rss.xml', kbd: 'r' },
   { type: 'action', label: 'Search posts', href: '/search', kbd: '/' },
 ];

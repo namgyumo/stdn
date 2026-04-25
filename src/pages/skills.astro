@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
-import BojWidget from '@components/BojWidget.astro';
+// BOJ 서비스 종료로 BojWidget 비활성화
+// import BojWidget from '@components/BojWidget.astro';
 
 const skills = [
   {
@@ -21,7 +22,7 @@ const skills = [
   {
     icon: '[ ALGORITHM ]',
     name: 'Data Structure & PS',
-    desc: '시간/공간 복잡도를 의식하면서 문제 푸는 연습을 하고 있고, BOJ 에서 꾸준히 풀이를 이어가는 중입니다.',
+    desc: '시간/공간 복잡도를 의식하면서 문제 푸는 연습을 꾸준히 이어가는 중입니다.',
   },
   {
     icon: '[ TOOLS ]',
@@ -36,7 +37,7 @@ const records = [
   { date: '25.09.11', text: 'GDGoC-DEU 멤버 참여' },
   { date: '25.10.11', text: 'ICPC 대회 참여' },
   { date: '26.02.20', text: 'GDGoC-DEU 코어 멤버 참여' },
-  { date: '26.02.21', text: 'solved.ac Gold-V 달성' },
+  // { date: '26.02.21', text: 'solved.ac Gold-V 달성' }, // BOJ 서비스 종료로 비활성화
   { date: '26.04.13', text: 'KIT 바이브코딩 공모전 참여' },
 ];
 ---
@@ -76,7 +77,7 @@ const records = [
       </ol>
     </div>
 
-    <BojWidget />
+    {/* <BojWidget /> — BOJ 서비스 종료로 비활성화 */}
   </section>
 </BaseLayout>
 
