@@ -16,6 +16,7 @@ interface ContactBody {
   name?: string;
   email?: string;
   message?: string;
+  website?: string; // honeypot
 }
 
 const json = (data: unknown, status = 200): Response =>
@@ -23,6 +24,9 @@ const json = (data: unknown, status = 200): Response =>
     status,
     headers: { 'content-type': 'application/json; charset=utf-8' },
   });
+
+const escapeHtml = (s: string) =>
+  s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
 
 export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   let body: ContactBody;
@@ -37,10 +41,16 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
         name: String(form.get('name') ?? ''),
         email: String(form.get('email') ?? ''),
         message: String(form.get('message') ?? ''),
+        website: String(form.get('website') ?? ''),
       };
     }
   } catch {
     return json({ ok: false, error: 'invalid_body' }, 400);
+  }
+
+  // honeypot — 사람은 비워두고 봇만 채움
+  if (body.website && body.website.trim().length > 0) {
+    return json({ ok: true, mode: 'honeypot' });
   }
 
   const name = body.name?.trim();
@@ -50,20 +60,29 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   if (!name || !email || !message) {
     return json({ ok: false, error: 'missing_fields' }, 400);
   }
+  if (name.length > 100) {
+    return json({ ok: false, error: 'name_too_long' }, 400);
+  }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return json({ ok: false, error: 'invalid_email' }, 400);
+  }
+  if (message.length < 5) {
+    return json({ ok: false, error: 'message_too_short' }, 400);
   }
   if (message.length > 5000) {
     return json({ ok: false, error: 'message_too_long' }, 400);
   }
 
   if (!env.RESEND_API_KEY || !env.CONTACT_TO_EMAIL) {
-    // 아직 환경변수가 세팅되지 않은 경우 — 개발 중이거나 초기 배포
     console.log('[contact] submission', { name, email, len: message.length });
     return json({ ok: true, mode: 'logged', note: 'RESEND_API_KEY unset' });
   }
 
   const from = env.CONTACT_FROM_EMAIL ?? 'std::N <onboarding@resend.dev>';
+  const safeName = escapeHtml(name);
+  const safeEmail = escapeHtml(email);
+  const safeMsg = escapeHtml(message).replace(/\n/g, '<br>');
+
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
@@ -76,6 +95,11 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       reply_to: email,
       subject: `[std::N] ${name} 님의 연락`,
       text: `From: ${name} <${email}>\n\n${message}`,
+      html: `<div style="font-family:ui-monospace,Menlo,monospace;font-size:14px;line-height:1.6;color:#0a0a0a;">
+        <p style="margin:0 0 12px;"><strong>From:</strong> ${safeName} &lt;${safeEmail}&gt;</p>
+        <hr style="border:none;border-top:1px solid #ccc;margin:12px 0;">
+        <div>${safeMsg}</div>
+      </div>`,
     }),
   });
 

@@ -66,11 +66,11 @@ const cards = [
         ))}
       </div>
 
-      <form class="contact-form" name="contact" method="POST" action="/api/contact" novalidate>
+      <form class="contact-form" id="contact-form" name="contact" method="POST" action="/api/contact" novalidate>
         <h3 class="form-title">// send_message</h3>
         <label>
           <span>Your name</span>
-          <input type="text" name="name" required autocomplete="name" />
+          <input type="text" name="name" required autocomplete="name" maxlength="100" />
         </label>
         <label>
           <span>Email</span>
@@ -78,12 +78,70 @@ const cards = [
         </label>
         <label>
           <span>Message</span>
-          <textarea name="message" rows="5" required></textarea>
+          <textarea name="message" rows="5" required minlength="5" maxlength="5000"></textarea>
+        </label>
+        <label class="hp" aria-hidden="true">
+          <span>Website</span>
+          <input type="text" name="website" tabindex="-1" autocomplete="off" />
         </label>
         <button type="submit" class="form-submit">TRANSMIT →</button>
+        <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
       </form>
     </div>
   </section>
+
+  <script is:inline>
+    (() => {
+      const form = document.getElementById('contact-form');
+      const status = document.getElementById('form-status');
+      if (!form || !status) return;
+
+      const ERR = {
+        missing_fields: '이름·이메일·메시지를 모두 채워주세요.',
+        invalid_email: '이메일 형식이 올바르지 않습니다.',
+        message_too_short: '메시지가 너무 짧습니다 (5자 이상).',
+        message_too_long: '메시지가 너무 깁니다 (5000자 이내).',
+        name_too_long: '이름이 너무 깁니다 (100자 이내).',
+        invalid_body: '요청을 해석할 수 없습니다.',
+        send_failed: '메일 전송이 실패했습니다. 잠시 후 다시 시도해 주세요.',
+        method_not_allowed: '잘못된 요청입니다.',
+        network: '네트워크 오류. 연결을 확인하고 다시 시도해 주세요.',
+      };
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = form.querySelector('.form-submit');
+        const data = new FormData(form);
+        status.className = 'form-status';
+        status.textContent = '전송 중...';
+        if (btn) btn.setAttribute('disabled', 'true');
+
+        try {
+          const res = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(Object.fromEntries(data)),
+          });
+          const j = await res.json().catch(() => ({}));
+          if (j.ok) {
+            status.className = 'form-status ok';
+            status.textContent = j.mode === 'logged'
+              ? '접수 완료 (메일 연결 전 — 로그로 기록됨).'
+              : '메시지 전송 완료. 답장 드리겠습니다.';
+            form.reset();
+          } else {
+            status.className = 'form-status err';
+            status.textContent = ERR[j.error] ?? '전송 실패.';
+          }
+        } catch {
+          status.className = 'form-status err';
+          status.textContent = ERR.network;
+        } finally {
+          if (btn) btn.removeAttribute('disabled');
+        }
+      });
+    })();
+  </script>
 </BaseLayout>
 
 <style>
@@ -147,5 +205,30 @@ const cards = [
   .form-submit:hover {
     background: rgba(193, 255, 0, 0.1);
     box-shadow: var(--glow-lime);
+  }
+  .form-submit[disabled] {
+    opacity: 0.5;
+    cursor: wait;
+  }
+  .hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+  .form-status {
+    margin: 0;
+    min-height: 1.4em;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-fg-dim);
+    text-align: center;
+  }
+  .form-status.ok {
+    color: var(--color-accent);
+  }
+  .form-status.err {
+    color: #ff6b6b;
   }
 </style>

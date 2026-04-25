@@ -1,0 +1,97 @@
+---
+import { site } from '@lib/site';
+
+// github-readme-stats SVG embed.
+// 링크는 사용자의 GitHub URL 에서 핸들 추출.
+const handle = site.author.github.replace(/^https?:\/\/github\.com\//, '').replace(/\/$/, '');
+
+// 라임/다크 테마에 어울리도록 커스텀 색상.
+const common = `bg_color=0a0a0a&title_color=c1ff00&text_color=e6e6e6&icon_color=c1ff00&border_color=c1ff0040&hide_border=false`;
+
+const statsUrl = `https://github-readme-stats.vercel.app/api?username=${handle}&show_icons=true&count_private=true&${common}`;
+const langUrl = `https://github-readme-stats.vercel.app/api/top-langs?username=${handle}&layout=compact&${common}`;
+const streakUrl = `https://github-readme-streak-stats.herokuapp.com/?user=${handle}&background=0a0a0a&stroke=c1ff0040&ring=c1ff00&fire=c1ff00&currStreakNum=c1ff00&sideNums=c1ff00&currStreakLabel=c1ff00&sideLabels=e6e6e6&dates=8a8a8a&hide_border=false`;
+---
+
+<div class="pro-card gh-card">
+  <h2 class="section-h1">DASHBOARD</h2>
+  <p class="gh-subtitle">GITHUB STATUS</p>
+  <div class="gh-wrap">
+    <a
+      class="gh-api"
+      href={`https://github.com/${handle}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`${handle} GitHub 프로필`}
+    >
+      <img
+        src={statsUrl}
+        alt={`${handle} GitHub 통계`}
+        loading="lazy"
+        width="495"
+        height="195"
+      />
+    </a>
+    <a
+      class="gh-api"
+      href={`https://github.com/${handle}?tab=repositories`}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`${handle} 사용 언어`}
+    >
+      <img
+        src={langUrl}
+        alt={`${handle} 자주 쓰는 언어`}
+        loading="lazy"
+        width="350"
+        height="195"
+      />
+    </a>
+    <a
+      class="gh-api"
+      href={`https://github.com/${handle}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`${handle} 커밋 스트릭`}
+    >
+      <img
+        src={streakUrl}
+        alt={`${handle} 커밋 스트릭`}
+        loading="lazy"
+        width="495"
+        height="195"
+      />
+    </a>
+  </div>
+</div>
+
+<style>
+  .gh-subtitle {
+    font-family: var(--font-mono);
+    color: var(--color-accent);
+    letter-spacing: 3px;
+    font-size: 1rem;
+    margin: 10px 0 20px;
+  }
+  .gh-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+  }
+  .gh-api {
+    display: inline-block;
+    transition: transform var(--dur) var(--ease), filter var(--dur) var(--ease);
+  }
+  .gh-api:hover,
+  .gh-api.touch-active {
+    transform: translateY(-2px);
+    filter: drop-shadow(0 0 12px rgba(193, 255, 0, 0.35));
+  }
+  .gh-api img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 6px;
+  }
+</style>
