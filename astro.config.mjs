@@ -13,6 +13,10 @@ export default defineConfig({
   build: {
     format: 'directory',
   },
+  prefetch: {
+    prefetchAll: false,
+    defaultStrategy: 'hover',
+  },
   integrations: [
     mdx(),
     sitemap(),

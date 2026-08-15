@@ -1,0 +1,62 @@
+{
+  "number": 34,
+  "title": "정수 제곱근",
+  "tier": "S5",
+  "tierNum": 6,
+  "tags": [
+    "이분탐색",
+    "수학"
+  ],
+  "timeLimitMs": 1000,
+  "statement": "N 이하의 완전제곱수가 되는 가장 큰 정수 x, 즉 floor(√N)을 이분 탐색으로 구하시오.",
+  "inputDesc": "첫 줄에 자연수 N.",
+  "outputDesc": "floor(√N) 값.",
+  "constraints": [
+    "0 ≤ N ≤ 10^18"
+  ],
+  "examples": [
+    {
+      "in": "16",
+      "out": "4"
+    },
+    {
+      "in": "17",
+      "out": "4"
+    },
+    {
+      "in": "0",
+      "out": "0"
+    }
+  ],
+  "cases": [
+    {
+      "in": "16",
+      "out": "4"
+    },
+    {
+      "in": "17",
+      "out": "4"
+    },
+    {
+      "in": "0",
+      "out": "0"
+    },
+    {
+      "in": "1",
+      "out": "1"
+    },
+    {
+      "in": "1000000000000000000",
+      "out": "1000000000"
+    },
+    {
+      "in": "99",
+      "out": "9"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

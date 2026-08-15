@@ -1,0 +1,51 @@
+{
+  "number": 50,
+  "title": "통계학",
+  "tier": "S3",
+  "tierNum": 8,
+  "tags": [
+    "정렬",
+    "구현"
+  ],
+  "timeLimitMs": 1000,
+  "statement": "N(홀수)개 수의 산술평균(반올림), 중앙값, 최빈값(여러 개면 두 번째로 작은 값), 범위를 각각 출력하시오.",
+  "inputDesc": "첫 줄에 홀수 N. 이후 N개 줄 대신 한 줄에 N개 수.",
+  "outputDesc": "산술평균, 중앙값, 최빈값, 범위를 한 줄씩 출력.",
+  "constraints": [
+    "1 ≤ N ≤ 100,000(홀수)",
+    "|수| ≤ 4,000"
+  ],
+  "examples": [
+    {
+      "in": "5\n1 3 8 -2 2",
+      "out": "2\n2\n1\n10"
+    },
+    {
+      "in": "1\n4000",
+      "out": "4000\n4000\n4000\n0"
+    }
+  ],
+  "cases": [
+    {
+      "in": "5\n1 3 8 -2 2",
+      "out": "2\n2\n1\n10"
+    },
+    {
+      "in": "1\n4000",
+      "out": "4000\n4000\n4000\n0"
+    },
+    {
+      "in": "3\n0 0 -1",
+      "out": "0\n0\n0\n1"
+    },
+    {
+      "in": "5\n-1 -2 -3 -1 -1",
+      "out": "-2\n-1\n-1\n2"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "number": 27,
+  "title": "최대공약수와 최소공배수",
+  "tier": "S5",
+  "tierNum": 6,
+  "tags": [
+    "수학",
+    "유클리드 호제법"
+  ],
+  "timeLimitMs": 1000,
+  "statement": "두 자연수 A, B의 최대공약수와 최소공배수를 구하시오.",
+  "inputDesc": "첫 줄에 두 자연수 A, B (공백으로 구분).",
+  "outputDesc": "첫 줄에 최대공약수, 둘째 줄에 최소공배수.",
+  "constraints": [
+    "1 ≤ A, B ≤ 10,000"
+  ],
+  "examples": [
+    {
+      "in": "24 18",
+      "out": "6\n72"
+    },
+    {
+      "in": "3 7",
+      "out": "1\n21"
+    }
+  ],
+  "cases": [
+    {
+      "in": "24 18",
+      "out": "6\n72"
+    },
+    {
+      "in": "3 7",
+      "out": "1\n21"
+    },
+    {
+      "in": "1 1",
+      "out": "1\n1"
+    },
+    {
+      "in": "10000 5000",
+      "out": "5000\n10000"
+    },
+    {
+      "in": "9 6",
+      "out": "3\n18"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

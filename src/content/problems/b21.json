@@ -1,0 +1,62 @@
+{
+  "number": 22,
+  "title": "N번째 피보나치 수",
+  "tier": "B1",
+  "tierNum": 5,
+  "tags": [
+    "수학",
+    "구현"
+  ],
+  "timeLimitMs": 1000,
+  "statement": "피보나치 수는 F(0)=0, F(1)=1, F(n)=F(n-1)+F(n-2) 이다. N이 주어질 때 F(N)을 출력하시오.",
+  "inputDesc": "첫 줄에 정수 N.",
+  "outputDesc": "F(N).",
+  "constraints": [
+    "0 ≤ N ≤ 90"
+  ],
+  "examples": [
+    {
+      "in": "10",
+      "out": "55"
+    },
+    {
+      "in": "0",
+      "out": "0"
+    },
+    {
+      "in": "1",
+      "out": "1"
+    }
+  ],
+  "cases": [
+    {
+      "in": "10",
+      "out": "55"
+    },
+    {
+      "in": "0",
+      "out": "0"
+    },
+    {
+      "in": "1",
+      "out": "1"
+    },
+    {
+      "in": "2",
+      "out": "1"
+    },
+    {
+      "in": "20",
+      "out": "6765"
+    },
+    {
+      "in": "90",
+      "out": "2880067194370816120"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "number": 98,
+  "title": "행렬 곱셈 순서",
+  "tier": "G3",
+  "tierNum": 13,
+  "tags": [
+    "다이나믹 프로그래밍"
+  ],
+  "timeLimitMs": 2000,
+  "statement": "여러 행렬을 곱할 때 곱셈 연산 횟수가 최소가 되도록 괄호를 묶는 경우의 연산 횟수를 구하시오.",
+  "inputDesc": "첫 줄 행렬 개수 N. 이후 N개 줄에 각 행렬의 행 크기와 열 크기.",
+  "outputDesc": "최소 곱셈 연산 횟수.",
+  "constraints": [
+    "1 ≤ N ≤ 500",
+    "행렬 크기 ≤ 500"
+  ],
+  "examples": [
+    {
+      "in": "3\n5 3\n3 2\n2 6",
+      "out": "90"
+    },
+    {
+      "in": "2\n50 10\n10 40",
+      "out": "20000"
+    }
+  ],
+  "cases": [
+    {
+      "in": "3\n5 3\n3 2\n2 6",
+      "out": "90"
+    },
+    {
+      "in": "2\n50 10\n10 40",
+      "out": "20000"
+    },
+    {
+      "in": "1\n10 20",
+      "out": "0"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

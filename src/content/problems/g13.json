@@ -1,0 +1,41 @@
+{
+  "number": 88,
+  "title": "가장 큰 정사각형",
+  "tier": "G4",
+  "tierNum": 12,
+  "tags": [
+    "다이나믹 프로그래밍"
+  ],
+  "timeLimitMs": 2000,
+  "statement": "0과 1로 이루어진 n×m 배열에서 1로만 채워진 가장 큰 정사각형의 넓이를 구하시오.",
+  "inputDesc": "첫 줄 n, m. 이후 n개 줄에 붙어있는 0/1 문자열.",
+  "outputDesc": "가장 큰 정사각형의 넓이.",
+  "constraints": [
+    "1 ≤ n, m ≤ 1,000"
+  ],
+  "examples": [
+    {
+      "in": "4 4\n0100\n0111\n1110\n0010",
+      "out": "4"
+    }
+  ],
+  "cases": [
+    {
+      "in": "4 4\n0100\n0111\n1110\n0010",
+      "out": "4"
+    },
+    {
+      "in": "2 2\n11\n11",
+      "out": "4"
+    },
+    {
+      "in": "1 5\n01010",
+      "out": "1"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

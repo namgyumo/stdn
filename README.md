@@ -134,6 +134,7 @@ Pages → Settings → Environment variables 에서 **Production / Preview 모�
 | `ADMIN_PASSWORD_HASH` | ✅ (admin) | `100000:...:...` | admin 로그인 — PBKDF2 |
 | `SESSION_SECRET` | ✅ (admin) | 32바이트 hex | 세션 쿠키 서명 (HMAC) |
 | `GEMINI_API_KEY` | ✅ (AI) | AI Studio 발급 | 에디터 AI 보조 |
+| `WANDBOX_URL` | ☐ | `https://wandbox.org/api/compile.json` | 알고리즘 뱅크 코드 실행 백엔드(미설정 시 공용 Wandbox) |
 
 ### C. D1 연결 (방명록·조회수·블로그 글)
 
@@ -270,6 +271,43 @@ order: 90
 
 ---
 
+## 🧮 알고리즘 뱅크 (`/bank`)
+
+직접 풀어본 **실버 난도 50문제**를 백준식 온라인 저지로 제공한다. 서버(컴파일러)를 직접
+운영하지 않고 **공용 실행 API(Wandbox)** 에 실행만 위임하는 구조라 Cloudflare Pages 정적 배포와
+그대로 호환된다.
+
+```
+브라우저 (CodeMirror 에디터, C/C++/Python)
+   │  코드 + stdin
+   ▼
+Pages Function  /api/run   ← Wandbox 프록시 (브라우저 UA 부착 + 인프라 오류 재시도)
+   │
+   ▼
+Wandbox (컴파일·실행)  →  stdout 반환
+   │
+   ▼
+클라이언트가 테스트케이스와 대조 → AC / WA / TLE / RE / CE 판정
+```
+
+- **문제 데이터**: `src/content/problems/*.json` (Content Collection). 각 파일은 문제 지문·제한·
+  예제·**채점 케이스(입력/정답)**·언어별 시작 코드를 담는다. 정답은 파이썬 레퍼런스 풀이를
+  실제 실행해 생성했고, gcc 컴파일 정답으로 교차 검증했다.
+- **판정은 클라이언트**가 수행한다. Function 은 실행만 대행하므로 어떤 문제/언어에도 재사용 가능.
+- **주의 (개발 모드)**: `pnpm dev` 는 Pages Functions 를 실행하지 않아 `/api/run` 이 없다.
+  실행/채점까지 테스트하려면 `pnpm build && npx wrangler pages dev dist` 를 쓰거나 배포본에서 확인.
+- **주의 (공용 인스턴스)**: 공용 Wandbox 는 부하 시 일시적 오류를 낼 수 있어 프록시가 3회까지
+  재시도하고, 그래도 실패하면 "서버 혼잡" 을 안내한다. 트래픽이 커지면 Wandbox 를
+  셀프호스팅(Docker)하고 `WANDBOX_URL` 만 바꾸면 된다.
+
+### 문제 추가
+
+`scripts/gen_problems*.py` 형태의 생성기에 문제 정의(지문 + 파이썬 레퍼런스 풀이 + 입력)를 추가하고
+실행하면 정답이 자동 계산되어 `src/content/problems/` 에 JSON 이 떨어진다. 손으로 정답을
+적지 않는 것이 핵심 — 레퍼런스 풀이가 곧 정답의 근거다.
+
+---
+
 ## 🎨 디자인 토큰
 
 `public/global.css` 의 `:root` 섹션에서 관리합니다:
@@ -290,7 +328,8 @@ order: 90
 
 ## 🧩 주요 기능
 
-- **Content Collections** — 블로그·프로젝트 모두 타입 안전 Frontmatter
+- **Algorithm Bank** — 실버 난도 50문제 온라인 저지 (`/bank`). CodeMirror 에디터 + Wandbox 실행 + 클라이언트 AC/WA/TLE/CE 판정
+- **Content Collections** — 블로그·프로젝트·문제 모두 타입 안전 Frontmatter
 - **D1 Admin CMS** — 관리자 로그인 + VS 스타일 에디터 + Gemini AI 보조
 - **View Transitions** — Astro `ClientRouter` 로 부드러운 페이지 전환
 - **Command Palette** — `Ctrl/Cmd + K` 또는 `/` 로 열기

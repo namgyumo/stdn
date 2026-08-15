@@ -1,0 +1,42 @@
+{
+  "number": 43,
+  "title": "국영수",
+  "tier": "S4",
+  "tierNum": 7,
+  "tags": [
+    "정렬"
+  ],
+  "timeLimitMs": 1000,
+  "statement": "학생들을 국어 내림차순 → 영어 오름차순 → 수학 내림차순 → 이름 사전순으로 정렬하시오.",
+  "inputDesc": "첫 줄에 N. 이후 N개 줄에 이름 국어 영어 수학.",
+  "outputDesc": "정렬된 학생 이름을 한 줄씩 출력.",
+  "constraints": [
+    "1 ≤ N ≤ 100,000",
+    "0 ≤ 점수 ≤ 100"
+  ],
+  "examples": [
+    {
+      "in": "3\nDo 90 80 70\nRe 90 80 60\nMi 80 60 50",
+      "out": "Do\nRe\nMi"
+    }
+  ],
+  "cases": [
+    {
+      "in": "3\nDo 90 80 70\nRe 90 80 60\nMi 80 60 50",
+      "out": "Do\nRe\nMi"
+    },
+    {
+      "in": "1\nKim 100 100 100",
+      "out": "Kim"
+    },
+    {
+      "in": "2\nA 50 50 50\nB 50 50 50",
+      "out": "A\nB"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

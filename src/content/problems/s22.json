@@ -1,0 +1,38 @@
+{
+  "number": 44,
+  "title": "체스판 다시 칠하기",
+  "tier": "S4",
+  "tierNum": 7,
+  "tags": [
+    "브루트포스",
+    "구현"
+  ],
+  "timeLimitMs": 1000,
+  "statement": "N×M 보드에서 8×8 체스판을 잘라내 다시 칠할 때, 다시 칠해야 하는 칸의 최솟값을 구하시오.",
+  "inputDesc": "첫 줄에 N, M. 이후 N개 줄에 W/B로 이루어진 보드.",
+  "outputDesc": "다시 칠해야 하는 칸의 최솟값.",
+  "constraints": [
+    "8 ≤ N, M ≤ 50"
+  ],
+  "examples": [
+    {
+      "in": "8 8\nWBWBWBWB\nBWBWBWBW\nWBWBWBWB\nBWBWBWBW\nWBWBWBWB\nBWBWBWBW\nWBWBWBWB\nBWBWBWBB",
+      "out": "1"
+    }
+  ],
+  "cases": [
+    {
+      "in": "8 8\nWBWBWBWB\nBWBWBWBW\nWBWBWBWB\nBWBWBWBW\nWBWBWBWB\nBWBWBWBW\nWBWBWBWB\nBWBWBWBB",
+      "out": "1"
+    },
+    {
+      "in": "8 8\nBWBWBWBW\nWBWBWBWB\nBWBWBWBW\nWBWBWBWB\nBWBWBWBW\nWBWBWBWB\nBWBWBWBW\nWBWBWBWB",
+      "out": "0"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

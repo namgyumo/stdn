@@ -1,0 +1,39 @@
+{
+  "number": 99,
+  "title": "내리막 길",
+  "tier": "G3",
+  "tierNum": 13,
+  "tags": [
+    "다이나믹 프로그래밍",
+    "DFS"
+  ],
+  "timeLimitMs": 2000,
+  "statement": "M×N 지도에서 인접한 더 낮은 칸으로만 이동할 수 있다. (0,0)에서 (M-1,N-1)까지 가는 경로의 수를 구하시오.",
+  "inputDesc": "첫 줄 M, N. 이후 M개 줄에 각 칸의 높이.",
+  "outputDesc": "이동 경로의 수.",
+  "constraints": [
+    "1 ≤ M, N ≤ 500",
+    "0 ≤ 높이 ≤ 10,000"
+  ],
+  "examples": [
+    {
+      "in": "4 5\n50 45 37 32 30\n35 50 40 20 25\n30 30 25 17 28\n27 24 22 15 10",
+      "out": "3"
+    }
+  ],
+  "cases": [
+    {
+      "in": "4 5\n50 45 37 32 30\n35 50 40 20 25\n30 30 25 17 28\n27 24 22 15 10",
+      "out": "3"
+    },
+    {
+      "in": "2 2\n2 1\n1 0",
+      "out": "2"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "number": 4,
+  "title": "몫과 나머지",
+  "tier": "B3",
+  "tierNum": 3,
+  "tags": [
+    "구현",
+    "사칙연산"
+  ],
+  "timeLimitMs": 1000,
+  "statement": "두 자연수 A, B에 대해 A를 B로 나눈 몫과 나머지를 각각 출력하시오.",
+  "inputDesc": "첫 줄에 A와 B.",
+  "outputDesc": "첫 줄에 몫, 둘째 줄에 나머지.",
+  "constraints": [
+    "1 ≤ A, B ≤ 1,000,000"
+  ],
+  "examples": [
+    {
+      "in": "17 5",
+      "out": "3\n2"
+    },
+    {
+      "in": "10 2",
+      "out": "5\n0"
+    }
+  ],
+  "cases": [
+    {
+      "in": "17 5",
+      "out": "3\n2"
+    },
+    {
+      "in": "10 2",
+      "out": "5\n0"
+    },
+    {
+      "in": "1 1000000",
+      "out": "0\n1"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

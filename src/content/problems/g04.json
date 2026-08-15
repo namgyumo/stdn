@@ -1,0 +1,48 @@
+{
+  "number": 83,
+  "title": "타임머신 (벨만-포드)",
+  "tier": "G4",
+  "tierNum": 12,
+  "tags": [
+    "벨만 포드",
+    "그래프"
+  ],
+  "timeLimitMs": 2000,
+  "statement": "N개 도시와 M개의 이동 수단이 있고 이동 시간은 음수일 수 있다. 1번에서 각 도시로 가는 최소 시간을 구하시오. 음수 사이클로 시간을 무한히 되돌릴 수 있으면 -1을 출력한다.",
+  "inputDesc": "첫 줄 N, M. 이후 M개 줄에 a b c (a→b, 시간 c, 음수 가능).",
+  "outputDesc": "음수 사이클이 있으면 -1. 아니면 2번부터 N번까지 최소 시간을 한 줄씩(도달 불가 INF).",
+  "constraints": [
+    "1 ≤ N ≤ 500",
+    "1 ≤ M ≤ 6,000",
+    "|c| ≤ 10,000"
+  ],
+  "examples": [
+    {
+      "in": "3 4\n1 2 4\n1 3 3\n2 3 -1\n3 1 -2",
+      "out": "4\n3"
+    },
+    {
+      "in": "3 4\n1 2 4\n1 3 3\n2 3 -4\n3 1 -2",
+      "out": "-1"
+    }
+  ],
+  "cases": [
+    {
+      "in": "3 4\n1 2 4\n1 3 3\n2 3 -1\n3 1 -2",
+      "out": "4\n3"
+    },
+    {
+      "in": "3 4\n1 2 4\n1 3 3\n2 3 -4\n3 1 -2",
+      "out": "-1"
+    },
+    {
+      "in": "3 2\n1 2 4\n1 2 3",
+      "out": "3\nINF"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

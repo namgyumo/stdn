@@ -1,0 +1,38 @@
+{
+  "number": 45,
+  "title": "덩치",
+  "tier": "S4",
+  "tierNum": 7,
+  "tags": [
+    "브루트포스"
+  ],
+  "timeLimitMs": 1000,
+  "statement": "N명의 몸무게와 키가 주어진다. 두 값이 모두 더 큰 사람의 수 + 1 이 그 사람의 덩치 등수다. 모두의 등수를 구하시오.",
+  "inputDesc": "첫 줄에 N. 이후 N개 줄에 몸무게와 키.",
+  "outputDesc": "각 사람의 덩치 등수를 공백으로 구분해 출력.",
+  "constraints": [
+    "2 ≤ N ≤ 50",
+    "10 ≤ 몸무게, 키 ≤ 200"
+  ],
+  "examples": [
+    {
+      "in": "5\n55 185\n58 183\n88 186\n60 175\n46 155",
+      "out": "2 2 1 2 5"
+    }
+  ],
+  "cases": [
+    {
+      "in": "5\n55 185\n58 183\n88 186\n60 175\n46 155",
+      "out": "2 2 1 2 5"
+    },
+    {
+      "in": "2\n50 50\n60 60",
+      "out": "2 1"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

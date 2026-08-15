@@ -1,0 +1,47 @@
+{
+  "number": 59,
+  "title": "동전 만들기",
+  "tier": "S3",
+  "tierNum": 8,
+  "tags": [
+    "다이나믹 프로그래밍"
+  ],
+  "timeLimitMs": 1000,
+  "statement": "N종류의 동전으로 금액 K를 만들 때 필요한 동전 개수의 최솟값을 구하시오. 각 동전은 몇 개든 쓸 수 있고, 만들 수 없으면 -1.",
+  "inputDesc": "첫 줄 동전 종류 N과 목표 금액 K. 이후 N개 줄에 각 동전의 가치.",
+  "outputDesc": "동전 개수의 최솟값(불가능하면 -1).",
+  "constraints": [
+    "1 ≤ N ≤ 100",
+    "1 ≤ K ≤ 10,000",
+    "1 ≤ 동전 가치 ≤ 10,000"
+  ],
+  "examples": [
+    {
+      "in": "3 15\n1\n5\n12",
+      "out": "3"
+    },
+    {
+      "in": "2 3\n5\n7",
+      "out": "-1"
+    }
+  ],
+  "cases": [
+    {
+      "in": "3 15\n1\n5\n12",
+      "out": "3"
+    },
+    {
+      "in": "2 3\n5\n7",
+      "out": "-1"
+    },
+    {
+      "in": "1 10\n3",
+      "out": "-1"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

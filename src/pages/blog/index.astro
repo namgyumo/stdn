@@ -28,18 +28,21 @@ const staticSlugs = all.map((p) => p.id);
       <p>총 <strong id="post-count">{all.length}</strong>개의 글</p>
     </header>
 
-    <div class="tag-cloud" id="tag-cloud">
+    <div class="tag-cloud" id="tag-cloud" role="group" aria-label="태그로 필터">
+      <button type="button" class="tag tag-filter is-active" data-tag="" data-count={all.length}>
+        all <span style="opacity:.6">{all.length}</span>
+      </button>
       {tags.map(([t, c]) => (
-        <a href={`/blog/tags/${encodeURIComponent(t)}`} class="tag" data-tag={t} data-count={c}>
+        <button type="button" class="tag tag-filter" data-tag={t} data-count={c}>
           #{t} <span style="opacity:.6">{c}</span>
-        </a>
+        </button>
       ))}
     </div>
 
     <ul class="post-list" id="post-list">
       {all.map((p) => (
-        <li data-slug={p.id} data-published={p.data.publishedAt.toISOString()}>
-          <a class="post-item" href={`/blog/${p.id}`}>
+        <li data-slug={p.id} data-published={p.data.publishedAt.toISOString()} data-tags={p.data.tags.join(' ')}>
+          <a class="post-item" href={`/blog/${p.id}`} data-astro-prefetch>
             <span class="post-date">{formatShortDate(p.data.publishedAt)}</span>
             <div>
               <h2 class="post-title">{p.data.title}</h2>
@@ -89,6 +92,7 @@ const staticSlugs = all.map((p) => p.id);
         const li = document.createElement('li');
         li.dataset.slug = p.slug;
         li.dataset.published = p.publishedAt;
+        li.dataset.tags = (p.tags ?? []).join(' ');
         li.innerHTML = `
           <a class="post-item" href="/blog/${encodeURIComponent(p.slug)}">
             <span class="post-date">${fmt(p.publishedAt)}</span>
@@ -127,12 +131,40 @@ const staticSlugs = all.map((p) => p.id);
           for (const t of (p.tags ?? [])) counts.set(t, (counts.get(t) ?? 0) + 1);
         }
         const sorted = [...counts.entries()].sort((a, b) => b[1] - a[1]);
-        tagCloud.innerHTML = sorted.map(([t, c]) =>
-          `<a href="/blog/tags/${encodeURIComponent(t)}" class="tag" data-tag="${esc(t)}" data-count="${c}">#${esc(t)} <span style="opacity:.6">${c}</span></a>`
-        ).join('');
+        const total = items.length;
+        tagCloud.innerHTML =
+          `<button type="button" class="tag tag-filter is-active" data-tag="" data-count="${total}">all <span style="opacity:.6">${total}</span></button>` +
+          sorted.map(([t, c]) =>
+            `<button type="button" class="tag tag-filter" data-tag="${esc(t)}" data-count="${c}">#${esc(t)} <span style="opacity:.6">${c}</span></button>`
+          ).join('');
+        bindTagFilter();
       }
     } catch {}
   })();
+
+  function bindTagFilter() {
+    const cloud = document.getElementById('tag-cloud');
+    const list = document.getElementById('post-list');
+    const countEl = document.getElementById('post-count');
+    if (!cloud || !list) return;
+    const buttons = cloud.querySelectorAll('.tag-filter');
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const tag = btn.dataset.tag ?? '';
+        buttons.forEach((b) => b.classList.toggle('is-active', b === btn));
+        let visible = 0;
+        list.querySelectorAll('li').forEach((li) => {
+          const tags = (li.dataset.tags ?? '').split(/\s+/).filter(Boolean);
+          const match = !tag || tags.includes(tag);
+          li.style.display = match ? '' : 'none';
+          if (match) visible++;
+        });
+        if (countEl) countEl.textContent = String(visible);
+      });
+    });
+  }
+  bindTagFilter();
+  document.addEventListener('astro:after-swap', bindTagFilter);
 </script>
 
 <style>
@@ -148,6 +180,19 @@ const staticSlugs = all.map((p) => p.id);
     margin: 20px 0 10px;
   }
   .tag-cloud:empty { display: none; }
+  .tag-filter {
+    cursor: pointer;
+    font-family: var(--font-mono);
+    background: transparent;
+    font-size: 0.75rem;
+    line-height: 1;
+  }
+  .tag-filter.is-active {
+    background: rgba(193, 255, 0, 0.18);
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    box-shadow: var(--glow-lime-soft);
+  }
   .post-excerpt {
     margin: 6px 0 0;
     color: var(--color-fg-dim);

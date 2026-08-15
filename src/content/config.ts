@@ -31,4 +31,28 @@ const projects = defineCollection({
   }),
 });
 
-export const collections = { blog, projects };
+const problems = defineCollection({
+  loader: glob({ pattern: '**/*.json', base: './src/content/problems' }),
+  schema: z.object({
+    number: z.number(),
+    title: z.string(),
+    tier: z.enum(['B3', 'B2', 'B1', 'S5', 'S4', 'S3', 'S2', 'S1', 'G5', 'G4', 'G3']),
+    tierNum: z.number(), // solved.ac 기준: 브론즈 III=3 … 실버 V=6 … 골드 III=13
+    tags: z.array(z.string()).default([]),
+    timeLimitMs: z.number().default(1000),
+    statement: z.string(),
+    inputDesc: z.string(),
+    outputDesc: z.string(),
+    constraints: z.array(z.string()).default([]),
+    examples: z
+      .array(z.object({ in: z.string(), out: z.string() }))
+      .default([]),
+    cases: z
+      .array(z.object({ in: z.string(), out: z.string() }))
+      .default([]),
+    starters: z.record(z.string()).default({}),
+    editorial: z.string().optional(),
+  }),
+});
+
+export const collections = { blog, projects, problems };

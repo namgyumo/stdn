@@ -1,0 +1,58 @@
+{
+  "number": 92,
+  "title": "골드바흐의 추측",
+  "tier": "G4",
+  "tierNum": 12,
+  "tags": [
+    "수학",
+    "소수 판정"
+  ],
+  "timeLimitMs": 2000,
+  "statement": "2보다 큰 짝수 N을 두 소수의 합으로 나타낼 때, 두 소수의 차이가 가장 작은 분할을 'a b' 형식으로 출력하시오(a ≤ b).",
+  "inputDesc": "첫 줄에 짝수 N.",
+  "outputDesc": "두 소수 a b (a ≤ b, 차이 최소).",
+  "constraints": [
+    "4 ≤ N ≤ 1,000,000 (짝수)"
+  ],
+  "examples": [
+    {
+      "in": "8",
+      "out": "3 5"
+    },
+    {
+      "in": "10",
+      "out": "5 5"
+    },
+    {
+      "in": "16",
+      "out": "5 11"
+    }
+  ],
+  "cases": [
+    {
+      "in": "8",
+      "out": "3 5"
+    },
+    {
+      "in": "10",
+      "out": "5 5"
+    },
+    {
+      "in": "16",
+      "out": "5 11"
+    },
+    {
+      "in": "4",
+      "out": "2 2"
+    },
+    {
+      "in": "1000000",
+      "out": "499943 500057"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

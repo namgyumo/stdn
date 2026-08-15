@@ -63,6 +63,7 @@ function renderTagHtml(tag: string, posts: PostRow[]): string {
           <li><a href="/skills">Skills</a></li>
           <li><a href="/blog" aria-current="page">Blog</a></li>
           <li><a href="/projects">Projects</a></li>
+          <li><a href="/bank">Solved Bank</a></li>
           <li><a href="/contact">Contact</a></li>
         </ul>
       </nav>
@@ -131,13 +132,19 @@ export const onRequest: PagesFunction<Env> = async ({ env, params, next }) => {
   if (!tag) return staticRes;
 
   // D1 에서 해당 태그를 포함하는 글 찾기 (tags 컬럼은 JSON string)
-  const { results } = await env.DB.prepare(
-    `SELECT slug, title, description, tags, published_at, updated_at
-     FROM posts
-     WHERE draft = 0
-     ORDER BY COALESCE(published_at, updated_at) DESC
-     LIMIT 500`,
-  ).all<PostRow>();
+  let results: PostRow[] = [];
+  try {
+    ({ results } = await env.DB.prepare(
+      `SELECT slug, title, description, tags, published_at, updated_at
+       FROM posts
+       WHERE draft = 0
+       ORDER BY COALESCE(published_at, updated_at) DESC
+       LIMIT 500`,
+    ).all<PostRow>());
+  } catch {
+    // posts 테이블 미생성 등 D1 오류 시 정적 결과로 fall-through
+    return staticRes;
+  }
 
   const matches = results.filter((r) => safeJsonArray(r.tags).includes(tag));
   if (matches.length === 0) return staticRes;

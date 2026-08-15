@@ -1,11 +1,12 @@
 ---
 import { site } from '@lib/site';
-const year = new Date().getFullYear();
+const now = new Date();
+const year = now.getFullYear();
 ---
 
 <footer class="site-footer">
   <div>
-    &copy; {year} {site.shortName}. All rights reserved.
+    &copy; {year} {site.author.name}. 부산에서 만들고 있습니다.
   </div>
   <div class="footer-links">
     <a href="/rss.xml">RSS</a>
@@ -15,9 +16,6 @@ const year = new Date().getFullYear();
     <a href={`mailto:${site.author.email}`}>Email</a>
     <span aria-hidden="true">·</span>
     <a href="/sitemap-index.xml">Sitemap</a>
-  </div>
-  <div class="build-info">
-    <code>build {Date.now().toString(36)}</code>
   </div>
 </footer>
 
@@ -30,11 +28,5 @@ const year = new Date().getFullYear();
     flex-wrap: wrap;
     font-family: var(--font-mono);
     font-size: 0.85rem;
-  }
-  .build-info {
-    margin-top: 10px;
-    font-size: 0.7rem;
-    color: var(--color-fg-dim);
-    opacity: 0.6;
   }
 </style>

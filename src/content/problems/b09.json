@@ -1,0 +1,45 @@
+{
+  "number": 9,
+  "title": "세 수의 합",
+  "tier": "B3",
+  "tierNum": 3,
+  "tags": [
+    "구현"
+  ],
+  "timeLimitMs": 1000,
+  "statement": "세 정수의 합을 출력하시오.",
+  "inputDesc": "첫 줄에 세 정수.",
+  "outputDesc": "합.",
+  "constraints": [
+    "|각 수| ≤ 1,000,000"
+  ],
+  "examples": [
+    {
+      "in": "1 2 3",
+      "out": "6"
+    },
+    {
+      "in": "10 20 30",
+      "out": "60"
+    }
+  ],
+  "cases": [
+    {
+      "in": "1 2 3",
+      "out": "6"
+    },
+    {
+      "in": "10 20 30",
+      "out": "60"
+    },
+    {
+      "in": "-1 -2 -3",
+      "out": "-6"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

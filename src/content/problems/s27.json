@@ -1,0 +1,48 @@
+{
+  "number": 61,
+  "title": "나무 자르기",
+  "tier": "S2",
+  "tierNum": 9,
+  "tags": [
+    "이분탐색",
+    "매개변수 탐색"
+  ],
+  "timeLimitMs": 1000,
+  "statement": "절단기 높이 H를 설정하면 H보다 높은 나무의 초과분을 얻는다. 나무 M미터 이상을 얻는 절단기 높이의 최댓값을 구하시오.",
+  "inputDesc": "첫 줄에 나무 수 N과 필요한 길이 M. 둘째 줄에 N개 나무의 높이.",
+  "outputDesc": "설정할 수 있는 절단기 높이의 최댓값.",
+  "constraints": [
+    "1 ≤ N ≤ 1,000,000",
+    "1 ≤ M ≤ 2,000,000,000",
+    "0 ≤ 높이 ≤ 1,000,000,000"
+  ],
+  "examples": [
+    {
+      "in": "4 7\n20 15 10 17",
+      "out": "15"
+    },
+    {
+      "in": "5 20\n4 42 40 26 46",
+      "out": "36"
+    }
+  ],
+  "cases": [
+    {
+      "in": "4 7\n20 15 10 17",
+      "out": "15"
+    },
+    {
+      "in": "5 20\n4 42 40 26 46",
+      "out": "36"
+    },
+    {
+      "in": "1 1\n5",
+      "out": "4"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

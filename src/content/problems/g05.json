@@ -1,0 +1,47 @@
+{
+  "number": 95,
+  "title": "줄 세우기 (위상 정렬)",
+  "tier": "G3",
+  "tierNum": 13,
+  "tags": [
+    "위상 정렬",
+    "그래프"
+  ],
+  "timeLimitMs": 2000,
+  "statement": "N명의 학생을 키 순서로 세운다. 일부 학생 쌍의 앞뒤 관계만 주어질 때, 가능한 순서 중 정점 번호가 작은 것을 먼저 놓는 순서를 출력하시오. (사이클 없음이 보장된다)",
+  "inputDesc": "첫 줄 N, M. 이후 M개 줄에 a b (a가 b보다 앞).",
+  "outputDesc": "줄 세운 결과를 공백으로 구분해 출력.",
+  "constraints": [
+    "1 ≤ N ≤ 32,000",
+    "1 ≤ M ≤ 100,000"
+  ],
+  "examples": [
+    {
+      "in": "3 2\n1 3\n2 3",
+      "out": "1 2 3"
+    },
+    {
+      "in": "4 2\n4 2\n3 1",
+      "out": "3 1 4 2"
+    }
+  ],
+  "cases": [
+    {
+      "in": "3 2\n1 3\n2 3",
+      "out": "1 2 3"
+    },
+    {
+      "in": "4 2\n4 2\n3 1",
+      "out": "3 1 4 2"
+    },
+    {
+      "in": "3 0",
+      "out": "1 2 3"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

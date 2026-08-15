@@ -1,0 +1,40 @@
+{
+  "number": 72,
+  "title": "안전 영역",
+  "tier": "S1",
+  "tierNum": 10,
+  "tags": [
+    "BFS",
+    "DFS",
+    "그래프"
+  ],
+  "timeLimitMs": 1000,
+  "statement": "N×N 지역의 높이가 주어진다. 물의 높이를 0부터 올릴 때, 잠기지 않은 영역(상하좌우 연결)의 최대 개수를 구하시오.",
+  "inputDesc": "첫 줄 N. 이후 N개 줄에 각 지점의 높이.",
+  "outputDesc": "안전 영역 개수의 최댓값.",
+  "constraints": [
+    "2 ≤ N ≤ 100",
+    "1 ≤ 높이 ≤ 100"
+  ],
+  "examples": [
+    {
+      "in": "5\n6 8 2 6 2\n3 2 3 4 6\n6 7 3 3 2\n7 2 5 3 6\n8 9 5 2 7",
+      "out": "5"
+    }
+  ],
+  "cases": [
+    {
+      "in": "5\n6 8 2 6 2\n3 2 3 4 6\n6 7 3 3 2\n7 2 5 3 6\n8 9 5 2 7",
+      "out": "5"
+    },
+    {
+      "in": "3\n1 1 1\n1 1 1\n1 1 1",
+      "out": "1"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

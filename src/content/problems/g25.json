@@ -1,0 +1,40 @@
+{
+  "number": 100,
+  "title": "앱",
+  "tier": "G3",
+  "tierNum": 13,
+  "tags": [
+    "다이나믹 프로그래밍",
+    "배낭"
+  ],
+  "timeLimitMs": 2000,
+  "statement": "N개의 앱이 각각 메모리 m과 비활성화 비용 c를 가진다. 최소 M바이트의 메모리를 확보하기 위해 비활성화할 앱들의 비용 합의 최솟값을 구하시오.",
+  "inputDesc": "첫 줄 앱 수 N과 필요한 메모리 M. 둘째 줄 N개 앱의 메모리, 셋째 줄 N개 앱의 비용.",
+  "outputDesc": "필요한 비용의 최솟값.",
+  "constraints": [
+    "1 ≤ N ≤ 100",
+    "1 ≤ M ≤ 10,000,000",
+    "0 ≤ 비용 ≤ 100"
+  ],
+  "examples": [
+    {
+      "in": "5 60\n30 10 20 35 40\n3 0 3 5 4",
+      "out": "6"
+    }
+  ],
+  "cases": [
+    {
+      "in": "5 60\n30 10 20 35 40\n3 0 3 5 4",
+      "out": "6"
+    },
+    {
+      "in": "1 1\n1\n0",
+      "out": "0"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

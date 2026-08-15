@@ -1,0 +1,38 @@
+{
+  "number": 79,
+  "title": "전깃줄",
+  "tier": "G5",
+  "tierNum": 11,
+  "tags": [
+    "다이나믹 프로그래밍",
+    "이분탐색"
+  ],
+  "timeLimitMs": 2000,
+  "statement": "두 전봇대 사이 전깃줄들이 교차한다. 교차가 없도록 하려면 없애야 하는 전깃줄의 최소 개수를 구하시오.",
+  "inputDesc": "첫 줄 전깃줄 수 N. 이후 N개 줄에 (A 위치, B 위치).",
+  "outputDesc": "없애야 하는 전깃줄의 최소 개수.",
+  "constraints": [
+    "1 ≤ N ≤ 100,000"
+  ],
+  "examples": [
+    {
+      "in": "8\n1 8\n3 9\n2 2\n4 1\n6 4\n10 10\n9 7\n7 6",
+      "out": "3"
+    }
+  ],
+  "cases": [
+    {
+      "in": "8\n1 8\n3 9\n2 2\n4 1\n6 4\n10 10\n9 7\n7 6",
+      "out": "3"
+    },
+    {
+      "in": "2\n1 2\n2 1",
+      "out": "1"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

@@ -1,0 +1,153 @@
+<div
+  id="kbd-help-backdrop"
+  class="kbd-help-backdrop"
+  data-open="false"
+  role="dialog"
+  aria-modal="true"
+  aria-label="키보드 단축키 도움말"
+>
+  <div class="kbd-help">
+    <header class="kbd-help-head">
+      <h2>Keyboard Shortcuts</h2>
+      <button class="kbd-help-close" id="kbd-help-close" type="button" aria-label="닫기">×</button>
+    </header>
+    <ul class="kbd-help-list">
+      <li><span><kbd>?</kbd></span><span>이 도움말 토글</span></li>
+      <li><span><kbd>Ctrl</kbd> / <kbd>⌘</kbd> + <kbd>K</kbd></span><span>명령어 팔레트</span></li>
+      <li><span><kbd>/</kbd></span><span>명령어 팔레트</span></li>
+      <li><span><kbd>g</kbd> <kbd>g</kbd></span><span>맨 위로</span></li>
+      <li><span><kbd>g</kbd> <kbd>h</kbd></span><span>홈으로</span></li>
+      <li><span><kbd>g</kbd> <kbd>b</kbd></span><span>블로그</span></li>
+      <li><span><kbd>g</kbd> <kbd>p</kbd></span><span>프로젝트</span></li>
+      <li><span><kbd>g</kbd> <kbd>c</kbd></span><span>연락하기</span></li>
+      <li><span><kbd>Esc</kbd></span><span>모달 닫기</span></li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  function setup() {
+    const backdrop = document.getElementById('kbd-help-backdrop') as HTMLElement | null;
+    const closeBtn = document.getElementById('kbd-help-close');
+    if (!backdrop) return;
+
+    function open() { backdrop!.dataset.open = 'true'; }
+    function close() { backdrop!.dataset.open = 'false'; }
+    function isOpen() { return backdrop!.dataset.open === 'true'; }
+    function isInput(t: EventTarget | null) {
+      if (!(t instanceof HTMLElement)) return false;
+      return t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable;
+    }
+
+    closeBtn?.addEventListener('click', close);
+    backdrop.addEventListener('click', (e) => {
+      if (e.target === backdrop) close();
+    });
+
+    let lastG = 0;
+    document.addEventListener('keydown', (e) => {
+      if (isInput(e.target)) return;
+
+      // ? toggle (shift+/ on most layouts; also accept '?')
+      if (e.key === '?' && !e.ctrlKey && !e.metaKey) {
+        e.preventDefault();
+        isOpen() ? close() : open();
+        return;
+      }
+      if (e.key === 'Escape' && isOpen()) {
+        e.preventDefault();
+        close();
+        return;
+      }
+
+      // g-prefix navigation
+      if (e.key === 'g' && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        lastG = Date.now();
+        return;
+      }
+      if (lastG && Date.now() - lastG < 500) {
+        const map: Record<string, string> = {
+          h: '/',
+          b: '/blog',
+          p: '/projects',
+          c: '/contact',
+          a: '/about',
+          s: '/skills',
+        };
+        const dest = map[e.key];
+        if (dest) {
+          e.preventDefault();
+          lastG = 0;
+          window.location.href = dest;
+        }
+      }
+    });
+  }
+  setup();
+  document.addEventListener('astro:after-swap', setup);
+</script>
+
+<style>
+  .kbd-help-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 1100;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .kbd-help-backdrop[data-open='true'] { display: flex; }
+  .kbd-help {
+    width: min(520px, 100%);
+    background: rgba(8, 8, 8, 0.96);
+    border: 1px solid rgba(193, 255, 0, 0.4);
+    border-radius: var(--radius-md);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 30px rgba(193, 255, 0, 0.15);
+    font-family: var(--font-mono);
+    color: var(--color-fg);
+    overflow: hidden;
+  }
+  .kbd-help-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    border-bottom: 1px solid rgba(193, 255, 0, 0.2);
+  }
+  .kbd-help-head h2 {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--color-accent);
+    letter-spacing: 3px;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+  .kbd-help-close {
+    color: var(--color-fg-dim);
+    font-size: 1.6rem;
+    line-height: 1;
+    padding: 0 6px;
+    border-radius: 6px;
+  }
+  .kbd-help-close:hover { color: var(--color-accent); }
+  .kbd-help-list {
+    padding: 14px 18px 18px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    font-size: 0.85rem;
+  }
+  .kbd-help-list li {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: center;
+  }
+  .kbd-help-list li > span:last-child {
+    color: var(--color-fg-dim);
+  }
+</style>

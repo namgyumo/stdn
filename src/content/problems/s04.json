@@ -1,0 +1,65 @@
+{
+  "number": 48,
+  "title": "팩토리얼 0의 개수",
+  "tier": "S3",
+  "tierNum": 8,
+  "tags": [
+    "수학"
+  ],
+  "timeLimitMs": 1000,
+  "statement": "N! 의 끝에 0이 몇 개 연속해서 나오는지 구하시오.",
+  "inputDesc": "첫 줄에 자연수 N.",
+  "outputDesc": "N! 끝에 연속되는 0의 개수.",
+  "constraints": [
+    "0 ≤ N ≤ 1,000,000,000"
+  ],
+  "examples": [
+    {
+      "in": "10",
+      "out": "2"
+    },
+    {
+      "in": "3",
+      "out": "0"
+    },
+    {
+      "in": "25",
+      "out": "6"
+    }
+  ],
+  "cases": [
+    {
+      "in": "10",
+      "out": "2"
+    },
+    {
+      "in": "3",
+      "out": "0"
+    },
+    {
+      "in": "25",
+      "out": "6"
+    },
+    {
+      "in": "0",
+      "out": "0"
+    },
+    {
+      "in": "5",
+      "out": "1"
+    },
+    {
+      "in": "100",
+      "out": "24"
+    },
+    {
+      "in": "1000000000",
+      "out": "249999998"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

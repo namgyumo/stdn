@@ -1,0 +1,48 @@
+{
+  "number": 62,
+  "title": "연결 요소의 개수",
+  "tier": "S2",
+  "tierNum": 9,
+  "tags": [
+    "그래프",
+    "DFS",
+    "BFS"
+  ],
+  "timeLimitMs": 1000,
+  "statement": "정점 N개와 간선 M개로 이루어진 방향 없는 그래프에서 연결 요소의 개수를 구하시오.",
+  "inputDesc": "첫 줄 N, M. 이후 M개 줄에 간선 u v.",
+  "outputDesc": "연결 요소의 개수.",
+  "constraints": [
+    "1 ≤ N ≤ 1,000",
+    "0 ≤ M ≤ N(N-1)/2"
+  ],
+  "examples": [
+    {
+      "in": "6 5\n1 2\n2 5\n5 1\n3 4\n4 6",
+      "out": "2"
+    },
+    {
+      "in": "6 8\n1 2\n2 5\n5 1\n3 4\n4 6\n5 4\n2 4\n2 3",
+      "out": "1"
+    }
+  ],
+  "cases": [
+    {
+      "in": "6 5\n1 2\n2 5\n5 1\n3 4\n4 6",
+      "out": "2"
+    },
+    {
+      "in": "6 8\n1 2\n2 5\n5 1\n3 4\n4 6\n5 4\n2 4\n2 3",
+      "out": "1"
+    },
+    {
+      "in": "3 0",
+      "out": "3"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

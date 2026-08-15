@@ -1,0 +1,38 @@
+{
+  "number": 91,
+  "title": "RGB거리 2",
+  "tier": "G4",
+  "tierNum": 12,
+  "tags": [
+    "다이나믹 프로그래밍"
+  ],
+  "timeLimitMs": 2000,
+  "statement": "N개의 집이 원형으로 배치되어 있다. 각 집을 R/G/B로 칠하되 인접한 집(첫 집과 마지막 집도 인접)은 다른 색이어야 한다. 최소 비용을 구하시오.",
+  "inputDesc": "첫 줄 집 수 N. 이후 N개 줄에 R, G, B 비용.",
+  "outputDesc": "최소 비용.",
+  "constraints": [
+    "2 ≤ N ≤ 1,000",
+    "1 ≤ 비용 ≤ 1,000"
+  ],
+  "examples": [
+    {
+      "in": "3\n26 40 83\n49 60 57\n13 89 99",
+      "out": "110"
+    }
+  ],
+  "cases": [
+    {
+      "in": "3\n26 40 83\n49 60 57\n13 89 99",
+      "out": "110"
+    },
+    {
+      "in": "3\n1 2 3\n4 5 6\n7 8 9",
+      "out": "15"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

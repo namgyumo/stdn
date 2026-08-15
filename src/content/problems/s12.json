@@ -1,0 +1,42 @@
+{
+  "number": 40,
+  "title": "나이순 정렬",
+  "tier": "S4",
+  "tierNum": 7,
+  "tags": [
+    "정렬"
+  ],
+  "timeLimitMs": 1000,
+  "statement": "회원을 나이 오름차순으로 정렬하되, 나이가 같으면 가입한 순서(입력 순서)를 지키시오.",
+  "inputDesc": "첫 줄에 N. 이후 N개 줄에 나이와 이름.",
+  "outputDesc": "정렬된 나이와 이름을 한 줄씩 출력.",
+  "constraints": [
+    "1 ≤ N ≤ 100,000",
+    "1 ≤ 나이 ≤ 200"
+  ],
+  "examples": [
+    {
+      "in": "3\n21 Junkyu\n21 Dohyun\n20 Sunyoung",
+      "out": "20 Sunyoung\n21 Junkyu\n21 Dohyun"
+    }
+  ],
+  "cases": [
+    {
+      "in": "3\n21 Junkyu\n21 Dohyun\n20 Sunyoung",
+      "out": "20 Sunyoung\n21 Junkyu\n21 Dohyun"
+    },
+    {
+      "in": "1\n30 Kim",
+      "out": "30 Kim"
+    },
+    {
+      "in": "4\n25 A\n25 B\n25 C\n10 D",
+      "out": "10 D\n25 A\n25 B\n25 C"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

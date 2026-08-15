@@ -1,0 +1,40 @@
+{
+  "number": 82,
+  "title": "최소 스패닝 트리",
+  "tier": "G4",
+  "tierNum": 12,
+  "tags": [
+    "최소 스패닝 트리",
+    "그래프"
+  ],
+  "timeLimitMs": 2000,
+  "statement": "정점 V개, 간선 E개의 무방향 가중 그래프에서 최소 스패닝 트리의 가중치 합을 구하시오.",
+  "inputDesc": "첫 줄 V, E. 이후 E개 줄에 간선 u v w.",
+  "outputDesc": "MST 가중치의 합.",
+  "constraints": [
+    "1 ≤ V ≤ 10,000",
+    "1 ≤ E ≤ 100,000",
+    "|w| ≤ 1,000,000"
+  ],
+  "examples": [
+    {
+      "in": "3 3\n1 2 1\n2 3 2\n1 3 3",
+      "out": "3"
+    }
+  ],
+  "cases": [
+    {
+      "in": "3 3\n1 2 1\n2 3 2\n1 3 3",
+      "out": "3"
+    },
+    {
+      "in": "4 5\n1 2 1\n2 3 2\n3 4 3\n1 4 10\n2 4 4",
+      "out": "6"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

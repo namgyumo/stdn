@@ -1,0 +1,47 @@
+{
+  "number": 65,
+  "title": "촌수 계산",
+  "tier": "S2",
+  "tierNum": 9,
+  "tags": [
+    "BFS",
+    "그래프"
+  ],
+  "timeLimitMs": 1000,
+  "statement": "N명의 가족 관계(부모-자식)가 주어질 때, 두 사람 사이의 촌수를 계산하시오. 관계가 없으면 -1.",
+  "inputDesc": "첫 줄 N, 둘째 줄 촌수를 구할 두 사람, 셋째 줄 관계 수 M, 이후 M개 줄에 부모-자식 쌍.",
+  "outputDesc": "두 사람의 촌수(없으면 -1).",
+  "constraints": [
+    "2 ≤ N ≤ 100",
+    "1 ≤ M ≤ 인원수"
+  ],
+  "examples": [
+    {
+      "in": "7\n3 7\n6\n1 2\n1 3\n2 4\n2 5\n4 6\n4 7",
+      "out": "4"
+    },
+    {
+      "in": "7\n5 6\n6\n1 2\n1 3\n2 4\n2 5\n4 6\n4 7",
+      "out": "3"
+    }
+  ],
+  "cases": [
+    {
+      "in": "7\n3 7\n6\n1 2\n1 3\n2 4\n2 5\n4 6\n4 7",
+      "out": "4"
+    },
+    {
+      "in": "7\n5 6\n6\n1 2\n1 3\n2 4\n2 5\n4 6\n4 7",
+      "out": "3"
+    },
+    {
+      "in": "3\n1 3\n1\n1 2",
+      "out": "-1"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

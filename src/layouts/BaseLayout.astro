@@ -3,9 +3,10 @@ import { ClientRouter } from 'astro:transitions';
 import { site } from '@lib/site';
 import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
-import CursorGlow from '@components/CursorGlow.astro';
 import CommandPalette from '@components/CommandPalette.astro';
 import TouchActive from '@components/TouchActive.astro';
+import BackToTop from '@components/BackToTop.astro';
+import KeyboardHelp from '@components/KeyboardHelp.astro';
 
 interface Props {
   title?: string;
@@ -33,12 +34,12 @@ const analyticsToken = import.meta.env.PUBLIC_CF_ANALYTICS_TOKEN;
 ---
 
 <!doctype html>
-<html lang={site.locale}>
+<html lang={site.locale} data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="color-scheme" content="dark" />
-    <meta name="theme-color" content="#080808" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#111113" />
     <meta name="generator" content={Astro.generator} />
 
     <title>{fullTitle}</title>
@@ -67,7 +68,37 @@ const analyticsToken = import.meta.env.PUBLIC_CF_ANALYTICS_TOKEN;
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="manifest" href="/site.webmanifest" />
+    <script is:inline>
+      (() => {
+        const getTheme = () => {
+          const saved = localStorage.getItem('stdn-theme');
+          if (saved === 'light' || saved === 'dark') return saved;
+          return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        };
+
+        const applyTheme = (targetDocument, theme = getTheme()) => {
+          targetDocument.documentElement.dataset.theme = theme;
+          targetDocument.documentElement.style.colorScheme = theme;
+          const meta = targetDocument.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute('content', theme === 'light' ? '#cfc7b8' : '#111113');
+        };
+
+        applyTheme(document);
+
+        if (!window.__stdnThemeLifecycleBound) {
+          window.__stdnThemeLifecycleBound = true;
+
+          document.addEventListener('astro:before-swap', (event) => {
+            applyTheme(event.newDocument);
+          });
+
+          // 직접 문서 교체나 브라우저 복원처럼 before-swap을 거치지 않는 경우도 보정합니다.
+          document.addEventListener('astro:after-swap', () => applyTheme(document));
+        }
+      })();
+    </script>
     <link rel="stylesheet" href="/global.css" />
+    <link rel="stylesheet" href="/theme.css" />
 
     <!-- JSON-LD -->
     <script
@@ -98,13 +129,14 @@ const analyticsToken = import.meta.env.PUBLIC_CF_ANALYTICS_TOKEN;
   </head>
   <body>
     <a href="#main" class="visually-hidden skip-link">본문으로 건너뛰기</a>
-    <CursorGlow />
     <Header />
     <main id="main">
       <slot />
     </main>
     <Footer />
     <CommandPalette />
+    <KeyboardHelp />
+    <BackToTop />
     <TouchActive />
   </body>
 </html>

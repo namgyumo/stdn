@@ -1,0 +1,46 @@
+{
+  "number": 97,
+  "title": "파일 합치기",
+  "tier": "G3",
+  "tierNum": 13,
+  "tags": [
+    "다이나믹 프로그래밍"
+  ],
+  "timeLimitMs": 2000,
+  "statement": "연속한 두 파일만 합칠 수 있고, 합치는 비용은 두 파일 크기의 합이다. 모든 파일을 하나로 합치는 최소 비용을 구하시오.",
+  "inputDesc": "첫 줄 파일 수 K. 둘째 줄 K개 파일의 크기(순서대로).",
+  "outputDesc": "최소 합치기 비용.",
+  "constraints": [
+    "1 ≤ K ≤ 500",
+    "1 ≤ 크기 ≤ 10,000"
+  ],
+  "examples": [
+    {
+      "in": "4\n40 30 30 50",
+      "out": "300"
+    },
+    {
+      "in": "5\n10 20 30 40 50",
+      "out": "330"
+    }
+  ],
+  "cases": [
+    {
+      "in": "4\n40 30 30 50",
+      "out": "300"
+    },
+    {
+      "in": "5\n10 20 30 40 50",
+      "out": "330"
+    },
+    {
+      "in": "1\n100",
+      "out": "0"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

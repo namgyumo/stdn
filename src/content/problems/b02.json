@@ -1,0 +1,46 @@
+{
+  "number": 2,
+  "title": "A-B",
+  "tier": "B3",
+  "tierNum": 3,
+  "tags": [
+    "구현",
+    "사칙연산"
+  ],
+  "timeLimitMs": 1000,
+  "statement": "두 정수 A와 B를 입력받아 A-B를 출력하시오.",
+  "inputDesc": "첫 줄에 A와 B.",
+  "outputDesc": "A-B.",
+  "constraints": [
+    "0 < A, B < 10,000"
+  ],
+  "examples": [
+    {
+      "in": "3 2",
+      "out": "1"
+    },
+    {
+      "in": "10 20",
+      "out": "-10"
+    }
+  ],
+  "cases": [
+    {
+      "in": "3 2",
+      "out": "1"
+    },
+    {
+      "in": "10 20",
+      "out": "-10"
+    },
+    {
+      "in": "9999 1",
+      "out": "9998"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

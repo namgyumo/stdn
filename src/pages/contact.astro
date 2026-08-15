@@ -4,22 +4,22 @@ import { site } from '@lib/site';
 
 const cards = [
   {
-    icon: '[ GITHUB ]',
-    label: 'Repositories & Commits',
+    icon: 'GitHub',
+    label: '코드와 작업 기록',
     detail: 'github.com/namgyumo',
     href: site.author.github,
     external: true,
   },
   {
-    icon: '[ GMAIL ]',
-    label: 'Email & Business',
+    icon: 'Email',
+    label: '메일 보내기',
     detail: site.author.email,
     href: `mailto:${site.author.email}`,
     external: false,
   },
   {
-    icon: '[ INSTAGRAM ]',
-    label: 'Direct Message',
+    icon: 'Instagram',
+    label: '메시지 보내기',
     detail: '@east_scale',
     href: site.author.instagram,
     external: true,
@@ -39,16 +39,17 @@ const cards = [
   title="Contact"
   description="std::N 과 연락하는 방법 — GitHub, Email, Instagram."
 >
-  <section class="contact-hero">
-    <h1 class="h1">CONTACT</h1>
-    <p class="h2">새로운 네트워킹과 기회를 환영합니다.</p>
+  <section class="container contact-hero">
+    <p class="eyebrow">contact</p>
+    <h1 class="h1">연락</h1>
+    <p class="h2">질문이나 제안이 있다면 편하게 남겨 주세요.</p>
   </section>
 
   <section class="container">
     <div class="contact-section">
-      <div class="section-header">
-        <h2 class="section-title">CONTACT_NETWORK</h2>
-        <p class="terminal-text">Welcome to new networking and opportunities</p>
+      <div class="contact-heading">
+        <h2 class="section-h1">연락처</h2>
+        <p>메일을 가장 자주 확인합니다. 편한 채널을 골라 연락해 주세요.</p>
       </div>
 
       <div class="contact-grid">
@@ -67,24 +68,24 @@ const cards = [
       </div>
 
       <form class="contact-form" id="contact-form" name="contact" method="POST" action="/api/contact" novalidate>
-        <h3 class="form-title">// send_message</h3>
+        <h3 class="form-title">메시지 남기기</h3>
         <label>
-          <span>Your name</span>
+          <span>이름</span>
           <input type="text" name="name" required autocomplete="name" maxlength="100" />
         </label>
         <label>
-          <span>Email</span>
+          <span>이메일</span>
           <input type="email" name="email" required autocomplete="email" />
         </label>
         <label>
-          <span>Message</span>
+          <span>내용</span>
           <textarea name="message" rows="5" required minlength="5" maxlength="5000"></textarea>
         </label>
         <label class="hp" aria-hidden="true">
           <span>Website</span>
           <input type="text" name="website" tabindex="-1" autocomplete="off" />
         </label>
-        <button type="submit" class="form-submit">TRANSMIT →</button>
+        <button type="submit" class="form-submit">메시지 보내기 →</button>
         <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
       </form>
     </div>
@@ -146,30 +147,91 @@ const cards = [
 
 <style>
   .contact-hero {
-    text-align: center;
-    padding: 40px 20px 60px;
+    padding-top: 64px;
   }
-  .contact-hero .h1 { display: inline-block; }
+  .contact-hero .eyebrow { margin-bottom: 12px; }
+  .contact-hero .h1 { display: block; margin-bottom: 14px; }
+  .contact-hero .h2 {
+    max-width: 44rem;
+    margin: 0;
+    color: var(--theme-muted);
+    font-size: .92rem;
+    line-height: 1.7;
+  }
+  .contact-section {
+    max-width: none;
+    margin: 72px 0 0;
+    padding: 0;
+    border: 0;
+    font-family: var(--font-sans);
+    backdrop-filter: none;
+    animation: none;
+    box-shadow: none !important;
+  }
+  .contact-heading { margin-bottom: 20px; }
+  .contact-heading .section-h1 { display: block; margin-bottom: 12px; }
+  .contact-heading p { margin: 0; color: var(--theme-muted); font-size: .84rem; }
+  .contact-section .contact-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .contact-section .contact-card {
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 22px;
+    text-align: left;
+    border-color: var(--theme-line);
+    border-radius: 4px;
+    background: var(--theme-surface);
+    box-shadow: none;
+  }
+  .contact-section .contact-card:hover {
+    border-color: var(--theme-muted);
+    background: var(--theme-surface-2);
+    box-shadow: none;
+    transform: translateY(-2px);
+  }
+  .contact-section .contact-icon {
+    margin: 0 0 auto;
+    color: var(--theme-text);
+    font-family: var(--font-sans);
+    font-size: 1.08rem;
+    font-weight: 700;
+    letter-spacing: -.02em;
+  }
+  .contact-section .contact-label {
+    margin: 22px 0 5px;
+    color: var(--theme-muted);
+    font-size: .75rem;
+    text-transform: none;
+  }
+  .contact-section .contact-detail {
+    color: var(--theme-text);
+    font-family: var(--font-mono);
+    font-size: .72rem;
+  }
   .contact-form {
-    margin-top: 80px;
+    margin: 72px 0 0;
     display: flex;
     flex-direction: column;
     gap: 16px;
-    max-width: 640px;
-    margin-inline: auto;
+    max-width: 760px;
   }
   .form-title {
-    font-family: var(--font-mono);
-    color: var(--color-accent);
-    letter-spacing: 2px;
-    margin: 0 0 10px;
+    margin: 0 0 12px;
+    color: var(--theme-text);
+    font-family: var(--font-sans);
+    font-size: 1.55rem;
+    letter-spacing: -.025em;
   }
   .contact-form label {
     display: flex;
     flex-direction: column;
     gap: 6px;
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
+    font-family: var(--font-sans);
+    font-size: .78rem;
     color: var(--color-fg-dim);
   }
   .contact-form input,
@@ -179,8 +241,8 @@ const cards = [
     border: 1px solid rgba(193, 255, 0, 0.25);
     border-radius: 6px;
     color: var(--color-fg);
-    font-family: var(--font-mono);
-    font-size: 0.95rem;
+    font-family: var(--font-sans);
+    font-size: .92rem;
     outline: none;
     transition: all var(--dur) var(--ease);
     resize: vertical;
@@ -191,14 +253,16 @@ const cards = [
     box-shadow: 0 0 8px rgba(193, 255, 0, 0.3);
   }
   .form-submit {
+    align-self: flex-start;
     margin-top: 8px;
-    padding: 12px 20px;
+    padding: 11px 18px;
     background: transparent;
     border: 1px solid var(--color-accent);
     color: var(--color-accent);
     border-radius: 6px;
-    font-family: var(--font-mono);
-    letter-spacing: 3px;
+    font-family: var(--font-sans);
+    font-weight: 650;
+    letter-spacing: -.01em;
     cursor: pointer;
     transition: all var(--dur) var(--ease);
   }
@@ -230,5 +294,12 @@ const cards = [
   }
   .form-status.err {
     color: #ff6b6b;
+  }
+  @media (max-width: 700px) {
+    .contact-hero { padding-top: 44px; }
+    .contact-section { margin-top: 54px; }
+    .contact-section .contact-grid { grid-template-columns: 1fr; }
+    .contact-section .contact-card { min-height: 132px; }
+    .contact-form { margin-top: 54px; }
   }
 </style>

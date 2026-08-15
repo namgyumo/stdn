@@ -1645,3 +1645,68 @@ kbd {
 @media (pointer: coarse) {
   body::before { opacity: 0.55; }
 }
+
+/* ─ print ─────────────────────────────────────────────────────── */
+@media print {
+  body {
+    background: #fff !important;
+    color: #000 !important;
+    padding-top: 0 !important;
+  }
+  body::before,
+  body::after { display: none !important; }
+  .top,
+  .site-footer,
+  .cmdk-backdrop,
+  .kbd-help-backdrop,
+  .cursor-glow,
+  .reading-progress,
+  .toc,
+  .copy-code-btn,
+  .back-to-top { display: none !important; }
+  .blog-layout {
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
+    padding: 0 !important;
+  }
+  .prose {
+    max-width: 100% !important;
+    color: #000 !important;
+  }
+  .prose a {
+    color: #000 !important;
+    text-decoration: underline !important;
+  }
+  .prose a[href]:not([href^='#'])::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.85em;
+    color: #444;
+  }
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4 {
+    color: #000 !important;
+    text-shadow: none !important;
+    page-break-after: avoid;
+  }
+  .prose pre,
+  .prose code {
+    background: #f4f4f4 !important;
+    color: #000 !important;
+    border-color: #ccc !important;
+  }
+  .prose pre {
+    page-break-inside: avoid;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .prose blockquote {
+    background: #f8f8f8 !important;
+    color: #000 !important;
+    border-left-color: #888 !important;
+  }
+  .post-header h1 { color: #000 !important; text-shadow: none !important; }
+  .post-meta { color: #444 !important; }
+  .tag { color: #000 !important; border-color: #888 !important; background: transparent !important; }
+}

@@ -1,0 +1,50 @@
+{
+  "number": 94,
+  "title": "곱셈 (모듈러 거듭제곱)",
+  "tier": "G4",
+  "tierNum": 12,
+  "tags": [
+    "수학",
+    "분할 정복"
+  ],
+  "timeLimitMs": 2000,
+  "statement": "A를 B번 곱한 값(A^B)을 C로 나눈 나머지를 구하시오. 분할 정복을 이용한 빠른 거듭제곱을 사용한다.",
+  "inputDesc": "첫 줄에 A, B, C.",
+  "outputDesc": "A^B mod C.",
+  "constraints": [
+    "1 ≤ A, B, C ≤ 2,147,483,647"
+  ],
+  "examples": [
+    {
+      "in": "10 11 12",
+      "out": "4"
+    },
+    {
+      "in": "2 10 1000",
+      "out": "24"
+    }
+  ],
+  "cases": [
+    {
+      "in": "10 11 12",
+      "out": "4"
+    },
+    {
+      "in": "2 10 1000",
+      "out": "24"
+    },
+    {
+      "in": "1 1 1",
+      "out": "0"
+    },
+    {
+      "in": "123456789 987654321 1000000007",
+      "out": "652541198"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

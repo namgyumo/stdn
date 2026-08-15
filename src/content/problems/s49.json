@@ -1,0 +1,44 @@
+{
+  "number": 67,
+  "title": "평범한 배낭",
+  "tier": "S2",
+  "tierNum": 9,
+  "tags": [
+    "다이나믹 프로그래밍",
+    "배낭"
+  ],
+  "timeLimitMs": 1000,
+  "statement": "무게 한도 K인 배낭에 물건 N개 중 일부를 넣어 가치의 합을 최대로 하시오. 각 물건은 한 번만 넣을 수 있다.",
+  "inputDesc": "첫 줄 물건 수 N과 한도 K. 이후 N개 줄에 물건의 무게와 가치.",
+  "outputDesc": "담을 수 있는 가치의 최댓값.",
+  "constraints": [
+    "1 ≤ N ≤ 100",
+    "1 ≤ K ≤ 100,000",
+    "1 ≤ 무게, 가치 ≤ 100,000"
+  ],
+  "examples": [
+    {
+      "in": "4 7\n6 13\n4 8\n3 6\n5 12",
+      "out": "14"
+    }
+  ],
+  "cases": [
+    {
+      "in": "4 7\n6 13\n4 8\n3 6\n5 12",
+      "out": "14"
+    },
+    {
+      "in": "1 5\n6 100",
+      "out": "0"
+    },
+    {
+      "in": "2 10\n5 10\n5 10",
+      "out": "20"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "number": 49,
+  "title": "센서",
+  "tier": "S3",
+  "tierNum": 8,
+  "tags": [
+    "그리디",
+    "정렬"
+  ],
+  "timeLimitMs": 1000,
+  "statement": "고속도로 위 N개 센서를 K개 집단으로 묶을 때, 각 집단의 (최대-최소) 합을 최소로 하는 값을 구하시오.",
+  "inputDesc": "첫 줄에 N, 둘째 줄에 K, 셋째 줄에 N개 센서 좌표.",
+  "outputDesc": "수신 가능 영역 길이 합의 최솟값.",
+  "constraints": [
+    "1 ≤ K ≤ 1,000",
+    "1 ≤ N ≤ 100,000"
+  ],
+  "examples": [
+    {
+      "in": "6\n2\n1 6 9 3 6 7",
+      "out": "5"
+    }
+  ],
+  "cases": [
+    {
+      "in": "6\n2\n1 6 9 3 6 7",
+      "out": "5"
+    },
+    {
+      "in": "1\n1\n5",
+      "out": "0"
+    },
+    {
+      "in": "5\n1\n1 2 3 4 5",
+      "out": "4"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "number": 66,
+  "title": "가장 긴 증가하는 부분 수열",
+  "tier": "S2",
+  "tierNum": 9,
+  "tags": [
+    "다이나믹 프로그래밍",
+    "이분탐색"
+  ],
+  "timeLimitMs": 1000,
+  "statement": "수열 A에서 순서를 유지하며 뽑은, 순증가하는 가장 긴 부분 수열의 길이를 구하시오.",
+  "inputDesc": "첫 줄 수열 크기 N. 둘째 줄 N개의 수.",
+  "outputDesc": "가장 긴 증가하는 부분 수열의 길이.",
+  "constraints": [
+    "1 ≤ N ≤ 1,000",
+    "1 ≤ 각 수 ≤ 1,000"
+  ],
+  "examples": [
+    {
+      "in": "6\n10 20 10 30 20 50",
+      "out": "4"
+    },
+    {
+      "in": "1\n7",
+      "out": "1"
+    }
+  ],
+  "cases": [
+    {
+      "in": "6\n10 20 10 30 20 50",
+      "out": "4"
+    },
+    {
+      "in": "1\n7",
+      "out": "1"
+    },
+    {
+      "in": "5\n5 4 3 2 1",
+      "out": "1"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

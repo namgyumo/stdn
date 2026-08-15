@@ -1,0 +1,50 @@
+{
+  "number": 1,
+  "title": "A+B",
+  "tier": "B3",
+  "tierNum": 3,
+  "tags": [
+    "구현",
+    "사칙연산"
+  ],
+  "timeLimitMs": 1000,
+  "statement": "두 정수 A와 B를 입력받아 A+B를 출력하시오.",
+  "inputDesc": "첫 줄에 A와 B가 공백으로 구분되어 주어진다.",
+  "outputDesc": "A+B를 출력한다.",
+  "constraints": [
+    "0 < A, B < 10,000"
+  ],
+  "examples": [
+    {
+      "in": "1 2",
+      "out": "3"
+    },
+    {
+      "in": "5 7",
+      "out": "12"
+    }
+  ],
+  "cases": [
+    {
+      "in": "1 2",
+      "out": "3"
+    },
+    {
+      "in": "5 7",
+      "out": "12"
+    },
+    {
+      "in": "9999 9999",
+      "out": "19998"
+    },
+    {
+      "in": "3 100",
+      "out": "103"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

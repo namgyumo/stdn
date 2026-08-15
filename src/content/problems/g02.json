@@ -1,0 +1,40 @@
+{
+  "number": 81,
+  "title": "플로이드",
+  "tier": "G4",
+  "tierNum": 12,
+  "tags": [
+    "플로이드 워셜",
+    "그래프"
+  ],
+  "timeLimitMs": 2000,
+  "statement": "n개 도시와 m개의 버스가 있다. 각 버스는 도시 a→b 로 비용 c가 든다. 모든 도시 쌍의 최소 비용을 구하시오. 갈 수 없으면 0.",
+  "inputDesc": "첫 줄 도시 수 n, 둘째 줄 버스 수 m, 이후 m개 줄에 a b c.",
+  "outputDesc": "n×n 행렬. i행 j열은 i→j 최소 비용(불가 0).",
+  "constraints": [
+    "1 ≤ n ≤ 100",
+    "1 ≤ m ≤ 100,000",
+    "1 ≤ c ≤ 100,000"
+  ],
+  "examples": [
+    {
+      "in": "3\n4\n1 2 5\n1 3 8\n2 3 2\n3 1 3",
+      "out": "0 5 7\n5 0 2\n3 8 0"
+    }
+  ],
+  "cases": [
+    {
+      "in": "3\n4\n1 2 5\n1 3 8\n2 3 2\n3 1 3",
+      "out": "0 5 7\n5 0 2\n3 8 0"
+    },
+    {
+      "in": "2\n1\n1 2 10",
+      "out": "0 10\n0 0"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

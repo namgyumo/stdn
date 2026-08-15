@@ -1,0 +1,47 @@
+{
+  "number": 69,
+  "title": "미로 탐색",
+  "tier": "S1",
+  "tierNum": 10,
+  "tags": [
+    "BFS",
+    "그래프"
+  ],
+  "timeLimitMs": 1000,
+  "statement": "N×M 미로에서 1은 이동 가능, 0은 벽이다. (1,1)에서 (N,M)까지 지나는 최소 칸 수(시작·끝 포함)를 구하시오.",
+  "inputDesc": "첫 줄 N, M. 이후 N개 줄에 붙어있는 0/1 문자열.",
+  "outputDesc": "지나야 하는 최소 칸 수.",
+  "constraints": [
+    "2 ≤ N, M ≤ 100",
+    "항상 도달 가능"
+  ],
+  "examples": [
+    {
+      "in": "4 6\n101111\n101010\n101011\n111011",
+      "out": "15"
+    },
+    {
+      "in": "2 2\n11\n11",
+      "out": "3"
+    }
+  ],
+  "cases": [
+    {
+      "in": "4 6\n101111\n101010\n101011\n111011",
+      "out": "15"
+    },
+    {
+      "in": "2 2\n11\n11",
+      "out": "3"
+    },
+    {
+      "in": "3 3\n111\n111\n111",
+      "out": "5"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

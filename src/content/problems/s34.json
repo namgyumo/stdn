@@ -1,0 +1,39 @@
+{
+  "number": 70,
+  "title": "단지번호붙이기",
+  "tier": "S1",
+  "tierNum": 10,
+  "tags": [
+    "BFS",
+    "DFS",
+    "그래프"
+  ],
+  "timeLimitMs": 1000,
+  "statement": "N×N 지도에서 집(1)이 상하좌우로 연결되면 한 단지다. 총 단지 수와 각 단지 내 집의 수를 오름차순으로 출력하시오.",
+  "inputDesc": "첫 줄 N. 이후 N개 줄에 붙어있는 0/1 문자열.",
+  "outputDesc": "첫 줄에 단지 수, 이후 각 단지의 집 수를 오름차순으로 한 줄씩.",
+  "constraints": [
+    "1 ≤ N ≤ 25"
+  ],
+  "examples": [
+    {
+      "in": "7\n0110100\n0110101\n1110101\n0000111\n0100000\n0111110\n0111000",
+      "out": "3\n7\n8\n9"
+    }
+  ],
+  "cases": [
+    {
+      "in": "7\n0110100\n0110101\n1110101\n0000111\n0100000\n0111110\n0111000",
+      "out": "3\n7\n8\n9"
+    },
+    {
+      "in": "3\n101\n010\n101",
+      "out": "5\n1\n1\n1\n1\n1"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

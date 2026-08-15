@@ -1,0 +1,49 @@
+{
+  "number": 78,
+  "title": "계단 수",
+  "tier": "G5",
+  "tierNum": 11,
+  "tags": [
+    "다이나믹 프로그래밍"
+  ],
+  "timeLimitMs": 2000,
+  "statement": "인접한 자리의 차이가 1인 수를 계단 수라 한다(0으로 시작 안 함). 길이 N인 계단 수의 개수를 1,000,000,000으로 나눈 나머지를 구하시오.",
+  "inputDesc": "첫 줄에 자리수 N.",
+  "outputDesc": "계단 수 개수 mod 1,000,000,000.",
+  "constraints": [
+    "1 ≤ N ≤ 100"
+  ],
+  "examples": [
+    {
+      "in": "1",
+      "out": "9"
+    },
+    {
+      "in": "2",
+      "out": "17"
+    }
+  ],
+  "cases": [
+    {
+      "in": "1",
+      "out": "9"
+    },
+    {
+      "in": "2",
+      "out": "17"
+    },
+    {
+      "in": "3",
+      "out": "32"
+    },
+    {
+      "in": "100",
+      "out": "18404112"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

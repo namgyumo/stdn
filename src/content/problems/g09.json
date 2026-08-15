@@ -1,0 +1,46 @@
+{
+  "number": 77,
+  "title": "LCS (최장 공통 부분 수열)",
+  "tier": "G5",
+  "tierNum": 11,
+  "tags": [
+    "다이나믹 프로그래밍",
+    "문자열"
+  ],
+  "timeLimitMs": 2000,
+  "statement": "두 문자열의 최장 공통 부분 수열(LCS)의 길이를 구하시오.",
+  "inputDesc": "두 줄에 각각 문자열.",
+  "outputDesc": "LCS의 길이.",
+  "constraints": [
+    "각 문자열 길이 1~1,000, 대문자 알파벳"
+  ],
+  "examples": [
+    {
+      "in": "ACAYKP\nCAPCAK",
+      "out": "4"
+    },
+    {
+      "in": "AAAA\nAAA",
+      "out": "3"
+    }
+  ],
+  "cases": [
+    {
+      "in": "ACAYKP\nCAPCAK",
+      "out": "4"
+    },
+    {
+      "in": "AAAA\nAAA",
+      "out": "3"
+    },
+    {
+      "in": "ABC\nXYZ",
+      "out": "0"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

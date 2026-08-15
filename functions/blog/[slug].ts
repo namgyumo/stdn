@@ -85,6 +85,7 @@ function renderPostHtml(post: PostRow, siteUrl: string): string {
           <li><a href="/skills">Skills</a></li>
           <li><a href="/blog" aria-current="page">Blog</a></li>
           <li><a href="/projects">Projects</a></li>
+          <li><a href="/bank">Solved Bank</a></li>
           <li><a href="/contact">Contact</a></li>
         </ul>
       </nav>
@@ -174,15 +175,20 @@ export const onRequest: PagesFunction<Env> = async ({ env, params, next, request
   ].filter(Boolean)));
 
   let row: PostRow | null = null;
-  for (const c of candidates) {
-    row = await env.DB.prepare(
-      `SELECT slug, title, description, body_html, tags,
-              published_at, updated_at, created_at
-       FROM posts
-       WHERE slug = ? AND draft = 0
-       LIMIT 1`,
-    ).bind(c).first<PostRow>();
-    if (row) break;
+  try {
+    for (const c of candidates) {
+      row = await env.DB.prepare(
+        `SELECT slug, title, description, body_html, tags,
+                published_at, updated_at, created_at
+         FROM posts
+         WHERE slug = ? AND draft = 0
+         LIMIT 1`,
+      ).bind(c).first<PostRow>();
+      if (row) break;
+    }
+  } catch {
+    // posts 테이블 미생성 등 D1 오류 시 정적 MD 포스트로 fall-through
+    return next();
   }
 
   if (!row) return next();

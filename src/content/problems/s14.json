@@ -1,0 +1,51 @@
+{
+  "number": 41,
+  "title": "동전 0",
+  "tier": "S4",
+  "tierNum": 7,
+  "tags": [
+    "그리디"
+  ],
+  "timeLimitMs": 1000,
+  "statement": "N가지 동전으로 금액 K를 만들 때 필요한 동전 개수의 최솟값을 구하시오. 동전들은 배수 관계를 이룬다.",
+  "inputDesc": "첫 줄에 N, K. 이후 N개 줄에 동전 가치(오름차순).",
+  "outputDesc": "필요한 최소 동전 개수.",
+  "constraints": [
+    "1 ≤ N ≤ 10",
+    "1 ≤ K ≤ 100,000,000",
+    "모든 동전은 배수 관계"
+  ],
+  "examples": [
+    {
+      "in": "3 4200\n1\n100\n1000",
+      "out": "6"
+    },
+    {
+      "in": "10 4790\n1\n5\n10\n50\n100\n500\n1000\n5000\n10000\n50000",
+      "out": "12"
+    }
+  ],
+  "cases": [
+    {
+      "in": "3 4200\n1\n100\n1000",
+      "out": "6"
+    },
+    {
+      "in": "10 4790\n1\n5\n10\n50\n100\n500\n1000\n5000\n10000\n50000",
+      "out": "12"
+    },
+    {
+      "in": "1 1\n1",
+      "out": "1"
+    },
+    {
+      "in": "2 15\n1\n10",
+      "out": "6"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

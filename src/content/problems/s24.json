@@ -1,0 +1,47 @@
+{
+  "number": 46,
+  "title": "블랙잭",
+  "tier": "S4",
+  "tierNum": 7,
+  "tags": [
+    "브루트포스"
+  ],
+  "timeLimitMs": 1000,
+  "statement": "N장의 카드 중 3장을 골라 합이 M을 넘지 않으면서 최대가 되도록 하는 합을 구하시오.",
+  "inputDesc": "첫 줄에 N, M. 둘째 줄에 N개의 카드 숫자.",
+  "outputDesc": "M을 넘지 않는 최대 합.",
+  "constraints": [
+    "3 ≤ N ≤ 100",
+    "10 ≤ M ≤ 300,000",
+    "1 ≤ 카드 ≤ 100,000"
+  ],
+  "examples": [
+    {
+      "in": "5 21\n5 6 7 8 9",
+      "out": "21"
+    },
+    {
+      "in": "10 500\n93 181 245 214 315 36 185 138 216 295",
+      "out": "497"
+    }
+  ],
+  "cases": [
+    {
+      "in": "5 21\n5 6 7 8 9",
+      "out": "21"
+    },
+    {
+      "in": "10 500\n93 181 245 214 315 36 185 138 216 295",
+      "out": "497"
+    },
+    {
+      "in": "3 30\n10 10 10",
+      "out": "30"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

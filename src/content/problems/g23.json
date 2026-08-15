@@ -1,0 +1,49 @@
+{
+  "number": 93,
+  "title": "조합 0의 개수",
+  "tier": "G4",
+  "tierNum": 12,
+  "tags": [
+    "수학"
+  ],
+  "timeLimitMs": 2000,
+  "statement": "이항 계수 C(N, M)을 10진법으로 나타냈을 때 끝에 붙는 0의 개수를 구하시오.",
+  "inputDesc": "첫 줄에 N, M.",
+  "outputDesc": "끝에 연속되는 0의 개수.",
+  "constraints": [
+    "0 ≤ M ≤ N ≤ 2,000,000,000"
+  ],
+  "examples": [
+    {
+      "in": "25 12",
+      "out": "2"
+    },
+    {
+      "in": "10 5",
+      "out": "0"
+    }
+  ],
+  "cases": [
+    {
+      "in": "25 12",
+      "out": "2"
+    },
+    {
+      "in": "10 5",
+      "out": "0"
+    },
+    {
+      "in": "100 50",
+      "out": "0"
+    },
+    {
+      "in": "5 0",
+      "out": "0"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

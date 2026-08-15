@@ -1,0 +1,40 @@
+{
+  "number": 76,
+  "title": "최단경로 (다익스트라)",
+  "tier": "G5",
+  "tierNum": 11,
+  "tags": [
+    "다익스트라",
+    "그래프"
+  ],
+  "timeLimitMs": 2000,
+  "statement": "정점 V개, 간선 E개의 방향 그래프에서 시작점 K로부터 각 정점까지의 최단 거리를 구하시오. 모든 간선 가중치는 자연수다.",
+  "inputDesc": "첫 줄 V, E. 둘째 줄 시작점 K. 이후 E개 줄에 간선 u v w (u→v 가중치 w).",
+  "outputDesc": "1번부터 V번 정점까지 최단거리를 한 줄씩. 도달 불가면 INF.",
+  "constraints": [
+    "1 ≤ V ≤ 20,000",
+    "1 ≤ E ≤ 300,000",
+    "1 ≤ w ≤ 10"
+  ],
+  "examples": [
+    {
+      "in": "5 6\n1\n5 1 1\n1 2 2\n1 3 3\n2 3 4\n2 4 5\n3 4 6",
+      "out": "0\n2\n3\n7\nINF"
+    }
+  ],
+  "cases": [
+    {
+      "in": "5 6\n1\n5 1 1\n1 2 2\n1 3 3\n2 3 4\n2 4 5\n3 4 6",
+      "out": "0\n2\n3\n7\nINF"
+    },
+    {
+      "in": "3 2\n2\n2 1 5\n2 3 2",
+      "out": "5\n0\n2"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

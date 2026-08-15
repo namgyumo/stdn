@@ -13,5 +13,5 @@
     "allowJs": true
   },
   "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["dist", "_legacy"]
+  "exclude": ["dist", "node_modules", "functions", "_legacy", "ex", "ex2", "ex3"]
 }

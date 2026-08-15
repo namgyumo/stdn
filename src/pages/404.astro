@@ -23,17 +23,68 @@ const addrs = Array.from({ length: 6 }, hex);
     </pre>
 
     <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;">
-      <a class="btntext" href="/"><div class="box"><strong>→ Home</strong></div></a>
-      <a class="btntext" href="/blog"><div class="contact-box"><strong>→ Blog</strong></div></a>
+      <a class="btntext" href="/" data-astro-prefetch><div class="box"><strong>→ Home</strong></div></a>
+      <a class="btntext" href="/blog" data-astro-prefetch><div class="contact-box"><strong>→ Blog</strong></div></a>
     </div>
+
+    <nav class="err-quick" aria-label="빠른 이동">
+      <a href="/about" data-astro-prefetch>about</a>
+      <span aria-hidden="true">·</span>
+      <a href="/skills" data-astro-prefetch>skills</a>
+      <span aria-hidden="true">·</span>
+      <a href="/projects" data-astro-prefetch>projects</a>
+      <span aria-hidden="true">·</span>
+      <a href="/now" data-astro-prefetch>now</a>
+      <span aria-hidden="true">·</span>
+      <a href="/uses" data-astro-prefetch>uses</a>
+      <span aria-hidden="true">·</span>
+      <a href="/contact" data-astro-prefetch>contact</a>
+      <span aria-hidden="true">·</span>
+      <button type="button" id="err-back" class="err-back">← 뒤로 가기</button>
+    </nav>
 
     <p class="err-line" style="margin-top: 40px;">
       <span class="label">[hint]</span> 상단 네비 또는 <kbd>Ctrl/Cmd</kbd> + <kbd>K</kbd> 로 팔레트를 여세요.
+      <kbd>?</kbd> 키로 단축키 안내.
     </p>
+
+    <script is:inline>
+      (() => {
+        const btn = document.getElementById('err-back');
+        if (!btn) return;
+        if (history.length <= 1) { btn.style.display = 'none'; return; }
+        btn.addEventListener('click', () => history.back());
+      })();
+    </script>
   </div>
 </BaseLayout>
 
 <style>
+  .err-quick {
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-fg-dim);
+  }
+  .err-quick a,
+  .err-back {
+    color: var(--color-fg-dim);
+    transition: color var(--dur) var(--ease), text-shadow var(--dur) var(--ease);
+  }
+  .err-quick a:hover,
+  .err-back:hover {
+    color: var(--color-accent);
+    text-shadow: 0 0 5px var(--color-accent);
+  }
+  .err-back {
+    padding: 0;
+    font-family: inherit;
+    font-size: inherit;
+  }
   .memdump {
     background: rgba(8, 8, 8, 0.8);
     border: 1px solid rgba(255, 0, 60, 0.3);

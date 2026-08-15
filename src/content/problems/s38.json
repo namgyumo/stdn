@@ -1,0 +1,40 @@
+{
+  "number": 53,
+  "title": "바이러스",
+  "tier": "S3",
+  "tierNum": 8,
+  "tags": [
+    "BFS",
+    "DFS",
+    "그래프"
+  ],
+  "timeLimitMs": 1000,
+  "statement": "1번 컴퓨터가 웜 바이러스에 걸렸다. 네트워크로 연결된 컴퓨터를 통해 전파될 때, 1번을 통해 감염되는 컴퓨터의 수를 구하시오.",
+  "inputDesc": "첫 줄 컴퓨터 수 N, 둘째 줄 연결 수 M, 이후 M개 줄에 연결 쌍.",
+  "outputDesc": "1번을 통해 감염되는 컴퓨터 수(1번 제외).",
+  "constraints": [
+    "1 ≤ N ≤ 100",
+    "0 ≤ M ≤ N(N-1)/2"
+  ],
+  "examples": [
+    {
+      "in": "7\n6\n1 2\n2 3\n1 5\n5 2\n5 6\n4 7",
+      "out": "4"
+    }
+  ],
+  "cases": [
+    {
+      "in": "7\n6\n1 2\n2 3\n1 5\n5 2\n5 6\n4 7",
+      "out": "4"
+    },
+    {
+      "in": "1\n0",
+      "out": "0"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

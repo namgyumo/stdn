@@ -1,0 +1,51 @@
+{
+  "number": 68,
+  "title": "회의실 배정",
+  "tier": "S1",
+  "tierNum": 10,
+  "tags": [
+    "그리디",
+    "정렬"
+  ],
+  "timeLimitMs": 1000,
+  "statement": "하나의 회의실에 N개의 회의 시간표가 있다. 서로 겹치지 않게 배정할 수 있는 최대 회의 수를 구하시오. 끝나는 시각과 시작 시각이 같아도 된다.",
+  "inputDesc": "첫 줄에 N. 이후 N개 줄에 시작시각과 끝나는시각.",
+  "outputDesc": "배정 가능한 최대 회의 수.",
+  "constraints": [
+    "1 ≤ N ≤ 100,000",
+    "0 ≤ 시각 ≤ 2^31-1"
+  ],
+  "examples": [
+    {
+      "in": "3\n1 4\n3 5\n0 6",
+      "out": "1"
+    },
+    {
+      "in": "1\n1 1",
+      "out": "1"
+    }
+  ],
+  "cases": [
+    {
+      "in": "3\n1 4\n3 5\n0 6",
+      "out": "1"
+    },
+    {
+      "in": "1\n1 1",
+      "out": "1"
+    },
+    {
+      "in": "4\n1 3\n2 4\n3 5\n4 6",
+      "out": "2"
+    },
+    {
+      "in": "3\n1 2\n2 3\n1 3",
+      "out": "2"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

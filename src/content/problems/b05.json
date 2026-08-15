@@ -1,0 +1,54 @@
+{
+  "number": 5,
+  "title": "두 수 비교",
+  "tier": "B3",
+  "tierNum": 3,
+  "tags": [
+    "구현",
+    "조건문"
+  ],
+  "timeLimitMs": 1000,
+  "statement": "두 정수 A, B가 주어질 때 A가 B보다 크면 '>', 작으면 '<', 같으면 '=='를 출력하시오.",
+  "inputDesc": "첫 줄에 A와 B.",
+  "outputDesc": "비교 결과 기호.",
+  "constraints": [
+    "|A|, |B| ≤ 10,000"
+  ],
+  "examples": [
+    {
+      "in": "1 2",
+      "out": "<"
+    },
+    {
+      "in": "5 5",
+      "out": "=="
+    },
+    {
+      "in": "10 3",
+      "out": ">"
+    }
+  ],
+  "cases": [
+    {
+      "in": "1 2",
+      "out": "<"
+    },
+    {
+      "in": "5 5",
+      "out": "=="
+    },
+    {
+      "in": "10 3",
+      "out": ">"
+    },
+    {
+      "in": "-1 -2",
+      "out": ">"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

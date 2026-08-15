@@ -1,0 +1,48 @@
+{
+  "number": 52,
+  "title": "예산",
+  "tier": "S3",
+  "tierNum": 8,
+  "tags": [
+    "이분탐색",
+    "매개변수 탐색"
+  ],
+  "timeLimitMs": 1000,
+  "statement": "지방 N곳의 요청 예산과 총 상한 M이 주어진다. 상한값을 정해 요청보다 크면 요청대로, 작으면 상한대로 배정할 때, 가능한 상한의 최댓값을 구하시오.",
+  "inputDesc": "첫 줄 N, 둘째 줄 N개의 요청 예산, 셋째 줄 총액 M.",
+  "outputDesc": "가능한 상한액의 최댓값.",
+  "constraints": [
+    "3 ≤ N ≤ 10,000",
+    "1 ≤ 요청 ≤ 100,000",
+    "N ≤ M ≤ 1,000,000,000"
+  ],
+  "examples": [
+    {
+      "in": "4\n120 110 140 150\n485",
+      "out": "127"
+    },
+    {
+      "in": "3\n110 90 80\n180",
+      "out": "60"
+    }
+  ],
+  "cases": [
+    {
+      "in": "4\n120 110 140 150\n485",
+      "out": "127"
+    },
+    {
+      "in": "3\n110 90 80\n180",
+      "out": "60"
+    },
+    {
+      "in": "3\n1 1 1\n3",
+      "out": "1"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

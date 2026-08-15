@@ -1,0 +1,46 @@
+{
+  "number": 73,
+  "title": "토마토",
+  "tier": "S1",
+  "tierNum": 10,
+  "tags": [
+    "BFS",
+    "그래프"
+  ],
+  "timeLimitMs": 1000,
+  "statement": "상자 속 익은 토마토(1)는 하루가 지나면 상하좌우 인접한 익지 않은 토마토(0)를 익힌다. 모두 익는 최소 일수를 구하시오. 모두 익지 못하면 -1, 처음부터 다 익었으면 0.",
+  "inputDesc": "첫 줄 가로 M, 세로 N. 이후 N개 줄에 각 칸(1 익음, 0 안 익음, -1 빈 칸).",
+  "outputDesc": "모두 익는 최소 일수(불가능 -1).",
+  "constraints": [
+    "2 ≤ M, N ≤ 1,000"
+  ],
+  "examples": [
+    {
+      "in": "6 4\n0 0 0 0 0 0\n0 0 0 0 0 0\n0 0 0 0 0 0\n0 0 0 0 0 1",
+      "out": "8"
+    },
+    {
+      "in": "6 4\n0 -1 0 0 0 0\n-1 0 0 0 0 0\n0 0 0 0 0 0\n0 0 0 0 0 1",
+      "out": "-1"
+    }
+  ],
+  "cases": [
+    {
+      "in": "6 4\n0 0 0 0 0 0\n0 0 0 0 0 0\n0 0 0 0 0 0\n0 0 0 0 0 1",
+      "out": "8"
+    },
+    {
+      "in": "6 4\n0 -1 0 0 0 0\n-1 0 0 0 0 0\n0 0 0 0 0 0\n0 0 0 0 0 1",
+      "out": "-1"
+    },
+    {
+      "in": "2 2\n1 0\n0 1",
+      "out": "1"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

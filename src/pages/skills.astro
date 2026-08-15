@@ -1,33 +1,30 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
-// BOJ 서비스 종료로 BojWidget 비활성화
-// import BojWidget from '@components/BojWidget.astro';
-import GithubWidget from '@components/GithubWidget.astro';
 
 const skills = [
   {
-    icon: '[ C ]',
-    name: 'C — Main',
+    icon: '주력 언어',
+    name: 'C',
     desc: '주로 사용하는 언어. io/lib 외의 자료구조·알고리즘은 가능하면 직접 구현해보면서 포인터·메모리 레이아웃 같은 저수준 개념을 공부하고 있습니다.',
   },
   {
-    icon: '[ C++ ]',
-    name: 'C++ — Design Patterns',
+    icon: '설계 연습',
+    name: 'C++',
     desc: '싱글턴·커맨드·팩토리 같은 설계 패턴을 토이 프로젝트(노트 에디터)에 직접 붙여보면서 OOP 와 자원 관리 감각을 익히고 있습니다.',
   },
   {
-    icon: '[ PY / JAVA ]',
-    name: 'Python · Java — Sub',
+    icon: '보조 언어',
+    name: 'Python · Java',
     desc: 'Python 은 자동화·간단한 스크립트·PS 보조용으로, Java 는 OOP 개념 비교와 학과 과제 구현 정도로 사용합니다.',
   },
   {
-    icon: '[ ALGORITHM ]',
-    name: 'Data Structure & PS',
+    icon: '기초 공부',
+    name: '자료구조와 문제 풀이',
     desc: '시간/공간 복잡도를 의식하면서 문제 푸는 연습을 꾸준히 이어가는 중입니다.',
   },
   {
-    icon: '[ TOOLS ]',
-    name: 'Visual Studio · VSCode · Ubuntu',
+    icon: '개발 환경',
+    name: 'Visual Studio · VS Code · Ubuntu',
     desc: '윈도우 쪽은 Visual Studio, 일반 편집은 VSCode, 리눅스는 VirtualBox 위 Ubuntu 를 띄워서 나눠 사용하고 있습니다.',
   },
 ];
@@ -47,14 +44,15 @@ const records = [
   title="Skills"
   description="std::N 이 다루는 기술과 지금까지 참여한 활동 기록."
 >
-  <section class="skills-hero">
-    <h1 class="h1">Skills &amp; Experience</h1>
-    <p class="section-sub">기술 및 역량</p>
+  <section class="container skills-hero">
+    <p class="eyebrow">skills / experience</p>
+    <h1 class="h1">기술과 경험</h1>
+    <p class="section-sub">자주 쓰는 기술과 실제로 해본 일을 정리했습니다.</p>
   </section>
 
   <section class="container">
     <div class="skills-section">
-      <h2 class="section-h1">SKILLS 기술</h2>
+      <h2 class="section-h1">다루는 기술</h2>
       <div class="skills-stack">
         {skills.map((s) => (
           <article class="skill-card">
@@ -67,7 +65,7 @@ const records = [
     </div>
 
     <div class="records-section">
-      <h2 class="section-h1">RECORDS 활동</h2>
+      <h2 class="section-h1">활동 기록</h2>
       <ol class="records">
         {records.map((r) => (
           <li class="record">
@@ -77,40 +75,119 @@ const records = [
         ))}
       </ol>
     </div>
-
-    {/* <BojWidget /> — BOJ 서비스 종료로 비활성화 */}
-    <GithubWidget />
   </section>
 </BaseLayout>
 
 <style>
   .skills-hero {
-    text-align: center;
-    padding: 40px 20px 0;
+    max-width: var(--container);
+    padding-top: 64px;
   }
-  .skills-hero .h1 {
-    display: inline-block;
-  }
+  .skills-hero .eyebrow { margin-bottom: 12px; }
+  .skills-hero .h1 { display: block; margin-bottom: 14px; }
   .section-sub {
-    margin-top: 10px;
-    font-family: var(--font-mono);
+    max-width: 44rem;
+    margin: 0;
     color: var(--color-fg-dim);
-    letter-spacing: 3px;
+    font-size: .92rem;
+    line-height: 1.7;
   }
   .skills-section,
   .records-section {
-    margin-top: 60px;
+    margin-top: 72px;
   }
   .skills-stack {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    margin-top: 30px;
+    display: grid;
+    gap: 0;
+    margin-top: 20px;
+    border-top: 1px solid var(--theme-line);
   }
   .skills-stack .skill-card {
     margin-top: 0;
+    max-width: none;
+    display: grid;
+    grid-template-columns: 120px minmax(160px, .42fr) 1fr;
+    gap: 24px;
+    align-items: start;
+    padding: 24px 4px;
+    border: 0;
+    border-bottom: 1px solid var(--theme-line);
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+  .skills-stack .skill-card:hover {
+    background: transparent;
+    box-shadow: none;
+    transform: none;
+  }
+  .skills-stack .skill-icon {
+    margin: 3px 0 0;
+    color: var(--theme-muted);
+    font-size: .68rem;
+    font-weight: 500;
+    letter-spacing: .02em;
+  }
+  .skills-stack .skill-name {
+    margin: 0;
+    font-size: 1rem;
+    letter-spacing: -.02em;
+  }
+  .skills-stack .skill-desc {
+    color: var(--theme-muted);
+    font-size: .84rem;
+    line-height: 1.75;
   }
   .records-section .records {
-    margin-top: 30px;
+    gap: 0;
+    margin-top: 20px;
+    border-top: 1px solid var(--theme-line);
+  }
+  .records-section .record {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 24px;
+    border-bottom: 1px solid var(--theme-line);
+    background: transparent;
+  }
+  .records-section .port-date {
+    width: auto;
+    height: auto;
+    justify-content: flex-start;
+    padding: 19px 4px;
+    border: 0;
+    border-radius: 0;
+    color: var(--theme-muted);
+    background: transparent;
+    box-shadow: none;
+    text-shadow: none;
+    font-size: .7rem;
+  }
+  .records-section .port-inner {
+    max-width: none;
+    height: auto;
+    padding: 19px 0;
+    border: 0;
+    border-radius: 0;
+    color: var(--theme-text);
+    background: transparent;
+    text-shadow: none;
+    font-size: .88rem;
+    letter-spacing: -.01em;
+  }
+  .records-section :is(.port-date, .port-inner):hover {
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    text-shadow: none;
+    transform: none;
+  }
+  @media (max-width: 700px) {
+    .skills-hero { padding-top: 44px; }
+    .skills-section, .records-section { margin-top: 54px; }
+    .skills-stack .skill-card { grid-template-columns: 88px 1fr; gap: 8px 16px; }
+    .skills-stack .skill-desc { grid-column: 2; }
+    .records-section .record { grid-template-columns: 88px 1fr; gap: 16px; }
   }
 </style>

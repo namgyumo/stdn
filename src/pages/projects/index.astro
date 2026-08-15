@@ -12,10 +12,10 @@ const featured = projects.filter((p) => p.data.featured);
 const others = projects.filter((p) => !p.data.featured);
 
 const statusLabel: Record<string, string> = {
-  active: 'ACTIVE',
-  wip: 'WIP',
-  done: 'DONE',
-  idea: 'IDEA',
+  active: '운영 중',
+  wip: '진행 중',
+  done: '완료',
+  idea: '구상 중',
 };
 
 const yearRange = (start: Date, end?: Date) => {
@@ -32,8 +32,8 @@ const yearRange = (start: Date, end?: Date) => {
 >
   <section class="container container-narrow" style="padding-top: 60px;">
     <header class="center" style="margin-bottom: 40px;">
-      <p class="eyebrow">// projects</p>
-      <h1 class="h1">Projects</h1>
+      <p class="eyebrow">project archive</p>
+      <h1 class="h1">프로젝트</h1>
       <p style="color: var(--color-fg-dim); font-family: var(--font-mono);">
         만들고 있는 것과, 만들었던 것.
       </p>
@@ -41,10 +41,10 @@ const yearRange = (start: Date, end?: Date) => {
 
     {featured.length > 0 && (
       <>
-        <h2 class="section-h1" style="margin-top: 40px;">Featured</h2>
+        <h2 class="section-h1" style="margin-top: 40px;">주요 프로젝트</h2>
         <div class="project-grid">
           {featured.map((p) => (
-            <a class="project-card" href={`/projects/${p.id}`} aria-label={`${p.data.title} 자세히 보기`}>
+            <a class="project-card" href={`/projects/${p.id}`} aria-label={`${p.data.title} 자세히 보기`} data-astro-prefetch>
               <div class="card-top">
                 <span class={`status-pill status-${p.data.status}`}>{statusLabel[p.data.status]}</span>
                 <span class="card-year">{yearRange(p.data.startedAt, p.data.finishedAt)}</span>
@@ -63,10 +63,10 @@ const yearRange = (start: Date, end?: Date) => {
 
     {others.length > 0 && (
       <>
-        <h2 class="section-h1" style="margin-top: 60px;">Other</h2>
+        <h2 class="section-h1" style="margin-top: 60px;">그 외 프로젝트</h2>
         <div class="project-grid">
           {others.map((p) => (
-            <a class="project-card" href={`/projects/${p.id}`} aria-label={`${p.data.title} 자세히 보기`}>
+            <a class="project-card" href={`/projects/${p.id}`} aria-label={`${p.data.title} 자세히 보기`} data-astro-prefetch>
               <div class="card-top">
                 <span class={`status-pill status-${p.data.status}`}>{statusLabel[p.data.status]}</span>
                 <span class="card-year">{yearRange(p.data.startedAt, p.data.finishedAt)}</span>

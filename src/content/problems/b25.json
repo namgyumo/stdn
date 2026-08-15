@@ -1,0 +1,50 @@
+{
+  "number": 11,
+  "title": "아스키 코드",
+  "tier": "B3",
+  "tierNum": 3,
+  "tags": [
+    "구현",
+    "문자열"
+  ],
+  "timeLimitMs": 1000,
+  "statement": "알파벳 한 글자를 입력받아 그 아스키 코드 값을 출력하시오.",
+  "inputDesc": "첫 줄에 알파벳 한 글자.",
+  "outputDesc": "아스키 코드 값(정수).",
+  "constraints": [
+    "대문자 또는 소문자 한 글자"
+  ],
+  "examples": [
+    {
+      "in": "A",
+      "out": "65"
+    },
+    {
+      "in": "a",
+      "out": "97"
+    }
+  ],
+  "cases": [
+    {
+      "in": "A",
+      "out": "65"
+    },
+    {
+      "in": "a",
+      "out": "97"
+    },
+    {
+      "in": "Z",
+      "out": "90"
+    },
+    {
+      "in": "z",
+      "out": "122"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

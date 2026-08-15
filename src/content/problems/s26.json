@@ -1,0 +1,44 @@
+{
+  "number": 60,
+  "title": "랜선 자르기",
+  "tier": "S2",
+  "tierNum": 9,
+  "tags": [
+    "이분탐색",
+    "매개변수 탐색"
+  ],
+  "timeLimitMs": 1000,
+  "statement": "길이가 다른 랜선 K개를 잘라 같은 길이의 랜선 N개 이상을 만들 때, 가능한 최대 길이를 구하시오.",
+  "inputDesc": "첫 줄에 K, N. 이후 K개 줄에 각 랜선의 길이.",
+  "outputDesc": "만들 수 있는 최대 랜선 길이(정수).",
+  "constraints": [
+    "1 ≤ K ≤ 10,000",
+    "1 ≤ N ≤ 1,000,000",
+    "1 ≤ 길이 ≤ 2^31-1"
+  ],
+  "examples": [
+    {
+      "in": "4 11\n802\n743\n457\n539",
+      "out": "200"
+    }
+  ],
+  "cases": [
+    {
+      "in": "4 11\n802\n743\n457\n539",
+      "out": "200"
+    },
+    {
+      "in": "1 1\n1",
+      "out": "1"
+    },
+    {
+      "in": "3 3\n3\n3\n3",
+      "out": "3"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

@@ -4,14 +4,25 @@ import BlogLayout from '@layouts/BlogLayout.astro';
 import { readingTime } from '@lib/format';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog', ({ data }) => !data.draft);
-  return posts.map((post) => ({
-    params: { slug: post.id },
-    props: { post },
-  }));
+  const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+    (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf(),
+  );
+  return posts.map((post, i) => {
+    // newer == lower index because sorted desc
+    const newer = i > 0 ? posts[i - 1] : null;
+    const older = i < posts.length - 1 ? posts[i + 1] : null;
+    return {
+      params: { slug: post.id },
+      props: {
+        post,
+        prev: older ? { slug: older.id, title: older.data.title } : null,
+        next: newer ? { slug: newer.id, title: newer.data.title } : null,
+      },
+    };
+  });
 }
 
-const { post } = Astro.props;
+const { post, prev, next } = Astro.props;
 const { Content, headings } = await render(post);
 ---
 
@@ -26,4 +37,71 @@ const { Content, headings } = await render(post);
   image={post.data.image}
 >
   <Content />
+  {(prev || next) && (
+    <nav class="post-nav container container-narrow" aria-label="다른 글">
+      {prev ? (
+        <a class="post-nav-link prev" href={`/blog/${prev.slug}`} data-astro-prefetch>
+          <span class="post-nav-dir">← 이전 글</span>
+          <span class="post-nav-title">{prev.title}</span>
+        </a>
+      ) : <span />}
+      {next ? (
+        <a class="post-nav-link next" href={`/blog/${next.slug}`} data-astro-prefetch>
+          <span class="post-nav-dir">다음 글 →</span>
+          <span class="post-nav-title">{next.title}</span>
+        </a>
+      ) : <span />}
+    </nav>
+  )}
 </BlogLayout>
+
+<style>
+  .post-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 60px auto 80px;
+    padding: 0 20px;
+  }
+  .post-nav-link {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 16px 18px;
+    border: 1px solid rgba(193, 255, 0, 0.2);
+    border-radius: var(--radius-md);
+    background: rgba(8, 8, 8, 0.5);
+    transition: all var(--dur) var(--ease);
+  }
+  .post-nav-link.next {
+    text-align: right;
+    align-items: flex-end;
+  }
+  .post-nav-link:hover {
+    border-color: var(--color-accent);
+    box-shadow: var(--glow-lime-soft);
+    transform: translateY(-3px);
+  }
+  .post-nav-dir {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-fg-dim);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .post-nav-title {
+    color: var(--color-fg);
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+  .post-nav-link:hover .post-nav-title {
+    color: var(--color-accent);
+  }
+  @media (max-width: 600px) {
+    .post-nav { grid-template-columns: 1fr; }
+    .post-nav-link.next { text-align: left; align-items: flex-start; }
+  }
+  @media print {
+    .post-nav { display: none; }
+  }
+</style>

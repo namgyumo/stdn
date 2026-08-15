@@ -1,0 +1,38 @@
+{
+  "number": 57,
+  "title": "RGB거리",
+  "tier": "S3",
+  "tierNum": 8,
+  "tags": [
+    "다이나믹 프로그래밍"
+  ],
+  "timeLimitMs": 1000,
+  "statement": "N개의 집을 R/G/B로 칠하되 인접한 집은 다른 색이어야 한다. 전체 비용의 최솟값을 구하시오.",
+  "inputDesc": "첫 줄 집 수 N. 이후 N개 줄에 각 집을 R, G, B로 칠하는 비용.",
+  "outputDesc": "칠하는 비용의 최솟값.",
+  "constraints": [
+    "2 ≤ N ≤ 1,000",
+    "1 ≤ 비용 ≤ 1,000"
+  ],
+  "examples": [
+    {
+      "in": "3\n26 40 83\n49 60 57\n13 89 99",
+      "out": "96"
+    }
+  ],
+  "cases": [
+    {
+      "in": "3\n26 40 83\n49 60 57\n13 89 99",
+      "out": "96"
+    },
+    {
+      "in": "2\n1 100 100\n100 1 100",
+      "out": "2"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}

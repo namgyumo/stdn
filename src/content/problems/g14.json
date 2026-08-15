@@ -1,0 +1,38 @@
+{
+  "number": 89,
+  "title": "스티커",
+  "tier": "G4",
+  "tierNum": 12,
+  "tags": [
+    "다이나믹 프로그래밍"
+  ],
+  "timeLimitMs": 2000,
+  "statement": "2×N 격자의 스티커에서, 변을 공유하는 스티커는 함께 뜯을 수 없다. 뜯은 스티커 점수 합의 최댓값을 구하시오.",
+  "inputDesc": "첫 줄 N. 둘째 줄 윗줄 N개 점수, 셋째 줄 아랫줄 N개 점수.",
+  "outputDesc": "점수 합의 최댓값.",
+  "constraints": [
+    "1 ≤ N ≤ 100,000",
+    "0 ≤ 점수 ≤ 100,000"
+  ],
+  "examples": [
+    {
+      "in": "5\n50 10 100 20 40\n30 50 70 10 60",
+      "out": "260"
+    }
+  ],
+  "cases": [
+    {
+      "in": "5\n50 10 100 20 40\n30 50 70 10 60",
+      "out": "260"
+    },
+    {
+      "in": "1\n5\n7",
+      "out": "7"
+    }
+  ],
+  "starters": {
+    "c": "#include <stdio.h>\n\nint main(void) {\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    // 여기에 코드를 작성하세요\n    return 0;\n}\n",
+    "python": "import sys\ninput = sys.stdin.readline\n\n# 여기에 코드를 작성하세요\n"
+  }
+}
