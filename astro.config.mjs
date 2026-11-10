@@ -5,6 +5,9 @@ import pagefind from 'astro-pagefind';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import remarkGfm from 'remark-gfm';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import { rehypeMermaid, rehypeAlerts } from './src/lib/markdown-plugins.mjs';
 
 export default defineConfig({
   site: 'https://std-n.dev',
@@ -19,12 +22,15 @@ export default defineConfig({
   },
   integrations: [
     mdx(),
-    sitemap(),
+    sitemap({ filter: (page) => !new URL(page).pathname.startsWith('/preview/') }),
     pagefind(),
   ],
   markdown: {
-    remarkPlugins: [remarkGfm],
+    remarkPlugins: [remarkGfm, remarkMath],
     rehypePlugins: [
+      rehypeKatex,
+      rehypeMermaid,
+      rehypeAlerts,
       rehypeSlug,
       [
         rehypeAutolinkHeadings,

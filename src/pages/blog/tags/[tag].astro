@@ -1,7 +1,7 @@
 ---
-import BaseLayout from '@layouts/BaseLayout.astro';
+import PlainBlogShell from '@layouts/PlainBlogShell.astro';
 import { getCollection } from 'astro:content';
-import { formatShortDate } from '@lib/format';
+import { formatDate } from '@lib/format';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
@@ -27,41 +27,37 @@ const { tag, posts } = Astro.props;
 const staticSlugs = posts.map((p) => p.id);
 ---
 
-<BaseLayout
-  title={`#${tag}`}
-  description={`태그 "${tag}" 로 분류된 ${posts.length}개의 글.`}
->
-  <section class="container container-narrow" style="padding-top: 60px;">
-    <header class="center" style="margin-bottom: 40px;">
-      <p class="eyebrow">// tag</p>
-      <h1 class="h1">#{tag}</h1>
-      <p style="margin-top: 10px; color: var(--color-fg-dim); font-family: var(--font-mono);">
-        <span id="tag-count">{posts.length}</span>개의 글
-      </p>
-      <p style="margin-top: 20px;">
-        <a href="/blog" class="btntext">← 전체 블로그로</a>
-      </p>
-    </header>
-    <ul class="post-list" id="post-list">
-      {posts.map((p) => (
-        <li data-slug={p.id} data-published={p.data.publishedAt.toISOString()}>
-          <a class="post-item" href={`/blog/${p.id}`}>
-            <span class="post-date">{formatShortDate(p.data.publishedAt)}</span>
-            <div>
-              <h2 class="post-title">{p.data.title}</h2>
-              {p.data.tags.length > 0 && (
-                <div class="post-tags">
-                  {p.data.tags.map((t) => <span class="tag">#{t}</span>)}
-                </div>
-              )}
-            </div>
-          </a>
-        </li>
-      ))}
-    </ul>
-  </section>
-</BaseLayout>
+<PlainBlogShell title={`#${tag}`} description={`${tag} 태그의 글`}>
+  <div class="tag-page">
+    <section class="intro" aria-labelledby="tag-title">
+      <p class="eyebrow">태그</p>
+      <h1 id="tag-title">#{tag}<span>.</span></h1>
+      <p><a href="/blog">← 전체 글</a></p>
+    </section>
 
+    <div class="content-grid">
+      <aside class="sidebar" aria-label="태그 안내">
+        <div><h2>글</h2><p><a href="/blog">전체 글 보기</a></p></div>
+      </aside>
+      <section class="writing" aria-labelledby="tag-writing-title">
+        <div class="section-heading">
+          <h2 id="tag-writing-title">#{tag}</h2>
+          <span id="tag-count">{String(posts.length).padStart(2, '0')}개의 글</span>
+        </div>
+        <ol class="post-list" id="post-list">
+          {posts.map((post) => (
+            <li data-slug={post.id} data-published={post.data.publishedAt.toISOString()}>
+              <a class="post" href={`/blog/${post.id}`}>
+                <div class="meta"><time datetime={post.data.publishedAt.toISOString()}>{formatDate(post.data.publishedAt)}</time><span>{post.data.tags[0] ?? '기록'}</span></div>
+                <h3>{post.data.title}<span class="arrow" aria-hidden="true">↗</span></h3>
+                {post.data.description && <p>{post.data.description}</p>}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </section>
+    </div>
+  </div>
 <script is:inline define:vars={{ tag, staticSlugs }}>
   (async () => {
     try {
@@ -80,32 +76,46 @@ const staticSlugs = posts.map((p) => p.id);
       const countEl = document.getElementById('tag-count');
       if (!list) return;
 
-      const fmt = (iso) => {
-        const d = new Date(iso);
-        return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
-      };
-      const esc = (s) => s.replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
-
       for (const p of matches) {
         const li = document.createElement('li');
         li.dataset.slug = p.slug;
         li.dataset.published = p.publishedAt;
-        li.innerHTML = `
-          <a class="post-item" href="/blog/${encodeURIComponent(p.slug)}">
-            <span class="post-date">${fmt(p.publishedAt)}</span>
-            <div>
-              <h2 class="post-title">${esc(p.title)}</h2>
-              ${(p.tags && p.tags.length) ? `<div class="post-tags">${p.tags.map((t) => `<span class="tag">#${esc(t)}</span>`).join('')}</div>` : ''}
-            </div>
-          </a>
-        `;
+        const link = document.createElement('a');
+        link.className = 'post';
+        link.href = `/blog/${encodeURIComponent(p.slug)}`;
+        const meta = document.createElement('div');
+        meta.className = 'meta';
+        const date = document.createElement('time');
+        const published = new Date(p.publishedAt);
+        if (!Number.isNaN(published.valueOf())) {
+          date.dateTime = published.toISOString();
+          date.textContent = new Intl.DateTimeFormat('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(published);
+        }
+        const topic = document.createElement('span');
+        topic.textContent = p.tags[0] ?? '기록';
+        meta.append(date, topic);
+        const title = document.createElement('h3');
+        title.textContent = p.title ?? '';
+        const arrow = document.createElement('span');
+        arrow.className = 'arrow';
+        arrow.setAttribute('aria-hidden', 'true');
+        arrow.textContent = '↗';
+        title.append(arrow);
+        link.append(meta, title);
+        if (p.description) {
+          const description = document.createElement('p');
+          description.textContent = p.description;
+          link.append(description);
+        }
+        li.append(link);
         list.appendChild(li);
       }
 
       const items = [...list.querySelectorAll('li')];
       items.sort((a, b) => (b.dataset.published ?? '').localeCompare(a.dataset.published ?? ''));
       for (const el of items) list.appendChild(el);
-      if (countEl) countEl.textContent = String(items.length);
+      if (countEl) countEl.textContent = `${String(items.length).padStart(2, '0')}개의 글`;
     } catch {}
   })();
 </script>
+</PlainBlogShell>

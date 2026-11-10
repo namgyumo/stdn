@@ -7,7 +7,7 @@ interface Props {
 const { slug } = Astro.props;
 ---
 
-<span class="view-count" data-slug={slug} aria-live="polite">— views</span>
+<span class="view-count" data-slug={slug} aria-live="polite">조회수 —</span>
 
 <script>
   function init() {
@@ -21,7 +21,7 @@ const { slug } = Astro.props;
     const already = sessionStorage.getItem(sessionKey);
 
     const render = (n: number) => {
-      el.textContent = `${n.toLocaleString()} views`;
+      el.textContent = `조회수 ${n.toLocaleString()}`;
     };
 
     const fetchOnly = async () => {

@@ -1,11 +1,17 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 
-const recommendedGames = [
-  { href: 'https://namu.wiki/w/문명%206', title: '문명 VI', src: '/images/civilization.jpg' },
-  { href: 'https://namu.wiki/w/명조:%20워더링%20웨이브', title: '명조: 워더링 웨이브', src: '/images/mw.jpg' },
-  { href: 'https://namu.wiki/w/붕괴%3A%20스타레일', title: '붕괴: 스타레일', src: '/images/starrail.jpg' },
-  { href: 'https://namu.wiki/w/하츠%20오브%20아이언%204', title: '하츠 오브 아이언 IV', src: '/images/iron.jpg' },
+const bostonPhotos = [
+  { src: '/images/boston-charles-river.jpg', alt: '찰스강 너머로 보이는 보스턴 스카이라인', place: '찰스강', credit: 'Mohammed Shonar / Unsplash', url: 'https://unsplash.com/photos/a-large-body-of-water-with-a-city-in-the-background-4Jr6EkLJxes' },
+  { src: '/images/boston-acorn-street.jpg', alt: '보스턴 비컨힐의 붉은 벽돌길', place: '비컨힐', credit: 'Mike Bryant / Unsplash', url: 'https://unsplash.com/photos/cobblestone-street-lined-with-historic-brick-buildings-5aSGI7qPx5I' },
+  { src: '/images/boston-common.jpg', alt: '봄날의 보스턴 커먼 공원', place: '보스턴 커먼', credit: 'Kelly Sikkema / Unsplash', url: 'https://unsplash.com/photos/people-walking-on-park-during-daytime-eSQNlt0QmXI' },
+  { src: '/images/boston-fan-pier.jpg', alt: '팬 피어에서 바라본 보스턴 항구와 빌딩', place: '팬 피어', credit: 'Kumar Mehul / Unsplash', url: 'https://unsplash.com/photos/a-view-of-a-city-skyline-from-across-the-water-65m6fvWtcGA' },
+];
+
+const teams = [
+  { league: 'MLB', name: '보스턴 레드삭스', logo: '/images/red-sox-logo.png', logoUrl: 'https://a.espncdn.com/i/teamlogos/mlb/500/bos.png', image: '/images/red-sox-fenway.jpg', alt: '보스턴 레드삭스의 홈구장 펜웨이 파크', width: 1000, height: 667, credit: 'Sean Doherty / Unsplash', url: 'https://unsplash.com/photos/a-view-of-a-boston-red-sox-baseball-stadium-yIYrIxzEuG4' },
+  { league: 'NBA', name: '보스턴 셀틱스', logo: '/images/celtics-logo.png', logoUrl: 'https://a.espncdn.com/i/teamlogos/nba/500/bos.png', image: '/images/celtics-playoffs.jpg', alt: 'TD 가든에서 열린 보스턴 셀틱스 플레이오프 경기', width: 1280, height: 960, credit: 'EgorovaSvetlana', url: 'https://commons.wikimedia.org/wiki/File:Boston_Celtics_NBA_Eastern_Conference_Finals_at_TD_Garden_Boston_Massachusetts.jpg', licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0/' },
+  { league: 'NFL', name: '뉴잉글랜드 패트리어츠', logo: '/images/patriots-logo.png', logoUrl: 'https://a.espncdn.com/i/teamlogos/nfl/500/ne.png', image: '/images/patriots-game.jpg', alt: '뉴잉글랜드 패트리어츠의 홈구장 질레트 스타디움', width: 1000, height: 750, credit: 'Nathan Macoul / Unsplash', url: 'https://unsplash.com/photos/people-playing-soccer-on-stadium-during-daytime-fObLfNnYUvU' },
 ];
 
 const recommendedMusicals = [
@@ -15,89 +21,192 @@ const recommendedMusicals = [
   { href: 'https://namu.wiki/w/위키드(뮤지컬)', title: '위키드', src: '/images/wicked.jpg' },
 ];
 
-const values = [
-  { title: 'VALUES', body: '저수준을 공부하고 직접 구현하는 걸 좋아합니다. 라이브러리에 의존하기 전에 "왜 이게 이렇게 동작하는가" 를 먼저 이해하려고 합니다. 성능과 효율도 같은 맥락에서 중시하고, 불필요한 리소스 낭비가 눈에 밟히는 편입니다.' },
-  { title: 'GOALS', body: '시스템 엔지니어가 되는 게 장기 목표입니다. 졸업 후에도 화려한 프레임워크보다 OS·메모리·컴파일러·네트워크 같은 구조를 제대로 이해하는 개발자로 자리 잡는 것을 지향합니다.' },
-  { title: 'MOTIVE', body: 'C 로 알고리즘 문제를 풀다가, 로직 하나 바꿨을 뿐인데 실행 시간이 눈에 띄게 달라지는 걸 보고 자료구조와 메모리에 빠졌습니다. 그 뒤로 가능하면 표준 io/lib 외에는 자료구조를 직접 구현하는 방식으로 연습하고 있습니다.' },
-  { title: 'INTERESTS', body: '저수준·메모리·알고리즘·설계 패턴. 포인터로 데이터가 메모리에서 어떻게 움직이는지 추적하는 것, 그리고 C++ 로 싱글턴/커맨드/팩토리 같은 설계 패턴을 실제 프로젝트에 적용해보는 것을 즐깁니다.' },
-];
 ---
 
 <BaseLayout
-  title="About"
-  description="std::N 소개 — 동의대 컴퓨터소프트웨어공학과에서 알고리즘과 저수준 시스템을 공부하는 주니어 개발자."
+  title="소개"
+  description="남규모 · 동의대학교 컴퓨터소프트웨어공학과 25학번. C/C++ 프로젝트와 자료구조 공부."
 >
-  <section class="about-hero">
-    <p class="typing">A Junior Developer Grounded in Basics</p>
-    <h1 class="h1">기본이 탄탄한 주니어 개발자.</h1>
-    <p class="h1" style="display:block; margin-top: 40px;">제가 누구냐고요?</p>
+  <section class="container about-page" aria-labelledby="about-title">
+    <header class="about-heading">
+      <p class="eyebrow">About</p>
+      <h1 id="about-title">남규모</h1>
+      <p>동의대학교 컴퓨터소프트웨어공학과 25학번</p>
+    </header>
 
-    <div class="mouse" aria-hidden="true">
-      <div class="in-mouse"></div>
-    </div>
-    <p class="mouse-hint"><strong>scroll</strong></p>
-  </section>
-
-  <section class="container">
-    <div class="about-box">
-      <img src="/images/poby01.jpg" alt="프로필 사진" class="profile" width="150" height="150" />
-      <div class="info">
-        <div class="first-info">
-          <p class="about-title">남규모 · namgyumo</p>
-          <p class="about-value">2006.02.13 · Junior System Developer</p>
-        </div>
-        <div class="second-info">
-          <p class="about-title">Dong-eui University</p>
-          <p class="about-value">컴퓨터소프트웨어공학과 25학번 · 2학년</p>
-        </div>
-      </div>
+    <div class="about-profile">
+      <img src="/images/poby01.jpg" alt="프로필 이미지" width="148" height="148" />
+      <dl>
+        <div><dt>주로 쓰는 언어</dt><dd>C, C++, TypeScript</dd></div>
+        <div><dt>관심 분야</dt><dd>자료구조, 메모리, 시스템 프로그래밍</dd></div>
+        <div><dt>작업</dt><dd><a href="/projects/c-note-editor">C 노트 에디터</a>, <a href="/projects/data-structure">자료구조 직접 구현</a></dd></div>
+        <div><dt>GitHub</dt><dd><a href="https://github.com/namgyumo" target="_blank" rel="noopener noreferrer">github.com/namgyumo ↗</a></dd></div>
+      </dl>
     </div>
 
-    {values.map((v) => (
-      <div class="info-box">
-        <div class="info-title-box"><h2>{v.title}</h2></div>
-        <p>{v.body}</p>
+    <section class="sports" aria-labelledby="sports-title">
+      <h2 id="sports-title">스포츠</h2>
+      <p>보스턴을 좋아합니다.</p>
+      <figure class="boston-gallery" data-boston-gallery data-photos={JSON.stringify(bostonPhotos)}>
+        <button class="gallery-image" type="button" data-gallery-next aria-label="다음 보스턴 사진 보기">
+          <img src={bostonPhotos[0].src} alt={bostonPhotos[0].alt} width="1600" height="684" loading="lazy" data-gallery-image />
+        </button>
+        <figcaption class="gallery-caption">
+          <span><strong data-gallery-place>{bostonPhotos[0].place}</strong> · <a href={bostonPhotos[0].url} target="_blank" rel="noopener noreferrer" data-gallery-credit>{bostonPhotos[0].credit}</a></span>
+          <span class="gallery-controls">
+            <button type="button" data-gallery-prev aria-label="이전 보스턴 사진">←</button>
+            <span data-gallery-count aria-live="polite">01 / 04</span>
+            <button type="button" data-gallery-next aria-label="다음 보스턴 사진">→</button>
+          </span>
+        </figcaption>
+      </figure>
+      <div class="team-grid">
+        {teams.map((team) => (
+          <figure class="team-card">
+            <button class="team-visual" type="button" aria-label={`${team.name} 경기 사진 보기`} aria-pressed="false" data-team-visual>
+              <img class="team-logo" src={team.logo} alt={`${team.name} 로고`} width="500" height="500" loading="eager" />
+              <img class="team-photo" src={team.image} alt={team.alt} width={team.width} height={team.height} loading="lazy" />
+              <span class="team-visual-hint" aria-hidden="true">사진 보기</span>
+            </button>
+            <figcaption>
+              <span>{team.league}</span>
+              <strong>{team.name}</strong>
+              <div class="team-credits">
+                <a href={team.logoUrl} target="_blank" rel="noopener noreferrer">로고: ESPN</a>
+                <span aria-hidden="true">·</span>
+                <a href={team.url} target="_blank" rel="noopener noreferrer">사진: {team.credit}</a>
+              </div>
+              {team.licenseUrl && <a href={team.licenseUrl} target="_blank" rel="noopener noreferrer">CC BY-SA 4.0 · 카드에서 일부 잘라 표시</a>}
+            </figcaption>
+          </figure>
+        ))}
       </div>
-    ))}
+    </section>
 
-    <div class="info-box">
-      <div class="info-title-box"><h2>HOBBIES</h2></div>
-      <p>평소 코딩 외의 시간에는 서브컬쳐 게임을 즐기거나 음악을 즐겨 듣습니다. 뮤지컬도 가끔 보러 갑니다.</p>
-
-      <div style="margin-top: 40px;">
-        <h3 class="rec-heading">std::N의 추천 게임</h3>
-        <div class="rec-grid">
-          {recommendedGames.map((g) => (
-            <a href={g.href} target="_blank" rel="noopener noreferrer" class="rec-card" title={g.title}>
-              <img src={g.src} alt={g.title} loading="lazy" width="150" height="150" />
-            </a>
-          ))}
-        </div>
+    <section class="favorites" aria-labelledby="musicals-title">
+      <h2 id="musicals-title">뮤지컬</h2>
+      <div class="rec-grid">
+        {recommendedMusicals.map((m) => (
+          <a href={m.href} target="_blank" rel="noopener noreferrer" class="rec-card" title={m.title}>
+            <img src={m.src} alt={m.title} loading="lazy" width="150" height="150" />
+          </a>
+        ))}
       </div>
-
-      <div style="margin-top: 40px;">
-        <h3 class="rec-heading">std::N의 추천 뮤지컬</h3>
-        <div class="rec-grid">
-          {recommendedMusicals.map((m) => (
-            <a href={m.href} target="_blank" rel="noopener noreferrer" class="rec-card" title={m.title}>
-              <img src={m.src} alt={m.title} loading="lazy" width="150" height="150" />
-            </a>
-          ))}
-        </div>
-      </div>
-    </div>
+    </section>
   </section>
 </BaseLayout>
 
 <style>
-  .about-hero {
-    text-align: center;
-    padding: 0 20px;
+  .about-page { max-width: 860px; padding-top: 80px; padding-bottom: 120px; }
+  .about-heading { padding-bottom: 34px; border-bottom: 1px solid var(--theme-line); }
+  .about-heading .eyebrow { margin: 0 0 12px; }
+  .about-heading h1 { margin: 0; font-size: clamp(2.5rem, 6vw, 4rem); letter-spacing: -.06em; line-height: 1.2; }
+  .about-heading > p:last-child { margin: 18px 0 0; color: var(--theme-muted); font-size: 1rem; }
+  .about-profile { display: grid; grid-template-columns: 148px 1fr; gap: 36px; align-items: start; padding: 42px 0 55px; }
+  .about-profile img { width: 148px; height: 148px; object-fit: cover; border-radius: 6px; }
+  .about-profile dl { margin: 0; }
+  .about-profile dl > div { display: grid; grid-template-columns: 130px 1fr; gap: 15px; padding: 12px 0; border-bottom: 1px solid var(--theme-line); }
+  .about-profile dt { color: var(--theme-muted); font-size: .85rem; }
+  .about-profile dd { margin: 0; font-size: .94rem; }
+  .about-profile dd a { text-decoration: underline; text-underline-offset: 3px; }
+  .about-profile dd a:hover { color: var(--theme-accent); }
+  .sports { padding: 32px 0 42px; border-top: 1px solid var(--theme-line); }
+  .sports h2 { margin: 0 0 10px; font-size: 1.15rem; letter-spacing: -.03em; }
+  .sports > p { margin: 0 0 24px; color: var(--theme-muted); }
+  .boston-gallery { margin: 0 0 36px; }
+  .gallery-image { display: block; width: 100%; padding: 0; border: 0; border-radius: 4px; overflow: hidden; background: var(--theme-line); cursor: pointer; }
+  .gallery-image img { display: block; width: 100%; height: auto; aspect-ratio: 2 / 1; object-fit: cover; }
+  .gallery-image:focus-visible, .gallery-controls button:focus-visible { outline: 2px solid var(--theme-accent); outline-offset: 3px; }
+  .gallery-caption { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 38px; color: var(--theme-muted); font-size: .72rem; }
+  .gallery-caption strong { color: var(--theme-text); font-weight: 500; }
+  .gallery-caption a, .team-card a { text-decoration: underline; text-underline-offset: 2px; }
+  .gallery-controls { display: inline-flex; align-items: center; gap: 12px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .gallery-controls button { width: 27px; height: 27px; padding: 0; border: 1px solid var(--theme-line); border-radius: 3px; background: transparent; color: inherit; cursor: pointer; }
+  .gallery-controls button:hover { color: var(--theme-text); border-color: var(--theme-text); }
+  .team-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+  .team-card { min-width: 0; margin: 0; border: 1px solid var(--theme-line); border-radius: 4px; overflow: hidden; }
+  .team-visual { position: relative; display: block; width: 100%; aspect-ratio: 4 / 3; padding: 0; overflow: hidden; background: var(--theme-surface); cursor: pointer; }
+  .team-visual img { position: absolute; display: block; transition: opacity .22s ease; }
+  .team-logo { inset: 15%; width: 70%; height: 70%; object-fit: contain; }
+  .team-photo { inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; }
+  .team-visual-hint { position: absolute; right: 12px; bottom: 9px; color: var(--theme-muted); font-size: .7rem; transition: opacity .22s ease; }
+  @media (hover: hover) {
+    .team-visual:hover .team-logo { opacity: 0; }
+    .team-visual:hover .team-photo { opacity: 1; }
+    .team-visual:hover .team-visual-hint { opacity: 0; }
   }
-  .rec-heading {
-    color: var(--color-fg);
-    margin-bottom: 20px;
-    font-weight: 400;
-    letter-spacing: 1px;
+  .team-visual.is-photo .team-logo { opacity: 0; }
+  .team-visual.is-photo .team-photo { opacity: 1; }
+  .team-visual.is-photo .team-visual-hint { opacity: 0; }
+  .team-visual:focus-visible { outline: 2px solid var(--theme-accent); outline-offset: -2px; }
+  .team-card figcaption { display: grid; gap: 4px; padding: 12px; }
+  .team-card span { color: var(--theme-muted); font-size: .72rem; }
+  .team-card strong { font-size: .88rem; font-weight: 600; }
+  .team-card a { margin-top: 4px; color: var(--theme-muted); font-size: .65rem; }
+  .team-credits { display: flex; flex-wrap: wrap; gap: 0 6px; }
+  .team-credits a { margin-top: 4px; }
+  .favorites { padding: 32px 0 42px; border-top: 1px solid var(--theme-line); }
+  .favorites h2 { margin: 0 0 24px; font-size: 1.15rem; letter-spacing: -.03em; }
+  .favorites .rec-grid { grid-template-columns: repeat(4, minmax(0, 150px)); justify-content: center; }
+  .favorites .rec-card { border: 1px solid var(--theme-line); border-radius: 4px; }
+  .favorites .rec-card:hover { box-shadow: none; transform: none; border-color: var(--theme-accent); }
+  @media (max-width: 640px) {
+    .about-page { padding-top: 48px; padding-bottom: 80px; }
+    .about-profile { grid-template-columns: 1fr; gap: 22px; }
+    .about-profile img { width: 112px; height: 112px; }
+    .about-profile dl > div { grid-template-columns: 105px 1fr; gap: 10px; }
+    .team-grid { grid-template-columns: 1fr; }
+    .favorites .rec-grid { grid-template-columns: repeat(2, minmax(0, 150px)); gap: 12px; }
+    .gallery-caption { align-items: flex-start; flex-direction: column; padding-top: 10px; }
+    .gallery-controls { align-self: flex-end; }
   }
 </style>
+
+<script>
+  function initBostonGallery() {
+    const gallery = document.querySelector<HTMLElement>('[data-boston-gallery]');
+    if (!gallery || gallery.dataset.bound === 'true') return;
+    gallery.dataset.bound = 'true';
+
+    const photos = JSON.parse(gallery.dataset.photos ?? '[]') as Array<{
+      src: string; alt: string; place: string; credit: string; url: string;
+    }>;
+    const image = gallery.querySelector<HTMLImageElement>('[data-gallery-image]');
+    const place = gallery.querySelector<HTMLElement>('[data-gallery-place]');
+    const credit = gallery.querySelector<HTMLAnchorElement>('[data-gallery-credit]');
+    const count = gallery.querySelector<HTMLElement>('[data-gallery-count]');
+    if (!image || !place || !credit || !count || photos.length === 0) return;
+
+    let index = 0;
+    const show = (next: number) => {
+      index = (next + photos.length) % photos.length;
+      const photo = photos[index];
+      image.src = photo.src;
+      image.alt = photo.alt;
+      place.textContent = photo.place;
+      credit.href = photo.url;
+      credit.textContent = photo.credit;
+      count.textContent = `${String(index + 1).padStart(2, '0')} / ${String(photos.length).padStart(2, '0')}`;
+    };
+    gallery.querySelectorAll<HTMLButtonElement>('[data-gallery-next]').forEach((button) => button.addEventListener('click', () => show(index + 1)));
+    gallery.querySelector<HTMLButtonElement>('[data-gallery-prev]')?.addEventListener('click', () => show(index - 1));
+  }
+
+  initBostonGallery();
+  document.addEventListener('astro:page-load', initBostonGallery);
+
+  function initTeamCards() {
+    document.querySelectorAll<HTMLButtonElement>('[data-team-visual]').forEach((button) => {
+      if (button.dataset.bound === 'true') return;
+      button.dataset.bound = 'true';
+      button.addEventListener('click', () => {
+        if (window.matchMedia('(hover: hover)').matches) return;
+        const active = button.classList.toggle('is-photo');
+        button.setAttribute('aria-pressed', String(active));
+      });
+    });
+  }
+
+  initTeamCards();
+  document.addEventListener('astro:page-load', initTeamCards);
+</script>

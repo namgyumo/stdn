@@ -1236,6 +1236,10 @@ kbd {
 }
 
 .prose img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin-inline: auto;
   border-radius: var(--radius-sm);
   border: 1px solid rgba(193, 255, 0, 0.15);
 }
@@ -1248,10 +1252,34 @@ kbd {
 }
 
 .prose table {
+  display: block;
   width: 100%;
+  overflow-x: auto;
   border-collapse: collapse;
   font-size: 0.95rem;
 }
+
+.prose pre.mermaid {
+  max-width: 100%;
+  padding: 24px;
+  overflow-x: auto;
+  background: #f8f8f5 !important;
+  color: #242521;
+  text-align: center;
+  white-space: pre;
+}
+
+.prose pre.mermaid svg { display: block; max-width: 100%; height: auto; margin: auto; }
+.prose .katex-display { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+.prose .math-inline, .prose .math-display { background: transparent; color: inherit; padding: 0; }
+.prose pre:has(.katex) { background: transparent !important; border: 0; padding: 0; }
+.prose .contains-task-list { list-style: none; padding-left: 0; }
+.prose .task-list-item input { margin-right: .55em; accent-color: var(--color-accent); }
+.prose [data-footnotes] { margin-top: 3em; border-top: 1px solid rgba(193, 255, 0, .2); font-size: .88em; }
+.prose .markdown-alert { font-style: normal; }
+.prose .markdown-alert-title { display: block; margin-bottom: .3em; font-size: .85em; letter-spacing: .04em; }
+.prose .markdown-alert-warning, .prose .markdown-alert-caution { border-left-color: #e8a45e; background: rgba(232, 164, 94, .08); }
+.prose .markdown-alert-warning .markdown-alert-title, .prose .markdown-alert-caution .markdown-alert-title { color: #e8a45e; }
 
 .prose th,
 .prose td {

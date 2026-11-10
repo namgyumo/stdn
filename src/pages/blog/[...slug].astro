@@ -38,7 +38,7 @@ const { Content, headings } = await render(post);
 >
   <Content />
   {(prev || next) && (
-    <nav class="post-nav container container-narrow" aria-label="다른 글">
+    <nav slot="post-footer" class="post-nav" aria-label="다른 글">
       {prev ? (
         <a class="post-nav-link prev" href={`/blog/${prev.slug}`} data-astro-prefetch>
           <span class="post-nav-dir">← 이전 글</span>
@@ -54,54 +54,3 @@ const { Content, headings } = await render(post);
     </nav>
   )}
 </BlogLayout>
-
-<style>
-  .post-nav {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin: 60px auto 80px;
-    padding: 0 20px;
-  }
-  .post-nav-link {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    padding: 16px 18px;
-    border: 1px solid rgba(193, 255, 0, 0.2);
-    border-radius: var(--radius-md);
-    background: rgba(8, 8, 8, 0.5);
-    transition: all var(--dur) var(--ease);
-  }
-  .post-nav-link.next {
-    text-align: right;
-    align-items: flex-end;
-  }
-  .post-nav-link:hover {
-    border-color: var(--color-accent);
-    box-shadow: var(--glow-lime-soft);
-    transform: translateY(-3px);
-  }
-  .post-nav-dir {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--color-fg-dim);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-  }
-  .post-nav-title {
-    color: var(--color-fg);
-    font-size: 0.95rem;
-    line-height: 1.4;
-  }
-  .post-nav-link:hover .post-nav-title {
-    color: var(--color-accent);
-  }
-  @media (max-width: 600px) {
-    .post-nav { grid-template-columns: 1fr; }
-    .post-nav-link.next { text-align: left; align-items: flex-start; }
-  }
-  @media print {
-    .post-nav { display: none; }
-  }
-</style>

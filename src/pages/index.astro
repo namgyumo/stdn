@@ -22,6 +22,13 @@ const staticPosts = posts.map((post) => ({
   tags: post.data.tags,
 }));
 
+const homeBostonPhotos = [
+  { src: '/images/boston-charles-river.jpg', alt: '찰스강 너머의 보스턴 스카이라인' },
+  { src: '/images/boston-acorn-street.jpg', alt: '보스턴 비컨힐의 붉은 벽돌길' },
+  { src: '/images/boston-common.jpg', alt: '봄날의 보스턴 커먼 공원' },
+  { src: '/images/boston-fan-pier.jpg', alt: '팬 피어에서 바라본 보스턴 항구' },
+];
+
 const currentMoment = new Date();
 const currentIssueDate = new Intl.DateTimeFormat('ko-KR', {
   timeZone: 'Asia/Seoul',
@@ -161,7 +168,7 @@ const currentIssueTime = new Intl.DateTimeFormat('ko-KR', {
   <!-- 02 / Notebook -->
   <div class="theme-home light-home" data-home-sheet="notebook">
     <main class="light-notebook">
-      <div class="light-folio"><span>남규모의 개발 노트</span><span>2026년 8월</span></div>
+      <div class="light-folio"><span>남규모의 개발 노트</span><span>개인 기록</span></div>
       <section class="light-grid" aria-label="포트폴리오 개발 노트">
         <article class="light-note light-intro">
           <div class="light-label"><span>첫 페이지</span><span>동의대 컴퓨터소프트웨어공학과</span></div>
@@ -182,11 +189,10 @@ const currentIssueTime = new Intl.DateTimeFormat('ko-KR', {
           </div>
         </article>
 
-        <article class="light-note light-week">
-          <div class="light-label"><span>이번 주</span><span>Week 32</span></div>
-          <h2>작은 목표들</h2>
-          <ul><li class="is-done">Gap Buffer 삽입</li><li class="is-done">realloc 점검</li><li>커서 렌더링</li><li>블로그 초안</li></ul>
-        </article>
+        <button class="light-note light-boston" type="button" aria-label="다음 보스턴 사진 보기" data-home-boston-gallery data-photos={JSON.stringify(homeBostonPhotos)}>
+          <img src={homeBostonPhotos[0].src} alt={homeBostonPhotos[0].alt} width="1600" height="684" loading="lazy" data-home-boston-image />
+          <span data-home-boston-count>Boston · 01 / 04</span>
+        </button>
 
         <a class="light-note light-project" href="/projects/pikabuddy" data-astro-prefetch>
           <div class="light-label"><span>완료한 프로젝트</span><span>7일 · 완료</span></div>
@@ -205,11 +211,10 @@ const currentIssueTime = new Intl.DateTimeFormat('ko-KR', {
 
         <article class="light-note light-offtime">
           <div class="light-label"><span>코딩 밖</span><span>취향</span></div>
-          <h2>쉬는 시간에는</h2>
+          <h2>보스턴과 뮤지컬</h2>
           <ul>
-            <li><span>Game</span>문명 VI · 스타레일</li>
+            <li><span>Sports</span>레드삭스 · 셀틱스 · 패트리어츠</li>
             <li><span>Musical</span>오페라의 유령 · 하데스타운</li>
-            <li><span>Music</span>Spotify · YouTube Music</li>
           </ul>
         </article>
 
@@ -467,6 +472,28 @@ const currentIssueTime = new Intl.DateTimeFormat('ko-KR', {
   </script>
 </BaseLayout>
 
+<script>
+  function initHomeBostonGallery() {
+    const gallery = document.querySelector<HTMLButtonElement>('[data-home-boston-gallery]');
+    if (!gallery || gallery.dataset.bound === 'true') return;
+    gallery.dataset.bound = 'true';
+    const photos = JSON.parse(gallery.dataset.photos ?? '[]') as Array<{ src: string; alt: string }>;
+    const image = gallery.querySelector<HTMLImageElement>('[data-home-boston-image]');
+    const count = gallery.querySelector<HTMLElement>('[data-home-boston-count]');
+    if (!image || !count || photos.length === 0) return;
+    let index = 0;
+    gallery.addEventListener('click', () => {
+      index = (index + 1) % photos.length;
+      image.src = photos[index].src;
+      image.alt = photos[index].alt;
+      count.textContent = `Boston · ${String(index + 1).padStart(2, '0')} / ${String(photos.length).padStart(2, '0')}`;
+    });
+  }
+
+  initHomeBostonGallery();
+  document.addEventListener('astro:page-load', initHomeBostonGallery);
+</script>
+
 <style>
   .home-reader {
     --paper-board: #bdb4a4;
@@ -665,11 +692,10 @@ const currentIssueTime = new Intl.DateTimeFormat('ko-KR', {
   .light-profile h2 { margin: 0 0 8px; font-size: 1.1rem; }
   .light-profile p { margin: 0; color: #716c63; font-size: .68rem; line-height: 1.6; }
   .light-profile em { display: block; margin-top: 13px; color: #31598d; font: italic .75rem Georgia,serif; }
-  .light-week { grid-column: span 4; grid-row: span 2; background-color: #e1d9c8; }
-  .light-week h2 { margin: 22px 0 15px; font-size: 1.5rem; letter-spacing: -.025em; }
-  .light-week ul { display: grid; grid-template-columns: 1fr 1fr; gap: 9px 18px; color: #5f5a52; font-size: .64rem; }
-  .light-week li::before { content: '□'; margin-right: 6px; font-family: var(--font-mono); }
-  .light-week li.is-done::before { content: '■'; color: #e75232; }
+  .light-boston { grid-column: span 4; grid-row: span 2; width: 100%; padding: 0; background: #547186; cursor: pointer; }
+  .light-boston:focus-visible { outline: 2px solid var(--paper-accent); outline-offset: 3px; }
+  .light-boston img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .light-boston span { position: absolute; right: 14px; bottom: 13px; padding: 5px 8px; background: rgba(28,37,43,.76); color: #fff; font: .6rem var(--font-mono); }
   .light-project { grid-column: span 5; grid-row: span 3; }
   .light-project h2 { margin: 34px 0 9px; font: 750 2.35rem/1.04 'Arial Narrow',var(--font-sans); letter-spacing: -.03em; }
   .light-project p { max-width: 360px; margin: 0; color: #716c63; font-size: .7rem; line-height: 1.65; word-break: keep-all; }
@@ -789,11 +815,8 @@ const currentIssueTime = new Intl.DateTimeFormat('ko-KR', {
   .light-profile em,
   .light-recent li b,
   .light-more { color: var(--paper-accent); }
-  .light-week,
   .light-offtime { background-color: var(--paper-alt); }
-  .light-week ul,
   .light-offtime ul { color: var(--paper-muted); }
-  .light-week li.is-done::before,
   .light-stamp { color: var(--paper-warm); border-color: var(--paper-warm); }
   .light-note-foot,
   .light-recent ul,
@@ -819,7 +842,7 @@ const currentIssueTime = new Intl.DateTimeFormat('ko-KR', {
     .dark-card, .light-note { min-height: 220px; }
     .dark-intro, .light-intro { grid-column: 1/-1; grid-row: auto; min-height: 520px; }
     .dark-now, .dark-project, .dark-stack, .dark-recent, .dark-small,
-    .light-profile, .light-week, .light-project, .light-editor, .light-offtime, .light-recent, .light-contact { grid-column: span 1; grid-row: auto; }
+    .light-profile, .light-boston, .light-project, .light-editor, .light-offtime, .light-recent, .light-contact { grid-column: span 1; grid-row: auto; }
     .dark-now { min-height: 380px; }
     .dark-project, .dark-stack, .dark-recent { min-height: 320px; }
     .dark-small { min-height: 270px; }
@@ -841,7 +864,7 @@ const currentIssueTime = new Intl.DateTimeFormat('ko-KR', {
     .paper-turn svg { width: 26px; height: 26px; }
     .dark-grid, .light-grid { grid-template-columns: 1fr; }
     .dark-intro, .dark-now, .dark-project, .dark-stack, .dark-recent, .dark-small,
-    .light-intro, .light-profile, .light-week, .light-project, .light-editor, .light-offtime, .light-recent, .light-contact { grid-column: 1; }
+    .light-intro, .light-profile, .light-boston, .light-project, .light-editor, .light-offtime, .light-recent, .light-contact { grid-column: 1; }
     .dark-meta span:first-child, .light-folio span:first-child { display: none; }
     .dark-intro { min-height: 560px; padding: 28px 24px; }
     .dark-intro-foot, .light-intro-foot { grid-template-columns: 1fr; align-items: start; }

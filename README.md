@@ -10,8 +10,10 @@ Astro 5 (정적) + Cloudflare Pages + Pages Functions + D1 로 배포합니다.
 ```
 stdN/
 ├── _legacy/                 # 기존 단일 HTML 포트폴리오 보관 (참고용)
+├── archive/algorithm-bank/  # 비공개로 보관한 뱅크 페이지와 코드 실행 API
+├── blogs/                   # Markdown 글을 넣는 폴더
 ├── public/
-│   ├── images/              # 프로필·게임·뮤지컬 이미지
+│   ├── images/              # 프로필·보스턴·스포츠·뮤지컬 이미지
 │   ├── favicon.svg
 │   ├── site.webmanifest
 │   ├── og-default.svg       # 기본 Open Graph 이미지
@@ -36,7 +38,6 @@ stdN/
 ├── src/
 │   ├── components/          # Header, CommandPalette, TOC 등
 │   ├── content/
-│   │   ├── blog/            # Markdown 블로그 글
 │   │   ├── projects/        # 프로젝트 카드
 │   │   └── config.ts        # Content Collection 스키마
 │   ├── layouts/
@@ -106,6 +107,31 @@ pnpm preview
 
 ---
 
+## 블로그 글 추가
+
+`blogs/`에 `.md` 또는 `.mdx` 파일을 넣으면 `/blog` 목록, 글 페이지, 태그, RSS에 반영됩니다. 기존 글도 이 폴더에 있습니다. 파일 이름이 글 주소가 됩니다.
+
+````md
+---
+title: '글 제목'
+publishedAt: 2026-11-10
+description: '짧은 소개'
+tags: ['메모']
+---
+
+## 본문 제목
+
+본문을 작성합니다.
+````
+
+`title`과 `publishedAt`은 필수입니다. `draft: true`를 넣으면 공개 목록에서 빠집니다. 로컬에서는 `pnpm dev`를 켜 둔 상태에서 파일을 넣으면 바로 볼 수 있습니다. 공개 사이트는 Git에 파일을 추가해 푸시하고 Cloudflare Pages 빌드가 끝나면 갱신됩니다.
+
+표, 체크리스트, 각주, 취소선, 언어 이름을 붙인 코드 블록을 지원합니다. `$E=mc^2$`는 인라인 수식, `$$ ... $$`는 블록 수식입니다. 흐름도와 시퀀스 다이어그램은 `mermaid` 코드 블록에 적습니다. `> [!NOTE]`나 `> [!WARNING]`으로 시작하는 인용문은 알림 상자로 표시됩니다.
+
+블로그 이미지는 `blogs/asset/`에 넣습니다. `blogs/글이름.md`에서는 `![사진 설명](./asset/사진.jpg)`처럼 쓰면 됩니다. 하위 폴더의 글에서는 글 파일 기준 상대 경로를 사용하세요. Astro가 빌드할 때 이미지를 처리해 글에 포함합니다. 이미지를 바꾸거나 추가한 뒤 공개 사이트에 반영하려면 글과 이미지 파일을 함께 Git에 푸시해야 합니다.
+
+---
+
 ## ☁️ Cloudflare Pages 배포
 
 ### A. Git 연동 자동 배포 (추천)
@@ -134,7 +160,7 @@ Pages → Settings → Environment variables 에서 **Production / Preview 모�
 | `ADMIN_PASSWORD_HASH` | ✅ (admin) | `100000:...:...` | admin 로그인 — PBKDF2 |
 | `SESSION_SECRET` | ✅ (admin) | 32바이트 hex | 세션 쿠키 서명 (HMAC) |
 | `GEMINI_API_KEY` | ✅ (AI) | AI Studio 발급 | 에디터 AI 보조 |
-| `WANDBOX_URL` | ☐ | `https://wandbox.org/api/compile.json` | 알고리즘 뱅크 코드 실행 백엔드(미설정 시 공용 Wandbox) |
+| `WANDBOX_URL` | ☐ | `https://wandbox.org/api/compile.json` | 보관된 알고리즘 뱅크를 복구할 때 사용 |
 
 ### C. D1 연결 (방명록·조회수·블로그 글)
 
@@ -224,7 +250,7 @@ https://aistudio.google.com/apikey → Create API key → 복사 → `GEMINI_API
 
 ### 방식 1 — 로컬 Markdown (git 커밋으로 배포)
 
-`src/content/blog/<slug>.md(x)` 파일 생성:
+`blogs/<slug>.md(x)` 파일 생성:
 
 ```markdown
 ---
@@ -271,11 +297,11 @@ order: 90
 
 ---
 
-## 🧮 알고리즘 뱅크 (`/bank`)
+## 🧮 알고리즘 뱅크 (보관됨)
 
-직접 풀어본 **실버 난도 50문제**를 백준식 온라인 저지로 제공한다. 서버(컴파일러)를 직접
-운영하지 않고 **공용 실행 API(Wandbox)** 에 실행만 위임하는 구조라 Cloudflare Pages 정적 배포와
-그대로 호환된다.
+현재 `/bank` 페이지와 `/api/run`은 공개 빌드에서 제외했다. 코드는
+`archive/algorithm-bank/`에, 문제 데이터는 `src/content/problems/`에 남겨뒀다.
+아래는 보관된 구현의 구조다.
 
 ```
 브라우저 (CodeMirror 에디터, C/C++/Python)
@@ -328,7 +354,7 @@ Wandbox (컴파일·실행)  →  stdout 반환
 
 ## 🧩 주요 기능
 
-- **Algorithm Bank** — 실버 난도 50문제 온라인 저지 (`/bank`). CodeMirror 에디터 + Wandbox 실행 + 클라이언트 AC/WA/TLE/CE 판정
+- **Algorithm Bank (보관)** — 페이지와 코드 실행 API는 `archive/algorithm-bank/`에 보관
 - **Content Collections** — 블로그·프로젝트·문제 모두 타입 안전 Frontmatter
 - **D1 Admin CMS** — 관리자 로그인 + VS 스타일 에디터 + Gemini AI 보조
 - **View Transitions** — Astro `ClientRouter` 로 부드러운 페이지 전환

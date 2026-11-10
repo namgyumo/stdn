@@ -24,8 +24,8 @@ order: 100
 ## 구조
 
 ```
+blogs/                 마크다운 글
 src/
-  content/blog/        마크다운 글
   content/projects/    프로젝트 설명
   layouts/             BaseLayout, BlogLayout
   components/          Header, CommandPalette, TOC, ...

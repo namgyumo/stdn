@@ -1,208 +1,116 @@
 ---
-import BaseLayout from '@layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
-import { formatShortDate } from '@lib/format';
+import { formatDate } from '@lib/format';
+import PlainBlogShell from '@layouts/PlainBlogShell.astro';
 
-const all = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+const description = '남규모의 블로그. C/C++, 자료구조, 프로젝트, 문제 풀이.';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf(),
 );
-
-// 태그 집계
-const tagCount = new Map<string, number>();
-for (const p of all) {
-  for (const t of p.data.tags) tagCount.set(t, (tagCount.get(t) ?? 0) + 1);
-}
-const tags = [...tagCount.entries()].sort((a, b) => b[1] - a[1]);
-
-const staticSlugs = all.map((p) => p.id);
+const staticSlugs = posts.map((post) => post.id);
 ---
 
-<BaseLayout
-  title="Blog"
-  description="std::N 의 글 모음 — 알고리즘, C/C++, 시스템 프로그래밍, 개발 일지."
->
-  <section class="container container-narrow blog-index">
-    <header class="blog-head">
-      <h1 class="h1">Blog</h1>
-      <p class="eyebrow">// archive</p>
-      <p>총 <strong id="post-count">{all.length}</strong>개의 글</p>
-    </header>
+<PlainBlogShell title="블로그" description={description}>
+      <section class="intro" aria-labelledby="intro-title">
+        <p class="eyebrow">남규모</p>
+        <h1 id="intro-title">블로그<span>.</span></h1>
+        <p>C/C++ · 자료구조 · 프로젝트 · 문제 풀이</p>
+      </section>
 
-    <div class="tag-cloud" id="tag-cloud" role="group" aria-label="태그로 필터">
-      <button type="button" class="tag tag-filter is-active" data-tag="" data-count={all.length}>
-        all <span style="opacity:.6">{all.length}</span>
-      </button>
-      {tags.map(([t, c]) => (
-        <button type="button" class="tag tag-filter" data-tag={t} data-count={c}>
-          #{t} <span style="opacity:.6">{c}</span>
-        </button>
-      ))}
-    </div>
+      <div class="content-grid">
+        <aside class="sidebar" aria-label="블로그 안내">
+          <div>
+            <h2>소개</h2>
+            <p>동의대학교<br />컴퓨터소프트웨어공학과 25학번</p>
+          </div>
+          <div class="other-links">
+            <h2>다른 곳</h2>
+            <a href="https://github.com/namgyumo" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+            <a href="/rss.xml">RSS <span aria-hidden="true">↗</span></a>
+          </div>
+        </aside>
 
-    <ul class="post-list" id="post-list">
-      {all.map((p) => (
-        <li data-slug={p.id} data-published={p.data.publishedAt.toISOString()} data-tags={p.data.tags.join(' ')}>
-          <a class="post-item" href={`/blog/${p.id}`} data-astro-prefetch>
-            <span class="post-date">{formatShortDate(p.data.publishedAt)}</span>
-            <div>
-              <h2 class="post-title">{p.data.title}</h2>
-              {p.data.description && <p class="post-excerpt">{p.data.description}</p>}
-              {p.data.tags.length > 0 && (
-                <div class="post-tags">
-                  {p.data.tags.map((t) => <span class="tag">#{t}</span>)}
-                </div>
-              )}
-            </div>
-          </a>
-        </li>
-      ))}
-    </ul>
+        <section id="writing" class="writing" aria-labelledby="writing-title">
+          <div class="section-heading">
+            <h2 id="writing-title">최근 글</h2>
+            <span id="post-count">{String(posts.length).padStart(2, '0')}개의 글</span>
+          </div>
+          {posts.length > 0 ? (
+            <ol class="post-list" id="post-list">
+              {posts.map((post) => (
+                <li data-slug={post.id} data-published={post.data.publishedAt.toISOString()}>
+                  <a class="post" href={`/blog/${post.id}`}>
+                    <div class="meta"><time datetime={post.data.publishedAt.toISOString()}>{formatDate(post.data.publishedAt)}</time><span>{post.data.tags[0] ?? '기록'}</span></div>
+                    <h3>{post.data.title}<span class="arrow" aria-hidden="true">↗</span></h3>
+                    {post.data.description && <p>{post.data.description}</p>}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          ) : <ol class="post-list" id="post-list"></ol>}
 
-    <p class="empty" id="empty-state" style={all.length === 0 ? '' : 'display:none'}>
-      아직 공개된 글이 없습니다.
-    </p>
-  </section>
-</BaseLayout>
-
+        </section>
+      </div>
 <script is:inline define:vars={{ staticSlugs }}>
   (async () => {
+    const list = document.getElementById('post-list');
+    if (!list) return;
+
     try {
-      const r = await fetch('/api/posts', { credentials: 'same-origin' });
-      if (!r.ok) return;
-      const data = await r.json();
+      const response = await fetch('/api/posts', { credentials: 'same-origin' });
+      if (!response.ok) return;
+      const data = await response.json();
       if (!data?.ok || !Array.isArray(data.posts)) return;
 
-      const staticSet = new Set(staticSlugs);
-      const d1Posts = data.posts.filter((p) => !staticSet.has(p.slug));
-      if (d1Posts.length === 0) return;
+      const knownSlugs = new Set(staticSlugs);
+      for (const post of data.posts) {
+        if (!post || typeof post.slug !== 'string' || knownSlugs.has(post.slug)) continue;
+        knownSlugs.add(post.slug);
 
-      const list = document.getElementById('post-list');
-      const empty = document.getElementById('empty-state');
-      const countEl = document.getElementById('post-count');
-      const tagCloud = document.getElementById('tag-cloud');
-      if (!list) return;
-
-      const fmt = (iso) => {
-        const d = new Date(iso);
-        return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
-      };
-      const esc = (s) => s.replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
-
-      for (const p of d1Posts) {
-        const li = document.createElement('li');
-        li.dataset.slug = p.slug;
-        li.dataset.published = p.publishedAt;
-        li.dataset.tags = (p.tags ?? []).join(' ');
-        li.innerHTML = `
-          <a class="post-item" href="/blog/${encodeURIComponent(p.slug)}">
-            <span class="post-date">${fmt(p.publishedAt)}</span>
-            <div>
-              <h2 class="post-title">${esc(p.title)}</h2>
-              ${p.description ? `<p class="post-excerpt">${esc(p.description)}</p>` : ''}
-              ${(p.tags && p.tags.length) ? `<div class="post-tags">${p.tags.map((t) => `<span class="tag">#${esc(t)}</span>`).join('')}</div>` : ''}
-            </div>
-          </a>
-        `;
-        list.appendChild(li);
-      }
-
-      // 날짜 내림차순 재정렬
-      const items = [...list.querySelectorAll('li')];
-      items.sort((a, b) => {
-        const ad = a.dataset.published ?? '';
-        const bd = b.dataset.published ?? '';
-        return bd.localeCompare(ad);
-      });
-      for (const el of items) list.appendChild(el);
-
-      // 카운트 갱신
-      if (countEl) countEl.textContent = String(items.length);
-      if (empty && items.length > 0) empty.style.display = 'none';
-
-      // 태그 클라우드 재집계
-      if (tagCloud) {
-        const counts = new Map();
-        tagCloud.querySelectorAll('a.tag').forEach((a) => {
-          const t = a.dataset.tag;
-          const c = Number(a.dataset.count ?? '0');
-          if (t) counts.set(t, c);
-        });
-        for (const p of d1Posts) {
-          for (const t of (p.tags ?? [])) counts.set(t, (counts.get(t) ?? 0) + 1);
+        const item = document.createElement('li');
+        item.dataset.slug = post.slug;
+        item.dataset.published = post.publishedAt ?? '';
+        const link = document.createElement('a');
+        link.className = 'post';
+        link.href = `/blog/${encodeURIComponent(post.slug)}`;
+        const meta = document.createElement('div');
+        meta.className = 'meta';
+        const date = document.createElement('time');
+        const published = new Date(post.publishedAt);
+        if (!Number.isNaN(published.valueOf())) {
+          date.dateTime = published.toISOString();
+          date.textContent = new Intl.DateTimeFormat('ko-KR', {
+            year: 'numeric', month: '2-digit', day: '2-digit',
+          }).format(published);
         }
-        const sorted = [...counts.entries()].sort((a, b) => b[1] - a[1]);
-        const total = items.length;
-        tagCloud.innerHTML =
-          `<button type="button" class="tag tag-filter is-active" data-tag="" data-count="${total}">all <span style="opacity:.6">${total}</span></button>` +
-          sorted.map(([t, c]) =>
-            `<button type="button" class="tag tag-filter" data-tag="${esc(t)}" data-count="${c}">#${esc(t)} <span style="opacity:.6">${c}</span></button>`
-          ).join('');
-        bindTagFilter();
+        const topic = document.createElement('span');
+        topic.textContent = Array.isArray(post.tags) ? (post.tags[0] ?? '기록') : '기록';
+        meta.append(date, topic);
+        const title = document.createElement('h3');
+        title.textContent = post.title ?? '';
+        const arrow = document.createElement('span');
+        arrow.className = 'arrow';
+        arrow.setAttribute('aria-hidden', 'true');
+        arrow.textContent = '↗';
+        title.append(arrow);
+        link.append(meta, title);
+        if (post.description) {
+          const description = document.createElement('p');
+          description.textContent = post.description;
+          link.append(description);
+        }
+        item.append(link);
+        list.append(item);
       }
-    } catch {}
+
+      const items = [...list.children];
+      items.sort((a, b) => (b.dataset.published ?? '').localeCompare(a.dataset.published ?? ''));
+      items.forEach((item) => list.append(item));
+      document.getElementById('post-count')?.replaceChildren(`${String(items.length).padStart(2, '0')}개의 글`);
+    } catch {
+      // 정적 글 목록은 API 없이도 볼 수 있다.
+    }
   })();
-
-  function bindTagFilter() {
-    const cloud = document.getElementById('tag-cloud');
-    const list = document.getElementById('post-list');
-    const countEl = document.getElementById('post-count');
-    if (!cloud || !list) return;
-    const buttons = cloud.querySelectorAll('.tag-filter');
-    buttons.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const tag = btn.dataset.tag ?? '';
-        buttons.forEach((b) => b.classList.toggle('is-active', b === btn));
-        let visible = 0;
-        list.querySelectorAll('li').forEach((li) => {
-          const tags = (li.dataset.tags ?? '').split(/\s+/).filter(Boolean);
-          const match = !tag || tags.includes(tag);
-          li.style.display = match ? '' : 'none';
-          if (match) visible++;
-        });
-        if (countEl) countEl.textContent = String(visible);
-      });
-    });
-  }
-  bindTagFilter();
-  document.addEventListener('astro:after-swap', bindTagFilter);
 </script>
-
-<style>
-  .blog-index { padding-top: 60px; }
-  .blog-head { text-align: center; margin-bottom: 40px; }
-  .blog-head .h1 { display: inline-block; }
-  .blog-head p { margin-top: 10px; color: var(--color-fg-dim); font-family: var(--font-mono); }
-  .tag-cloud {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: center;
-    margin: 20px 0 10px;
-  }
-  .tag-cloud:empty { display: none; }
-  .tag-filter {
-    cursor: pointer;
-    font-family: var(--font-mono);
-    background: transparent;
-    font-size: 0.75rem;
-    line-height: 1;
-  }
-  .tag-filter.is-active {
-    background: rgba(193, 255, 0, 0.18);
-    border-color: var(--color-accent);
-    color: var(--color-accent);
-    box-shadow: var(--glow-lime-soft);
-  }
-  .post-excerpt {
-    margin: 6px 0 0;
-    color: var(--color-fg-dim);
-    font-size: 0.9rem;
-    line-height: 1.5;
-  }
-  .empty {
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--color-fg-dim);
-    font-family: var(--font-mono);
-  }
-</style>
+</PlainBlogShell>

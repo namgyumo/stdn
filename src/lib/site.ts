@@ -19,7 +19,6 @@ export const site = {
     { href: '/skills', label: 'Skills' },
     { href: '/blog', label: 'Blog' },
     { href: '/projects', label: 'Projects' },
-    { href: '/bank', label: 'Solved Bank' },
     { href: '/now', label: 'Now' },
     { href: '/uses', label: 'Uses' },
     { href: '/contact', label: 'Contact' },

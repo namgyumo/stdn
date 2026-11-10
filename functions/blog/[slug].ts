@@ -50,8 +50,8 @@ function renderPostHtml(post: PostRow, siteUrl: string): string {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="color-scheme" content="dark">
-  <meta name="theme-color" content="#080808">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#fbfaf8">
   <title>${title} · std::N</title>
   ${desc ? `<meta name="description" content="${desc}">` : ''}
   <link rel="canonical" href="${canonical}">
@@ -71,59 +71,46 @@ function renderPostHtml(post: PostRow, siteUrl: string): string {
   <link rel="alternate" type="application/rss+xml" title="std::N RSS" href="/rss.xml">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="manifest" href="/site.webmanifest">
-  <link rel="stylesheet" href="/global.css">
+  <link rel="stylesheet" href="/plain-blog.css">
 </head>
 <body>
-  <header class="top">
-    <div class="top-inner">
-      <a href="/" aria-label="std::N 홈" class="logo-link" style="display:inline-block;margin-left:4px">
-        <div class="logo"><h1>std::N</h1></div>
-      </a>
+  <a class="skip-link" href="#content">본문으로 건너뛰기</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="std::N 홈">std::N<span>.</span></a>
       <nav aria-label="주요 메뉴">
-        <ul class="nav">
-          <li><a href="/about">About</a></li>
-          <li><a href="/skills">Skills</a></li>
-          <li><a href="/blog" aria-current="page">Blog</a></li>
-          <li><a href="/projects">Projects</a></li>
-          <li><a href="/bank">Solved Bank</a></li>
-          <li><a href="/contact">Contact</a></li>
-        </ul>
+        <a class="current" href="/blog" aria-current="page">글</a>
+        <a href="/projects">프로젝트</a>
+        <a href="/about">소개</a>
+        <a href="/search">검색 ↗</a>
       </nav>
     </div>
-    <hr class="line">
   </header>
 
-  <main id="main">
-    <article>
+  <main id="content" class="page-shell">
+    <article class="blog-post">
       <header class="post-header">
+        <p class="eyebrow">글</p>
         <h1>${title}</h1>
+        ${desc ? `<p class="post-description">${desc}</p>` : ''}
         <div class="post-meta">
           <time datetime="${published}">${formatKoDate(published)}</time>
-          ${updated && updated !== published ? `<span>· 수정 ${formatKoDate(updated)}</span>` : ''}
+          ${updated && updated !== published ? `<span>수정 ${formatKoDate(updated)}</span>` : ''}
         </div>
-        ${tags.length ? `<div class="post-tags" style="margin-top:14px">${tags.map((t) => `<a class="tag" href="/blog/tags/${encodeURIComponent(t)}">#${escapeHtml(t)}</a>`).join('')}</div>` : ''}
+        ${tags.length ? `<div class="post-tags">${tags.map((t) => `<a class="tag" href="/blog/tags/${encodeURIComponent(t)}">#${escapeHtml(t)}</a>`).join('')}</div>` : ''}
       </header>
 
-      <div class="blog-layout">
-        <div class="prose">
-          ${post.body_html}
-        </div>
+      <aside class="toc" aria-label="블로그 이동">
+        <div class="toc-title">글</div>
+        <a href="/blog">← 전체 글</a>
+      </aside>
+      <div class="prose">
+        ${post.body_html}
       </div>
     </article>
   </main>
 
-  <footer class="site-footer">
-    <div>© ${new Date().getFullYear()} std::N. All rights reserved.</div>
-    <div class="footer-links" style="margin-top:10px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;font-family:var(--font-mono);font-size:.85rem">
-      <a href="/rss.xml">RSS</a>
-      <span aria-hidden="true">·</span>
-      <a href="https://github.com/namgyumo" target="_blank" rel="noopener">GitHub</a>
-      <span aria-hidden="true">·</span>
-      <a href="mailto:n.gyumo13@gmail.com">Email</a>
-      <span aria-hidden="true">·</span>
-      <a href="/sitemap-index.xml">Sitemap</a>
-    </div>
-  </footer>
+  <footer class="site-footer"><div><span>© ${new Date().getFullYear()} std::N</span></div></footer>
 
   <script>
     // 조회수 증가 (실패해도 무시)

@@ -11,42 +11,54 @@ const filtered = headings.filter((h) => h.depth >= 2 && h.depth <= 4);
 
 {
   filtered.length > 0 && (
-    <aside class="toc" aria-label="목차">
-      <div class="toc-title">On this page</div>
+    <details class="toc" open>
+      <summary class="toc-title">목차 <span>{String(filtered.length).padStart(2, '0')}</span></summary>
       <ol>
         {filtered.map((h) => (
           <li class={`depth-${h.depth}`}>
-            <a href={`#${h.slug}`} data-slug={h.slug}>{h.text}</a>
+            <a href={`#${h.slug}`} data-slug={h.slug}>{h.text.replace(/#+\s*$/, '').trim()}</a>
           </li>
         ))}
       </ol>
-    </aside>
+    </details>
   )
 }
 
 <script>
+  let observer: IntersectionObserver | undefined;
+
   function init() {
+    observer?.disconnect();
+    const toc = document.querySelector<HTMLDetailsElement>('.blog-post .toc');
+    if (!toc) return;
+    toc.open = window.matchMedia('(min-width: 761px)').matches;
     const links = document.querySelectorAll<HTMLAnchorElement>('.toc a');
     if (!links.length) return;
     const headings = Array.from(document.querySelectorAll<HTMLElement>('.prose :is(h2, h3, h4)[id]'));
     if (!headings.length) return;
 
-    const observer = new IntersectionObserver(
+    observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             const id = entry.target.id;
             links.forEach((a) => {
-              a.classList.toggle('active', a.dataset.slug === id);
+              const active = a.dataset.slug === id;
+              a.classList.toggle('active', active);
+              if (active) a.setAttribute('aria-current', 'location');
+              else a.removeAttribute('aria-current');
             });
           }
         });
       },
       { rootMargin: '-80px 0px -70% 0px', threshold: 0 },
     );
-    headings.forEach((h) => observer.observe(h));
+    headings.forEach((h) => observer?.observe(h));
+    links.forEach((link) => link.addEventListener('click', () => {
+      if (!window.matchMedia('(min-width: 761px)').matches) toc.open = false;
+    }));
   }
 
   init();
-  document.addEventListener('astro:after-swap', init);
+  document.addEventListener('astro:page-load', init);
 </script>

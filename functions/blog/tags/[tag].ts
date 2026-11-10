@@ -42,82 +42,60 @@ function renderTagHtml(tag: string, posts: PostRow[]): string {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="color-scheme" content="dark">
-  <meta name="theme-color" content="#080808">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#fbfaf8">
   <title>#${title} · std::N</title>
   <meta name="description" content="태그 &quot;${title}&quot; 로 분류된 ${posts.length}개의 글.">
   <link rel="alternate" type="application/rss+xml" title="std::N RSS" href="/rss.xml">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="manifest" href="/site.webmanifest">
-  <link rel="stylesheet" href="/global.css">
+  <link rel="stylesheet" href="/plain-blog.css">
 </head>
 <body>
-  <header class="top">
-    <div class="top-inner">
-      <a href="/" aria-label="std::N 홈" class="logo-link" style="display:inline-block;margin-left:4px">
-        <div class="logo"><h1>std::N</h1></div>
-      </a>
+  <a class="skip-link" href="#content">본문으로 건너뛰기</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="std::N 홈">std::N<span>.</span></a>
       <nav aria-label="주요 메뉴">
-        <ul class="nav">
-          <li><a href="/about">About</a></li>
-          <li><a href="/skills">Skills</a></li>
-          <li><a href="/blog" aria-current="page">Blog</a></li>
-          <li><a href="/projects">Projects</a></li>
-          <li><a href="/bank">Solved Bank</a></li>
-          <li><a href="/contact">Contact</a></li>
-        </ul>
+        <a class="current" href="/blog" aria-current="page">글</a>
+        <a href="/projects">프로젝트</a>
+        <a href="/about">소개</a>
+        <a href="/search">검색 ↗</a>
       </nav>
     </div>
-    <hr class="line">
   </header>
 
-  <main id="main">
-    <section class="container container-narrow" style="padding-top:60px">
-      <header class="center" style="margin-bottom:40px">
-        <p class="eyebrow">// tag</p>
-        <h1 class="h1">#${title}</h1>
-        <p style="margin-top:10px;color:var(--color-fg-dim);font-family:var(--font-mono)">
-          ${posts.length}개의 글
-        </p>
-        <p style="margin-top:20px">
-          <a href="/blog" class="btntext">← 전체 블로그로</a>
-        </p>
-      </header>
-      <ul class="post-list">
+  <main id="content" class="page-shell">
+    <div class="tag-page">
+      <section class="intro" aria-labelledby="tag-title">
+        <p class="eyebrow">태그</p>
+        <h1 id="tag-title">#${title}<span>.</span></h1>
+        <p><a href="/blog">← 전체 글</a></p>
+      </section>
+      <div class="content-grid">
+        <aside class="sidebar" aria-label="태그 안내"><div><h2>글</h2><p><a href="/blog">전체 글 보기</a></p></div></aside>
+        <section class="writing" aria-labelledby="tag-writing-title">
+          <div class="section-heading"><h2 id="tag-writing-title">#${title}</h2><span>${String(posts.length).padStart(2, '0')}개의 글</span></div>
+          <ol class="post-list">
         ${posts.map((p) => {
           const tags = safeJsonArray(p.tags);
           const when = p.published_at ?? p.updated_at;
-          const desc = p.description ? `<p class="post-excerpt">${escapeHtml(p.description)}</p>` : '';
-          const tagList = tags.length
-            ? `<div class="post-tags">${tags.map((t) => `<span class="tag">#${escapeHtml(t)}</span>`).join('')}</div>`
-            : '';
+          const desc = p.description ? `<p>${escapeHtml(p.description)}</p>` : '';
           return `<li>
-            <a class="post-item" href="/blog/${encodeURIComponent(p.slug)}">
-              <span class="post-date">${formatKoDate(when)}</span>
-              <div>
-                <h2 class="post-title">${escapeHtml(p.title)}</h2>
-                ${desc}
-                ${tagList}
-              </div>
+            <a class="post" href="/blog/${encodeURIComponent(p.slug)}">
+              <div class="meta"><time datetime="${when}">${formatKoDate(when)}</time><span>${escapeHtml(tags[0] ?? '기록')}</span></div>
+              <h3>${escapeHtml(p.title)}<span class="arrow" aria-hidden="true">↗</span></h3>
+              ${desc}
             </a>
           </li>`;
         }).join('')}
-      </ul>
-    </section>
+          </ol>
+        </section>
+      </div>
+    </div>
   </main>
 
-  <footer class="site-footer">
-    <div>© ${new Date().getFullYear()} std::N. All rights reserved.</div>
-    <div class="footer-links" style="margin-top:10px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;font-family:var(--font-mono);font-size:.85rem">
-      <a href="/rss.xml">RSS</a>
-      <span aria-hidden="true">·</span>
-      <a href="https://github.com/namgyumo" target="_blank" rel="noopener">GitHub</a>
-      <span aria-hidden="true">·</span>
-      <a href="mailto:n.gyumo13@gmail.com">Email</a>
-      <span aria-hidden="true">·</span>
-      <a href="/sitemap-index.xml">Sitemap</a>
-    </div>
-  </footer>
+  <footer class="site-footer"><div><span>© ${new Date().getFullYear()} std::N</span></div></footer>
 </body>
 </html>`;
 }

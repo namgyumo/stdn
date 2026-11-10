@@ -1,0 +1,66 @@
+---
+import { site } from '@lib/site';
+
+interface Props {
+  title: string;
+  description?: string;
+  type?: 'website' | 'article';
+  publishedAt?: Date;
+  image?: string;
+}
+
+const {
+  title,
+  description = '남규모의 블로그. C/C++, 자료구조, 프로젝트, 문제 풀이.',
+  type = 'website',
+  publishedAt,
+  image = '/og-default.svg',
+} = Astro.props;
+const fullTitle = `${title} · std::N`;
+const canonical = new URL(Astro.url.pathname, site.url).toString();
+const ogImage = new URL(image, site.url).toString();
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#fbfaf8" />
+    <meta name="description" content={description} />
+    <title>{fullTitle}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" type="application/rss+xml" title="std::N RSS" href="/rss.xml" />
+    <link rel="stylesheet" href="/plain-blog.css" />
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content="std::N" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content="ko_KR" />
+    {publishedAt && <meta property="article:published_time" content={publishedAt.toISOString()} />}
+  </head>
+  <body>
+    <a class="skip-link" href="#content">본문으로 건너뛰기</a>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="/" aria-label="std::N 홈">std::N<span>.</span></a>
+        <nav aria-label="주요 메뉴">
+          <a class="current" href="/blog" aria-current="page">글</a>
+          <a href="/projects">프로젝트</a>
+          <a href="/about">소개</a>
+          <a href="/search">검색 ↗</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="content" class="page-shell">
+      <slot />
+    </main>
+
+    <footer class="site-footer"><div><span>© {new Date().getFullYear()} std::N</span></div></footer>
+  </body>
+</html>
