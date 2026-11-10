@@ -1,6 +1,6 @@
 # Cloudflare Pages 배포용. 순수 정적 배포는 이 파일 없어도 되지만
 # 추후 Pages Functions(API), D1, R2 바인딩 추가할 때 여기에 선언.
-name = "std-n"
+name = "stdn"
 compatibility_date = "2026-01-01"
 pages_build_output_dir = "dist"
 

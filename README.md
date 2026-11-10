@@ -144,7 +144,7 @@ tags: ['메모']
    - **Build output directory**: `dist`
    - **Node version**: 20 이상 (환경변수 `NODE_VERSION=20`)
 4. 환경변수 (Settings → Environment variables) — 아래 표 참조.
-5. 배포 완료되면 도메인 연결 (Custom domain → `std-n.dev`).
+5. 배포 완료되면 도메인 연결 (Custom domain → `stdnam.com`).
 
 ### B. 환경변수
 
@@ -152,7 +152,7 @@ Pages → Settings → Environment variables 에서 **Production / Preview 모�
 
 | Key | 필수 | 예시 | 용도 |
 |---|---|---|---|
-| `PUBLIC_SITE_URL` | ✅ | `https://std-n.dev` | canonical / RSS / OG |
+| `PUBLIC_SITE_URL` | ✅ | `https://stdnam.com` | canonical / RSS / OG |
 | `PUBLIC_CF_ANALYTICS_TOKEN` | ☐ | (CF 발급) | Web Analytics |
 | `RESEND_API_KEY` | ☐ | `re_...` | 연락 폼 |
 | `CONTACT_TO_EMAIL` | ☐ | `n.gyumo13@gmail.com` | 받는 이 |
@@ -378,7 +378,7 @@ Wandbox (컴파일·실행)  →  stdout 반환
 - [x] Gemini AI 이어쓰기/다듬기/수정
 - [ ] `ADMIN_PASSWORD_HASH` / `SESSION_SECRET` / `GEMINI_API_KEY` Pages 환경변수 등록
 - [ ] D1 `schema.sql` 적용 + `DB` 바인딩
-- [ ] 도메인 연결 (std-n.dev 등)
+- [x] 도메인 연결 (`stdnam.com`)
 - [ ] `poby01.jpg` WebP 로 재생성 (1.9MB → ~100KB)
 - [ ] OG 기본 SVG 를 PNG 로 렌더
 - [ ] Giscus 리포지토리·카테고리 ID 세팅

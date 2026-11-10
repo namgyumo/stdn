@@ -10,7 +10,7 @@ import rehypeKatex from 'rehype-katex';
 import { rehypeMermaid, rehypeAlerts } from './src/lib/markdown-plugins.mjs';
 
 export default defineConfig({
-  site: 'https://std-n.dev',
+  site: 'https://stdnam.com',
   output: 'static',
   trailingSlash: 'ignore',
   build: {
