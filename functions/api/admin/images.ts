@@ -13,7 +13,7 @@ function allowedNotionImageUrl(value: string): URL | null {
   try { url = new URL(value); } catch { return null; }
   if (url.protocol !== 'https:' || url.username || url.password || url.port) return null;
   const host = url.hostname.toLowerCase();
-  const notionHost = ['notion.so', 'notion.site', 'notionusercontent.com', 'notion-static.com']
+  const notionHost = ['notion.com', 'notion.so', 'notion.site', 'notionusercontent.com', 'notion-static.com']
     .some((domain) => host === domain || host.endsWith(`.${domain}`));
   const notionS3 = host === 'prod-files-secure.s3.us-west-2.amazonaws.com'
     || (host === 's3.us-west-2.amazonaws.com' && url.pathname.startsWith('/secure.notion-static.com/'));
