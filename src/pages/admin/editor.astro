@@ -638,12 +638,31 @@ import AdminLayout from '@layouts/AdminLayout.astro';
   editorEl.addEventListener('paste', (e) => {
     const data = e.clipboardData;
     if (!data) return;
-    const files = Array.from(data.items).filter((item) => item.kind === 'file' && item.type.startsWith('image/'))
-      .map((item) => item.getAsFile()).filter((file): file is File => !!file);
+    const isImageFile = (file: File) => file.type.startsWith('image/') || /\.(?:png|jpe?g|webp|gif|avif)$/i.test(file.name);
+    const files = Array.from(data.files).filter(isImageFile);
+    if (!files.length) {
+      for (const item of data.items) {
+        if (item.kind !== 'file') continue;
+        const file = item.getAsFile();
+        if (file && isImageFile(file)) files.push(file);
+      }
+    }
     const html = data.getData('text/html');
-    const imageCount = html ? new DOMParser().parseFromString(html, 'text/html').querySelectorAll('img').length : 0;
+    const images = html ? Array.from(new DOMParser().parseFromString(html, 'text/html').querySelectorAll('img')) : [];
+    const imageCount = images.length;
     const hasHtmlImages = imageCount > 0;
     if (!hasHtmlImages && !files.length) return;
+    const hasUnresolvedNotionImages = images.some((image, index) =>
+      index >= files.length && /^attachment:/i.test(image.getAttribute('src') || image.getAttribute('data-src') || '')
+    );
+    if (hasUnresolvedNotionImages) {
+      // Notion copies an attachment reference without the image bytes or a downloadable URL.
+      // Let the browser paste the text instead of cancelling the entire article.
+      window.setTimeout(() => {
+        alert('노션에서 복사한 이미지 원본이 클립보드에 포함되지 않았습니다. 글은 붙여넣었지만 이미지는 빠졌습니다. 노션에서 Markdown 및 CSV로 내보낸 ZIP의 이미지 파일을 사용하거나, 이미지를 각각 복사해 붙여넣어 주세요.');
+      }, 0);
+      return;
+    }
     e.preventDefault();
     if (Math.max(imageCount, files.length) > 20) {
       alert('이미지는 한 번에 20개까지 붙여넣을 수 있습니다.');
@@ -852,3 +871,4 @@ import AdminLayout from '@layouts/AdminLayout.astro';
 
   void loadPost();
 </script>
+
