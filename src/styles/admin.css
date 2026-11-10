@@ -250,6 +250,31 @@
   border-color: rgba(193, 255, 0, 0.25);
   background: rgba(193, 255, 0, 0.04);
 }
+.editor-toolbar button:disabled { opacity: 0.5; cursor: wait; }
+.editor-toolbar #btn-notion-import {
+  border-color: rgba(225, 247, 250, 0.2);
+  color: var(--color-fg);
+}
+.notion-md-dialog {
+  width: min(540px, calc(100vw - 32px));
+  padding: 24px;
+  color: var(--color-fg);
+  background: var(--color-bg);
+  border: 1px solid rgba(225, 247, 250, 0.2);
+  border-radius: 8px;
+}
+.notion-md-dialog::backdrop { background: rgba(0, 0, 0, 0.72); }
+.notion-md-dialog h2 { margin: 0 0 8px; font-size: 1.1rem; }
+.notion-md-dialog p { margin: 0 0 16px; color: var(--color-fg-dim); }
+.notion-md-dialog select {
+  width: 100%;
+  padding: 10px;
+  color: var(--color-fg);
+  background: var(--color-bg);
+  border: 1px solid rgba(225, 247, 250, 0.24);
+  border-radius: 4px;
+}
+.notion-md-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; }
 .editor-toolbar .sep {
   width: 1px;
   background: rgba(225, 247, 250, 0.12);

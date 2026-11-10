@@ -42,6 +42,7 @@ import AdminLayout from '@layouts/AdminLayout.astro';
       <button type="button" data-md="pre" title="Code block + 언어 선택">{ }</button>
       <button type="button" data-md="link" title="Link">🔗</button>
       <button type="button" data-md="image" title="Image (파일 / 드래그 / 붙여넣기)">🖼</button>
+      <button type="button" id="btn-notion-import" title="노션에서 내보낸 Markdown 및 CSV ZIP 불러오기">노션 ZIP</button>
       <button type="button" data-md="list" title="Bullet list">•</button>
       <button type="button" data-md="olist" title="Numbered list">1.</button>
       <button type="button" data-md="check" title="Task list">☑</button>
@@ -72,7 +73,20 @@ import AdminLayout from '@layouts/AdminLayout.astro';
 
     <!-- 숨겨진 파일 인풋 (이미지 삽입용) -->
     <input type="file" id="img-input" accept="image/png,image/jpeg,image/webp,image/gif,image/avif" hidden />
+    <input type="file" id="notion-zip-input" accept=".zip,application/zip,application/x-zip-compressed" hidden />
   </div>
+
+  <dialog id="notion-md-dialog" class="notion-md-dialog">
+    <form method="dialog">
+      <h2>불러올 글 선택</h2>
+      <p>ZIP 안에 Markdown 파일이 여러 개 있습니다.</p>
+      <select id="notion-md-select" aria-label="Markdown 파일"></select>
+      <div class="notion-md-actions">
+        <button type="submit" value="cancel" class="btn-ghost">취소</button>
+        <button type="submit" value="import" class="btn-primary">불러오기</button>
+      </div>
+    </form>
+  </dialog>
 
   <div class="ai-suggestion" id="ai-box" role="dialog" aria-label="AI 제안">
     <div class="ai-label" id="ai-label">AI</div>
@@ -112,6 +126,10 @@ import AdminLayout from '@layouts/AdminLayout.astro';
   const aiAccept = $<HTMLButtonElement>('ai-accept');
   const aiCancel = $<HTMLButtonElement>('ai-cancel');
   const imgInput = $<HTMLInputElement>('img-input');
+  const notionZipInput = $<HTMLInputElement>('notion-zip-input');
+  const notionImportBtn = $<HTMLButtonElement>('btn-notion-import');
+  const notionMdDialog = $<HTMLDialogElement>('notion-md-dialog');
+  const notionMdSelect = $<HTMLSelectElement>('notion-md-select');
 
   const postId = new URLSearchParams(location.search).get('id');
   const BACKUP_KEY = `stdN:editor:backup:${postId ?? 'new'}`;
@@ -317,6 +335,7 @@ import AdminLayout from '@layouts/AdminLayout.astro';
   // ── 저장 ───────────────────────────────────────────
   async function save() {
     if (saving) return;
+    if (uploadingImage) { alert('이미지 가져오기가 끝난 뒤 저장해 주세요.'); return; }
     if (!titleEl.value.trim()) {
       alert('제목을 입력해주세요.');
       titleEl.focus();
@@ -503,6 +522,75 @@ import AdminLayout from '@layouts/AdminLayout.astro';
     if (!response.ok || !result.ok || !result.url) throw new Error(result.error || 'upload_failed');
     return result.url;
   }
+
+  function chooseNotionMarkdown(paths: string[]): Promise<string | null> {
+    if (paths.length === 1) return Promise.resolve(paths[0]);
+    notionMdSelect.replaceChildren(...paths.map((path) => new Option(path, path)));
+    notionMdDialog.returnValue = 'cancel';
+    return new Promise((resolve) => {
+      notionMdDialog.addEventListener('close', () => {
+        resolve(notionMdDialog.returnValue === 'import' ? notionMdSelect.value : null);
+      }, { once: true });
+      notionMdDialog.showModal();
+    });
+  }
+
+  async function importNotionZip(file: File) {
+    if (uploadingImage || saving) { alert('다른 작업이 끝난 뒤 다시 시도해 주세요.'); return; }
+    uploadingImage = true;
+    imgInput.disabled = true;
+    notionImportBtn.disabled = true;
+    saveBtn.disabled = true;
+    editorEl.readOnly = true;
+    titleEl.readOnly = true;
+    statusEl.textContent = '노션 ZIP 읽는 중…';
+    let archive: Awaited<ReturnType<typeof import('../../lib/notionZipImport').openNotionZip>> | undefined;
+    let imported = false;
+    try {
+      const { openNotionZip } = await import('../../lib/notionZipImport');
+      archive = await openNotionZip(file);
+      const path = await chooseNotionMarkdown(archive.markdownFiles);
+      if (!path) return;
+      if ((titleEl.value.trim() || editorEl.value.trim()) &&
+          !confirm('현재 제목과 본문을 노션 글로 바꿀까요? 저장 전까지는 게시되지 않습니다.')) return;
+      const article = await archive.readArticle(path, uploadImage, (done, total) => {
+        statusEl.textContent = total ? `이미지 업로드 중… ${done}/${total}` : 'Markdown 읽는 중…';
+      });
+      titleEl.value = article.title;
+      editorEl.value = article.markdown;
+      schedulePreview();
+      markDirty();
+      imported = true;
+      statusEl.textContent = `노션 글 불러옴 · 이미지 ${article.imageCount}개 · 저장 필요`;
+      editorEl.focus();
+    } catch (error) {
+      const code = error instanceof Error ? error.message : '';
+      const message = ({
+        unauthorized: '로그인이 만료됐습니다. 다시 로그인해 주세요.',
+        unsupported_image: 'ZIP에 PNG, JPG, WebP, GIF, AVIF 외의 이미지가 있습니다.',
+        file_too_large: '이미지는 한 개당 10MB 이하만 올릴 수 있습니다.',
+        storage_unavailable: '이미지 저장소 연결을 확인할 수 없습니다.',
+      } as Record<string, string>)[code] || (error instanceof Error && error.name === 'NotionZipError'
+        ? error.message : '노션 ZIP을 불러오지 못했습니다. 파일을 확인하고 다시 시도해 주세요.');
+      alert(message);
+    } finally {
+      try { await archive?.close(); } catch { /* The import result is already handled. */ }
+      uploadingImage = false;
+      imgInput.disabled = false;
+      notionImportBtn.disabled = false;
+      saveBtn.disabled = false;
+      editorEl.readOnly = false;
+      titleEl.readOnly = false;
+      if (!imported) statusEl.textContent = dirty ? 'unsaved' : 'saved';
+    }
+  }
+
+  notionImportBtn.addEventListener('click', () => notionZipInput.click());
+  notionZipInput.addEventListener('change', () => {
+    const file = notionZipInput.files?.[0];
+    notionZipInput.value = '';
+    if (file) void importNotionZip(file);
+  });
 
   async function insertImageFromBlob(blob: Blob | File) {
     if (uploadingImage) { alert('이미지를 업로드하는 중입니다. 잠시 후 다시 시도하세요.'); return; }
@@ -871,4 +959,3 @@ import AdminLayout from '@layouts/AdminLayout.astro';
 
   void loadPost();
 </script>
-
