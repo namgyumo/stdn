@@ -74,7 +74,7 @@ function renderPostHtml(post: PostRow, siteUrl: string): string {
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="manifest" href="/site.webmanifest">
   <link rel="stylesheet" href="/plain-blog.css">
-  <link rel="stylesheet" href="/blog-enhance.css">
+  <link rel="stylesheet" href="/blog-enhance.css?v=math-mermaid-1">
 </head>
 <body>
   <a class="skip-link" href="#content">본문으로 건너뛰기</a>
@@ -139,7 +139,7 @@ function renderPostHtml(post: PostRow, siteUrl: string): string {
       pre.appendChild(btn);
     });
   </script>
-  <script type="module" src="/blog-enhance.js"></script>
+  <script type="module" src="/blog-enhance.js?v=math-mermaid-1"></script>
 </body>
 </html>`;
 }
