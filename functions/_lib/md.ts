@@ -2,6 +2,7 @@
 // Workers 런타임 호환 (순수 JS).
 
 import { marked } from 'marked';
+import { prepareMarkdown, renderMermaidCodeBlocks } from '../../src/lib/markdown-syntax';
 
 marked.use({
   gfm: true,
@@ -14,7 +15,7 @@ const ON_ATTR_RE = /\son\w+="[^"]*"/gi;
 const JAVASCRIPT_URL_RE = /javascript:/gi;
 
 export function renderMarkdown(md: string): string {
-  const html = marked.parse(md) as string;
+  const html = renderMermaidCodeBlocks(marked.parse(prepareMarkdown(md)) as string);
   return html
     .replace(SCRIPT_TAG_RE, '')
     .replace(ON_ATTR_RE, '')

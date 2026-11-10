@@ -1,6 +1,8 @@
 // 어드민에서 쓴 D1 기반 포스트를 /blog/:slug 에서 서빙.
 // D1 에 해당 slug 없으면 next() 로 정적 MD 포스트에 fall-through.
 
+import { renderMarkdown } from '../_lib/md';
+
 interface Env {
   DB?: D1Database;
 }
@@ -9,7 +11,7 @@ interface PostRow {
   slug: string;
   title: string;
   description: string | null;
-  body_html: string;
+  body_md: string;
   tags: string;
   published_at: string | null;
   updated_at: string;
@@ -72,6 +74,7 @@ function renderPostHtml(post: PostRow, siteUrl: string): string {
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="manifest" href="/site.webmanifest">
   <link rel="stylesheet" href="/plain-blog.css">
+  <link rel="stylesheet" href="/blog-enhance.css">
 </head>
 <body>
   <a class="skip-link" href="#content">본문으로 건너뛰기</a>
@@ -105,7 +108,7 @@ function renderPostHtml(post: PostRow, siteUrl: string): string {
         <a href="/blog">← 전체 글</a>
       </aside>
       <div class="prose">
-        ${post.body_html}
+        ${renderMarkdown(post.body_md)}
       </div>
     </article>
   </main>
@@ -117,7 +120,7 @@ function renderPostHtml(post: PostRow, siteUrl: string): string {
     fetch('/api/views/' + ${JSON.stringify(post.slug)}, { method: 'POST' }).catch(() => {});
 
     // 코드 블록 copy 버튼
-    document.querySelectorAll('.prose pre').forEach((pre) => {
+    document.querySelectorAll('.prose pre:not(.mermaid)').forEach((pre) => {
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'copy-code-btn';
@@ -136,6 +139,7 @@ function renderPostHtml(post: PostRow, siteUrl: string): string {
       pre.appendChild(btn);
     });
   </script>
+  <script type="module" src="/blog-enhance.js"></script>
 </body>
 </html>`;
 }
@@ -165,7 +169,7 @@ export const onRequest: PagesFunction<Env> = async ({ env, params, next, request
   try {
     for (const c of candidates) {
       row = await env.DB.prepare(
-        `SELECT slug, title, description, body_html, tags,
+        `SELECT slug, title, description, body_md, tags,
                 published_at, updated_at, created_at
          FROM posts
          WHERE slug = ? AND draft = 0

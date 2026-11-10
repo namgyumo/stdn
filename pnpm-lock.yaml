@@ -63,6 +63,9 @@ importers:
       '@astrojs/check':
         specifier: ^0.9.4
         version: 0.9.8(prettier@3.8.3)(typescript@5.9.3)
+      esbuild:
+        specifier: 0.25.12
+        version: 0.25.12
       typescript:
         specifier: ^5.7.2
         version: 5.9.3

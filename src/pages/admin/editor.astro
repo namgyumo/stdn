@@ -100,6 +100,8 @@ import AdminLayout from '@layouts/AdminLayout.astro';
 
 <script>
   import { marked } from 'marked';
+  import { prepareMarkdown, renderMermaidCodeBlocks } from '../../lib/markdown-syntax';
+  import { enhanceMarkdownElement } from '../../lib/enhance-markdown';
 
   marked.use({ gfm: true, breaks: false, async: false });
 
@@ -222,10 +224,13 @@ import AdminLayout from '@layouts/AdminLayout.astro';
   });
 
   let previewTimer: number | null = null;
+  let previewVersion = 0;
   function schedulePreview() {
+    const version = ++previewVersion;
     if (previewTimer) clearTimeout(previewTimer);
     previewTimer = window.setTimeout(() => {
-      previewEl.innerHTML = marked.parse(editorEl.value) as string;
+      previewEl.innerHTML = renderMermaidCodeBlocks(marked.parse(prepareMarkdown(editorEl.value)) as string);
+      void enhanceMarkdownElement(previewEl, () => version === previewVersion);
       const { chars, words, minutes } = computeStats(editorEl.value);
       statsEl.textContent = `${words} 단어 · ${chars}자 · ~${minutes}분`;
       renderOutline(editorEl.value);

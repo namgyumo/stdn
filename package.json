@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build && pagefind --site dist",
+    "build": "astro build && node src/lib/build-blog-enhance.mjs && pagefind --site dist",
     "preview": "astro preview",
     "check": "astro check",
     "astro": "astro"
@@ -31,6 +31,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
+    "esbuild": "0.25.12",
     "typescript": "^5.7.2",
     "wrangler": "^4.123.0"
   },
