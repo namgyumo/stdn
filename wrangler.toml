@@ -9,10 +9,9 @@ binding = "DB"
 database_name = "std-n"
 database_id = "36e71367-b0d0-441e-a130-307ad05a279f"
 
-# 추후 R2 (이미지/첨부) 붙일 때:
-# [[r2_buckets]]
-# binding = "ASSETS"
-# bucket_name = "std-n-assets"
+[[r2_buckets]]
+binding = "BLOG_IMAGES"
+bucket_name = "blogs"
 
 # 추후 KV (세션 등) 붙일 때:
 # [[kv_namespaces]]

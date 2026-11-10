@@ -71,7 +71,7 @@ import AdminLayout from '@layouts/AdminLayout.astro';
     </div>
 
     <!-- 숨겨진 파일 인풋 (이미지 삽입용) -->
-    <input type="file" id="img-input" accept="image/*" hidden />
+    <input type="file" id="img-input" accept="image/png,image/jpeg,image/webp,image/gif,image/avif" hidden />
   </div>
 
   <div class="ai-suggestion" id="ai-box" role="dialog" aria-label="AI 제안">
@@ -489,24 +489,50 @@ import AdminLayout from '@layouts/AdminLayout.astro';
   }
 
   // ── 이미지 삽입 (file input / 드롭 / 클립보드) ────
-  async function insertImageFromBlob(blob: Blob | File) {
-    const MAX = 500 * 1024; // 500KB — base64 로 posts 에 박힘, 넘치면 경고
-    if (blob.size > MAX) {
-      const go = confirm(
-        `이미지가 큽니다 (${(blob.size / 1024).toFixed(0)} KB).\n` +
-        `base64 로 글 본문에 그대로 박히기 때문에 DB/로딩이 무거워져요.\n` +
-        `그래도 삽입할까요? (추천: public/images/blog/ 에 직접 넣고 경로로 참조)`
-      );
-      if (!go) return;
-    }
-    const dataUrl = await new Promise<string>((resolve, reject) => {
-      const fr = new FileReader();
-      fr.onload = () => resolve(String(fr.result));
-      fr.onerror = reject;
-      fr.readAsDataURL(blob);
+  let uploadingImage = false;
+  async function uploadImage(source: Blob | string): Promise<string> {
+    const remote = typeof source === 'string';
+    if (!remote && source.size > 10 * 1024 * 1024) throw new Error('file_too_large');
+    const response = await fetch('/api/admin/images', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: { 'content-type': remote ? 'application/json' : source.type || 'application/octet-stream' },
+      body: remote ? JSON.stringify({ url: source }) : source,
     });
-    const name = (blob as File).name ? (blob as File).name.replace(/"/g, '') : 'image';
-    insertBlock(`![${name}](${dataUrl})\n\n`, 2 + name.length);
+    const result = await response.json() as { ok?: boolean; url?: string; error?: string };
+    if (!response.ok || !result.ok || !result.url) throw new Error(result.error || 'upload_failed');
+    return result.url;
+  }
+
+  async function insertImageFromBlob(blob: Blob | File) {
+    if (uploadingImage) { alert('이미지를 업로드하는 중입니다. 잠시 후 다시 시도하세요.'); return; }
+    if (blob.size > 10 * 1024 * 1024) { alert('이미지는 10MB 이하만 올릴 수 있습니다.'); return; }
+    const name = (blob as File).name || '이미지';
+    const alt = name.replace(/\.[^.]+$/, '').replace(/[\[\]()\r\n]/g, ' ').trim().slice(0, 100) || '이미지';
+    const position = editorEl.selectionStart;
+    uploadingImage = true;
+    imgInput.disabled = true;
+    saveBtn.disabled = true;
+    statusEl.textContent = '이미지 업로드 중…';
+    try {
+      const url = await uploadImage(blob);
+      editorEl.setSelectionRange(position, position);
+      insertBlock(`![${alt}](${url})\n\n`, 2 + alt.length);
+    } catch (error) {
+      const code = error instanceof Error ? error.message : 'upload_failed';
+      const message = ({
+        unauthorized: '로그인이 만료됐습니다. 다시 로그인해 주세요.',
+        unsupported_image: 'PNG, JPG, WebP, GIF, AVIF 이미지만 올릴 수 있습니다.',
+        file_too_large: '이미지는 10MB 이하만 올릴 수 있습니다.',
+        storage_unavailable: '이미지 저장소 연결을 확인할 수 없습니다.',
+      } as Record<string, string>)[code] || '이미지 업로드에 실패했습니다. 잠시 후 다시 시도해 주세요.';
+      alert(message);
+    } finally {
+      uploadingImage = false;
+      imgInput.disabled = false;
+      saveBtn.disabled = false;
+      statusEl.textContent = dirty ? 'unsaved' : 'saved';
+    }
   }
 
   imgInput.addEventListener('change', () => {
@@ -515,17 +541,115 @@ import AdminLayout from '@layouts/AdminLayout.astro';
     imgInput.value = '';
   });
 
-  editorEl.addEventListener('paste', (e) => {
-    const items = e.clipboardData?.items;
-    if (!items) return;
-    for (const it of items) {
-      if (it.kind === 'file' && it.type.startsWith('image/')) {
-        e.preventDefault();
-        const f = it.getAsFile();
-        if (f) void insertImageFromBlob(f);
-        return;
+  async function pasteWithImages(html: string | null, files: File[], start: number, end: number) {
+    if (uploadingImage) { alert('이미지를 업로드하는 중입니다. 잠시 후 다시 시도하세요.'); return; }
+    uploadingImage = true;
+    imgInput.disabled = true;
+    saveBtn.disabled = true;
+    editorEl.readOnly = true;
+    statusEl.textContent = '이미지 가져오는 중…';
+    let fileIndex = 0;
+    try {
+      let markdown: string;
+      if (html) {
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        const convert = async (node: Node): Promise<string> => {
+          if (node.nodeType === Node.TEXT_NODE) return node.textContent?.replace(/\u00a0/g, ' ') ?? '';
+          if (!(node instanceof HTMLElement)) return '';
+          const tag = node.tagName.toLowerCase();
+          if (['script', 'style', 'svg', 'button'].includes(tag)) return '';
+          if (tag === 'img') {
+            const src = node.getAttribute('src') || node.getAttribute('data-src') || '';
+            const source = fileIndex < files.length ? files[fileIndex++] : src;
+            if (!source) throw new Error('image_source_missing');
+            let url: string;
+            if (typeof source === 'string' && (source.startsWith('data:image/') || source.startsWith('blob:'))) {
+              const blob = await fetch(source).then((response) => response.blob());
+              url = await uploadImage(blob);
+            } else {
+              url = await uploadImage(source);
+            }
+            const alt = (node.getAttribute('alt') || '이미지').replace(/[\[\]()\r\n]/g, ' ').slice(0, 100);
+            return `\n\n![${alt}](${url})\n\n`;
+          }
+          if (tag === 'br') return '\n';
+          if (tag === 'pre') return `\n\n\`\`\`\n${node.textContent || ''}\n\`\`\`\n\n`;
+          if (tag === 'ul' || tag === 'ol') {
+            const items = Array.from(node.children).filter((child) => child.tagName.toLowerCase() === 'li');
+            const rows: string[] = [];
+            for (const [index, item] of items.entries()) {
+              const value = (await convert(item)).trim();
+              rows.push(`${tag === 'ul' ? '-' : `${index + 1}.`} ${value}\n`);
+            }
+            return `\n${rows.join('')}\n`;
+          }
+          let children = '';
+          for (const child of node.childNodes) children += await convert(child);
+          if (tag === 'strong' || tag === 'b') return `**${children}**`;
+          if (tag === 'em' || tag === 'i') return `*${children}*`;
+          if (tag === 's' || tag === 'strike' || tag === 'del') return `~~${children}~~`;
+          if (tag === 'code') return `\`${children}\``;
+          if (tag === 'a') {
+            const href = node.getAttribute('href') || '';
+            return /^https?:\/\//i.test(href) ? `[${children}](${href})` : children;
+          }
+          if (/^h[1-6]$/.test(tag)) return `\n\n${'#'.repeat(Number(tag[1]))} ${children.trim()}\n\n`;
+          if (tag === 'li') return `${children.trim()}\n`;
+          if (tag === 'blockquote') return `\n\n${children.trim().split('\n').map((line) => `> ${line}`).join('\n')}\n\n`;
+          if (['p', 'div', 'section', 'article', 'figure'].includes(tag)) return `${children.trim()}\n\n`;
+          return children;
+        };
+        markdown = (await convert(doc.body)).replace(/\n{3,}/g, '\n\n').trim();
+      } else {
+        const urls = await Promise.all(files.map(uploadImage));
+        markdown = urls.map((url) => `![이미지](${url})`).join('\n\n');
       }
+      const before = editorEl.value.slice(0, start);
+      const after = editorEl.value.slice(end);
+      const prefix = before && !before.endsWith('\n') ? '\n\n' : '';
+      const suffix = after && !after.startsWith('\n') ? '\n\n' : '';
+      editorEl.value = before + prefix + markdown + suffix + after;
+      const cursor = (before + prefix + markdown).length;
+      editorEl.setSelectionRange(cursor, cursor);
+      schedulePreview();
+      markDirty();
+    } catch (error) {
+      const code = error instanceof Error ? error.message : 'upload_failed';
+      const message = ({
+        unauthorized: '로그인이 만료되었습니다. 다시 로그인해 주세요.',
+        unsupported_image: 'PNG, JPG, WebP, GIF, AVIF 이미지만 사용할 수 있습니다.',
+        unsupported_image_url: '이 이미지 주소는 자동으로 가져올 수 없습니다. 이미지를 파일로 저장한 뒤 업로드해 주세요.',
+        image_fetch_failed: '노션 이미지 주소에 접근할 수 없습니다. 이미지를 다시 복사하거나 파일로 업로드해 주세요.',
+        image_source_missing: '붙여넣은 이미지의 주소를 찾을 수 없습니다.',
+        file_too_large: '이미지는 10MB 이하만 사용할 수 있습니다.',
+        storage_unavailable: '이미지 저장소 연결을 확인할 수 없습니다.',
+      } as Record<string, string>)[code] || '이미지를 가져오지 못했습니다. 다시 시도해 주세요.';
+      alert(message);
+    } finally {
+      uploadingImage = false;
+      imgInput.disabled = false;
+      saveBtn.disabled = false;
+      editorEl.readOnly = false;
+      editorEl.focus();
+      statusEl.textContent = dirty ? 'unsaved' : 'saved';
     }
+  }
+
+  editorEl.addEventListener('paste', (e) => {
+    const data = e.clipboardData;
+    if (!data) return;
+    const files = Array.from(data.items).filter((item) => item.kind === 'file' && item.type.startsWith('image/'))
+      .map((item) => item.getAsFile()).filter((file): file is File => !!file);
+    const html = data.getData('text/html');
+    const imageCount = html ? new DOMParser().parseFromString(html, 'text/html').querySelectorAll('img').length : 0;
+    const hasHtmlImages = imageCount > 0;
+    if (!hasHtmlImages && !files.length) return;
+    e.preventDefault();
+    if (Math.max(imageCount, files.length) > 20) {
+      alert('이미지는 한 번에 20개까지 붙여넣을 수 있습니다.');
+      return;
+    }
+    void pasteWithImages(hasHtmlImages ? html : null, files, editorEl.selectionStart, editorEl.selectionEnd);
   });
 
   editorEl.addEventListener('drop', (e) => {

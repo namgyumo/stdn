@@ -1,7 +1,7 @@
 # std::N
 
 기본이 탄탄한 주니어 개발자의 개인 홈페이지 + 블로그.
-Astro 5 (정적) + Cloudflare Pages + Pages Functions + D1 로 배포합니다.
+Astro 5 (정적) + Cloudflare Pages + Pages Functions + D1 + R2로 배포합니다.
 
 ---
 
@@ -271,6 +271,10 @@ draft: false
 ### 방식 2 — Admin 에디터 (D1 에 저장, 즉시 반영)
 
 `/admin/login` → `/admin/editor` 에서 작성.
+
+- 이미지 버튼, 파일 드롭, 이미지 붙여넣기는 R2의 `blogs` 버킷에 저장하고 본문에는 `/blog-images/...` 주소만 기록합니다. PNG, JPG, WebP, GIF, AVIF를 지원하며 파일당 최대 10MB입니다.
+- 노션에서 이미지가 포함된 블록을 복사해 에디터에 붙여넣으면 클립보드의 이미지 파일 또는 노션 이미지 주소를 R2로 가져옵니다. 노션 이미지 주소가 만료되었거나 접근할 수 없으면 이미지를 파일로 저장해 업로드하세요.
+- 로컬 Markdown 글의 `blogs/asset/` 이미지와 Admin 에디터의 R2 이미지는 별도 저장 경로입니다.
 
 - 같은 `/blog/<slug>` URL 에서 서빙됩니다.
 - D1 포스트와 MD 포스트가 **slug 충돌 시**: MD 쪽이 우선. (정적 페이지가 먼저 응답)
